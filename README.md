@@ -55,7 +55,8 @@ memória e configura o sistema. Depois disso, é só usar.
 faz commit + push no GitHub · `/atualizar` varre o projeto e atualiza
 a memória · `/novo-projeto` cria pasta isolada pra cada cliente ou
 iniciativa · `/mapear-rotinas` descobre o que você repete e transforma
-em skill personalizada.
+em skill personalizada · `/criacao-canonica-de-skills` cria, refatora e
+audita skills com o método de criação canônica.
 
 **Conteúdo e SEO** — vitrine pública da empresa
 `/carrossel` cria carrosséis 1080×1350 com identidade da marca (com ou
