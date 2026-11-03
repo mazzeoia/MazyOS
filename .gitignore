@@ -16,11 +16,36 @@ Thumbs.db
 
 # Dependências
 node_modules/
+.venv/
+__pycache__/
+*.pyc
+
+# Build
+saas/frontend/.next/
+saas/frontend/*.tsbuildinfo
 
 # Arquivos temporários
 *.log
 *.tmp
+.env
+.env.local
+saas/frontend/.env.local
+saas/backend/.env
+saas/.env.production
+
+# Backups locais (podem conter .env.production com segredos reais)
+creative-ads-saas.tar.gz
+*.tar.gz
 
 # Drop zone do usuário (só o README vai versionado)
 dados/*
 !dados/README.md
+
+# Creative Ads OS
+campaign_optimizer/data/
+campaign_optimizer/**/*.pyc
+campaign_optimizer/**/__pycache__/
+campaign_optimizer/streamlit.log
+campaign_optimizer/streamlit.err
+clientes/cliente-teste/
+.worktrees/

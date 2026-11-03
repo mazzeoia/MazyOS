@@ -1,115 +1,86 @@
-# MazyOS — Sistema operacional do negócio
+﻿# Creative Agência Marketing — MazyOS
 
-Sua empresa roda em cima desse arquivo. Aqui ficam as regras de operação
-do MazyOS — como o Claude lê o contexto, aprende com correções, mantém
-tudo atualizado e cria skills novas conforme a operação evolui.
+> Sistema operacional da Creative Agência Marketing dentro do Claude Code.
+> Este workspace organiza contexto, estratégia, identidade, clientes,
+> propostas, campanhas, relatórios e produção da agência.
 
-Esse arquivo é editável. Quando o `/instalar` rodar, ele complementa o
-final dessa página com as regras específicas do seu negócio.
+## O que é esse workspace
 
----
+Operação da Creative Agência Marketing. Aqui ficam o contexto da agência, a identidade visual, materiais institucionais, dados, relatórios, propostas, campanhas, clientes e entregas.
 
-## Contexto do negócio
+**Estrutura de pastas:**
+- `_memoria/` — quem é a agência, como falamos, foco atual
+- `identidade/` — marca da agência aplicada em peças, propostas e apresentações
+- `clientes/` — uma subpasta por cliente, quando criada
+- `briefings/` — briefings antes de virar cliente
+- `propostas/` — propostas comerciais em andamento
+- `marketing/` — conteúdo institucional da agência
+- `saidas/` — documentos pontuais, análises e entregas geradas
+- `dados/` — arquivos para analisar, como relatórios, exports e planilhas
+- `scripts/` — automações e utilitários usados pelas skills
 
-No início de toda conversa, ler os seguintes arquivos (quando existirem
-e estiverem preenchidos):
+## Sobre a agência
 
-1. `_memoria/empresa.md` — quem é o usuário, o que faz, como funciona o negócio
-2. `_memoria/preferencias.md` — tom de voz, estilo de escrita, o que evitar
-3. `_memoria/estrategia.md` — foco atual, prioridades, prazos
+Somos uma agência de marketing digital, performance e tecnologia. Entregamos tráfego pago, vídeos, sites, CRM, gestão de redes sociais e aplicativos.
 
-Usar essas informações como base pra qualquer resposta ou decisão. Ao
-sugerir prioridades, formatos ou abordagens, considerar o foco atual
-descrito em `estrategia.md`.
+Atendemos empresários que querem escalar a operação e já não conseguem fazer isso sozinhos. A agência deve pensar sempre em crescimento comercial, execução prática e resultado mensurável.
 
-Pra qualquer tarefa visual (carrossel, post, landing page), consultar
-`identidade/design-guide.md` como referência de estilo.
+Serviços principais:
 
-Não é necessário listar o que foi lido nem confirmar a leitura. Apenas
-usar o contexto naturalmente.
+- Tráfego pago
+- Vídeos
+- Sites
+- CRM
+- Gestão de redes sociais
+- Aplicativos
+- Relatórios, análise e otimização de campanhas
 
----
+Time: 3 pessoas, formado por Lima Jr., sua esposa e um assistente.
 
-## Fluxo de trabalho
+## Clientes ativos
 
-Antes de executar qualquer tarefa, verificar se existe skill relevante
-em `.claude/skills/`. Se encontrar, seguir as instruções da skill. Se
-não encontrar, executar a tarefa normalmente.
+Ainda não cadastrados. Quando houver clientes, criar uma pasta por cliente e manter o contexto atualizado.
 
-Ao concluir uma tarefa que não tinha skill mas parece repetível (o
-usuário provavelmente vai pedir de novo no futuro), perguntar:
+## O que mais produzimos aqui
 
-> "Isso pode virar uma skill pra próxima vez. Quer que eu crie?"
+- Propostas comerciais para novos clientes
+- Campanhas de tráfego pago
+- Relatórios de campanhas
+- Análises e otimizações de campanhas
+- Conteúdo para redes sociais
+- Estratégias de prospecção
+- Sites, materiais comerciais e apresentações
 
-Não perguntar pra tarefas pontuais ou perguntas simples. Só quando o
-padrão de repetição for claro.
+## Tom de voz
 
----
+Comunicação natural, direta e humana. Usar português brasileiro simples, com energia comercial, clareza e objetividade. Escrever como uma pessoa falando com outra pessoa, sem excesso de formalidade e sem cara de texto de IA.
 
-## Aprender com correções
+Em marketing e vendas, pensar em atenção, desejo, objeções, conversão e ação. Em estratégia, entregar execução prática, não só teoria.
 
-Quando o usuário corrigir algo, melhorar uma resposta ou dar uma
-instrução que parece permanente (frases como "na verdade é assim", "não
-faça mais isso", "prefiro assim", "sempre que...", "evita...", "da
-próxima vez..."), perguntar:
+Evitar: linguagem formal demais, termos corporativos artificiais, clichês, frases genéricas, travessões e concordância automática só para agradar.
 
-> "Quer que eu salve isso pra não precisar repetir?"
+## Prioridade atual
 
-Se sim, identificar onde faz mais sentido salvar:
+Prospectar clientes com mais consistência. O sistema deve priorizar ações que ajudem a gerar oportunidades, organizar argumentos comerciais, melhorar ofertas, acelerar campanhas e padronizar relatórios e análises.
 
-- **Sobre o negócio** (clientes, serviços, mercado) → `_memoria/empresa.md`
-- **Sobre preferências e estilo** (tom de voz, formato, o que evitar) → `_memoria/preferencias.md`
-- **Sobre prioridades e foco** (projetos, metas, prazos) → `_memoria/estrategia.md`
-- **Regra de comportamento nessa pasta** → próprio `CLAUDE.md`
+## Regras do sistema
 
-Salvar com uma linha nova clara, sem reformatar o arquivo inteiro.
-Confirmar mostrando a linha adicionada.
+- No início de toda conversa, ler `_memoria/empresa.md`, `_memoria/preferencias.md`, `_memoria/estrategia.md` e `identidade/design-guide.md` quando forem relevantes.
+- Não listar que leu os arquivos. Usar o contexto naturalmente.
+- Para qualquer tarefa visual, consultar `identidade/design-guide.md` antes de criar.
+- Cliente novo deve ganhar pasta própria em `clientes/<Nome>/` com briefing, estratégia, entregas e dados.
+- Proposta nova deve ir para `propostas/` com nome claro do cliente e data.
+- Relatórios e exports de campanha devem ir para `dados/` ou para a pasta do cliente correspondente.
+- Entregas finais, análises e arquivos prontos devem ir para `saidas/` ou para a pasta do cliente quando fizer sentido.
+- Quando uma rotina se repetir, sugerir transformar em skill, especialmente relatórios, análise, otimização e criação de campanhas.
+- Questionar ideias quando houver falhas, riscos ou caminhos melhores. Clareza e utilidade vêm antes de concordância.
 
-Não perguntar se a correção for óbvia de contexto imediato (ex: "na
-verdade o arquivo se chama X"). Só perguntar quando a informação tiver
-valor duradouro.
+## Ferramentas conectadas
 
----
-
-## Manter contexto atualizado
-
-Ao terminar uma tarefa que mudou algo relevante (cliente novo, skill
-nova, mudança de foco, processo novo, ferramenta instalada, estrutura
-alterada), perguntar:
-
-> "Isso mudou algo no teu contexto. Quer que eu atualize a memória?"
-
-Se sim, identificar o que atualizar:
-
-- **Cliente, serviço, ferramenta, equipe** → `_memoria/empresa.md`
-- **Mudança de prioridade ou foco** → `_memoria/estrategia.md`
-- **Tom ou estilo** → `_memoria/preferencias.md`
-- **Pasta, regra de organização, skill criada** → `CLAUDE.md`
-- **Visual (cores, fontes, logo)** → `identidade/design-guide.md`
-
-Mostrar o que vai mudar antes de salvar. Não reformatar o arquivo
-inteiro, só adicionar ou editar a linha relevante.
-
-**Quando NÃO perguntar:**
-- Tarefas pontuais sem impacto no contexto (escrever um email avulso, criar um post)
-- Perguntas simples ou conversas sem ação
-- Mudanças já salvas pelo bloco "Aprender com correções"
-
-**Dica:** rode `/atualizar` pra uma varredura completa quando houver dúvida.
-
----
-
-## Criação de skills
-
-Quando o usuário pedir skill nova:
-
-1. Verificar se existe template relevante em `templates/skills/`. Se
-   existir, usar como base e adaptar pro contexto
-2. Perguntar se é específica desse projeto ou útil em qualquer:
-   - Específica → `.claude/skills/nome-da-skill/SKILL.md` (local)
-   - Universal → `~/.claude/skills/nome-da-skill/SKILL.md` (global)
-3. Ler `_memoria/empresa.md` e `_memoria/preferencias.md` pra calibrar
-   o conteúdo da skill ao contexto do negócio
-4. Se a skill precisar de arquivos de apoio (templates, exemplos),
-   criar dentro da pasta da skill
-5. Seguir o fluxo da skill-creator nativa do Claude Code
+- [ ] Notion
+- [ ] Gmail
+- [ ] Google Calendar
+- [ ] Canva
+- [ ] Meta Ads
+- [ ] Google Ads
+- [ ] CRM

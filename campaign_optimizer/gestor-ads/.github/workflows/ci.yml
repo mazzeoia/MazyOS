@@ -1,0 +1,37 @@
+name: Gestor Ads CI
+
+on:
+  push:
+    branches: [main]
+    paths: ['gestor-ads/**']
+  pull_request:
+    paths: ['gestor-ads/**']
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: gestor-ads/backend
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install -e ".[dev]"
+
+      - name: Lint
+        run: |
+          ruff check app/ tests/
+          ruff format --check app/ tests/
+
+      - name: Test
+        env:
+          FERNET_KEY: VGVzdEtleUZvclRlc3Rpbmc9PT09PT09PT09PT09PQ==
+          JWT_SECRET: ci-test-secret
+          ENVIRONMENT: test
+        run: pytest tests/ -v --tb=short

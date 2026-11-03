@@ -1,0 +1,4 @@
+﻿streamlit>=1.37
+pandas>=2.2
+openai>=1.40
+requests>=2.32

@@ -1,0 +1,62 @@
+services:
+  creative_ads_frontend:
+    build:
+      context: ./frontend
+      args:
+        NEXT_PUBLIC_SUPABASE_URL: ${NEXT_PUBLIC_SUPABASE_URL}
+        NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: ${NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY}
+    container_name: creative_ads_frontend
+    restart: unless-stopped
+    environment:
+      APP_URL: ${APP_URL}
+      APP_DOMAIN: ${APP_DOMAIN}
+      BACKEND_API_URL: ${BACKEND_API_URL}
+      NEXT_PUBLIC_SUPABASE_URL: ${NEXT_PUBLIC_SUPABASE_URL}
+      NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: ${NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY}
+    networks:
+      - network_public
+      - creative_ads_internal
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=network_public"
+      - "traefik.http.routers.creative-ads.rule=Host(`ads.creativeagenciamkt.com.br`)"
+      - "traefik.http.routers.creative-ads.entrypoints=websecure"
+      - "traefik.http.routers.creative-ads.tls=true"
+      - "traefik.http.routers.creative-ads.tls.certresolver=le"
+      - "traefik.http.routers.creative-ads.tls.domains[0].main=ads.creativeagenciamkt.com.br"
+      - "traefik.http.routers.creative-ads-http.rule=Host(`ads.creativeagenciamkt.com.br`)"
+      - "traefik.http.routers.creative-ads-http.entrypoints=web"
+      - "traefik.http.routers.creative-ads-http.middlewares=redirect-to-https@docker"
+      - "traefik.http.services.creative-ads.loadbalancer.server.port=3000"
+    depends_on:
+      - creative_ads_backend
+
+  creative_ads_backend:
+    build:
+      context: ./backend
+    container_name: creative_ads_backend
+    restart: unless-stopped
+    env_file:
+      - .env.production
+    networks:
+      - network_public
+      - creative_ads_internal
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=network_public"
+      - "traefik.http.routers.creative-ads-api.rule=Host(`ads.creativeagenciamkt.com.br`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.creative-ads-api.entrypoints=websecure"
+      - "traefik.http.routers.creative-ads-api.tls=true"
+      - "traefik.http.routers.creative-ads-api.tls.certresolver=le"
+      - "traefik.http.routers.creative-ads-api.middlewares=creative-ads-strip-api"
+      - "traefik.http.routers.creative-ads-api-http.rule=Host(`ads.creativeagenciamkt.com.br`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.creative-ads-api-http.entrypoints=web"
+      - "traefik.http.routers.creative-ads-api-http.middlewares=redirect-to-https@docker"
+      - "traefik.http.middlewares.creative-ads-strip-api.stripprefix.prefixes=/api"
+      - "traefik.http.services.creative-ads-api.loadbalancer.server.port=8000"
+
+networks:
+  network_public:
+    external: true
+  creative_ads_internal:
+    driver: bridge
