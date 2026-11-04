@@ -24,3 +24,24 @@ node_modules/
 # Drop zone do usuário (só o README vai versionado)
 dados/*
 !dados/README.md
+
+# Chaves e credenciais: nunca vão pro repositório
+.env
+.env.*
+!.env.example
+!.env.exemplo
+.mcp.json
+.claude/settings.local.json
+*credentials*.json
+*service-account*.json
+secrets.json
+*.pem
+*.key
+id_rsa*
+.npmrc
+.netrc
+
+# Dados de terceiros e bancos locais
+saidas/prospeccao/
+*.sqlite
+*.sqlite3
