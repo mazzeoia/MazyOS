@@ -71,6 +71,13 @@ Google · `/aprovar-post` publica blog + Instagram + Facebook num comando.
 no Google Ads Editor · `/relatorio-ads` lê os exports de Google + Meta
 e devolve relatório semanal com alertas e recomendações.
 
+**Clientes**: da prospecção à proposta
+`/prospecta-maps` prospecta o cliente, gera uma demonstração do site e a
+proposta. A partir de um nicho e uma cidade, busca as empresas no Google
+Maps, confere o CNPJ na Receita, monta o site de prévia de cada lead e
+deixa a primeira mensagem e os follow-ups prontos. A proposta em PDF sai
+quando você pedir. Sem chave de API.
+
 **Produção** — ferramentas do dia a dia
 `/analisar-dados` lê CSV/XLSX/PDF e gera resumo executivo ·
 `/email-profissional` rascunha email a partir de contexto livre.
@@ -108,4 +115,4 @@ versiona no GitHub, fica tudo seu.
 
 ## Quando precisar
 
-[mazzeoia.com.br](https://mazzeoia.com.br)
+[mazyos.com.br](https://mazyos.com.br)
