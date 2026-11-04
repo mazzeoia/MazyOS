@@ -1,8 +1,8 @@
 ---
 name: prospecta-maps
-version: 2.1.0
+version: 2.1.1
 description: >
-  Transforma um nicho e uma cidade em leads qualificados com site de prévia e mensagens prontas:
+  Prospecta o cliente, gera uma demonstração do site e a proposta. A partir de um nicho e uma cidade,
   busca empresas no Google Maps pelo MazyOS Scraper, filtra por nota, avaliações, ausência de site
   e celular na ficha, confere o CNPJ de cada uma nas bases públicas da Receita, monta um site de
   prévia por lead e entrega um painel com as abordagens, uma planilha e um arquivo pronto pra
@@ -13,7 +13,7 @@ description: >
   pediu proposta" ou pedir uma rodada de prospecção a partir do Google Maps.
 ---
 
-# /prospecta-maps · do nicho ao lead com site e mensagem na mão
+# /prospecta-maps · prospecta o cliente, gera uma demonstração do site e a proposta
 
 Funciona em Windows, Mac e Linux. Quem usa muitas vezes não é programador: fale em português simples, rode você os comandos e explique só o que a pessoa precisa decidir.
 
