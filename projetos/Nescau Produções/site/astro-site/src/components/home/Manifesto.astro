@@ -1,0 +1,103 @@
+---
+import Button from "../Button.astro";
+---
+
+<section class="man bay-lg" id="manifesto">
+  <!-- Palavra-fantasma gigante rompendo a grade. É o elemento que dá
+       profundidade à dobra sem precisar de mais uma imagem. -->
+  <span class="man-ghost hollow" aria-hidden="true">Palco</span>
+
+  <div class="man-leak leak" aria-hidden="true"></div>
+
+  <div class="shell man-inner">
+    <p class="label man-label" data-anim="fade">Por que a Nescau</p>
+
+    <p class="man-text" data-scrub-text>
+      Contratar um show não é escolher um nome numa lista. É acertar o artista com o público,
+      o cachê com o orçamento e o rider com a estrutura que existe no dia. Há quase três
+      décadas é isso que a Nescau resolve, do primeiro WhatsApp ao último acorde.
+    </p>
+
+    <div class="man-foot" data-anim="rise">
+      <Button href="/quem-somos" variant="quiet">Nossa história desde 1997</Button>
+    </div>
+  </div>
+</section>
+
+<style>
+  .man {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .man-ghost {
+    position: absolute;
+    left: -0.06em;
+    top: -0.12em;
+    font-family: var(--font-display);
+    font-weight: 900;
+    text-transform: uppercase;
+    font-size: clamp(9rem, 34vw, 30rem);
+    line-height: 0.75;
+    pointer-events: none;
+    user-select: none;
+    z-index: 0;
+  }
+
+  .man-leak {
+    --leak-c: rgba(255, 197, 49, 0.3);
+    --leak-o: 0.4;
+    width: 45vw;
+    height: 45vh;
+    left: 46%;
+    top: 12%;
+  }
+
+  .man-inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-7);
+  }
+
+  .man-text {
+    font-family: var(--font-sans);
+    font-weight: 300;
+    font-size: clamp(1.5rem, 3.4vw, 2.85rem);
+    line-height: 1.34;
+    letter-spacing: var(--track-tight);
+    max-width: 22ch;
+    text-wrap: balance;
+  }
+
+  .man-foot {
+    display: flex;
+  }
+
+  @media (min-width: 900px) {
+    .man-inner {
+      display: grid;
+      grid-template-columns: minmax(0, 14rem) minmax(0, 1fr);
+      align-items: start;
+      gap: var(--s-8);
+    }
+
+    /* O texto começa depois da coluna do rótulo e sangra pra direita: a
+       quebra de grade que o briefing pede, sem virar bagunça. */
+    .man-text {
+      grid-column: 2;
+      max-width: 26ch;
+      margin-left: clamp(0px, 6vw, 7rem);
+    }
+
+    .man-foot {
+      grid-column: 2;
+      margin-left: clamp(0px, 6vw, 7rem);
+    }
+
+    .man-label {
+      padding-top: 0.9rem;
+    }
+  }
+</style>

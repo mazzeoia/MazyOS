@@ -1,0 +1,38 @@
+# Ao conectar este repositório no Netlify, configurar:
+# Base directory: MazyOS/projetos/Nescau Produções/site/astro-site
+# (esse arquivo já assume que os comandos rodam a partir dessa pasta —
+# repare que o caminho tem espaço e acento, então o Netlify precisa do
+# "Base directory" apontando exatamente pra esse subcaminho do monorepo)
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+# Headers de segurança — site estático, sem cookies/auth.
+#
+# CSP: tudo vem do próprio domínio. As fontes passaram a ser auto-hospedadas
+# em /fonts, então não há mais host do Google aqui. GSAP, Lenis e SplitType
+# entram pelo bundle ('self'), não por CDN, e escrevem estilo via CSSOM
+# (element.style), que o CSP não intercepta — por isso style-src continua sem
+# 'unsafe-inline' mesmo com o site inteiro animado.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=()"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains"
+    Content-Security-Policy = "default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'"
+
+# Fontes e placas geradas têm nome fixo e conteúdo estável: cache longo evita
+# rebaixar o LCP em visita repetida.
+[[headers]]
+  for = "/fonts/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/media/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"

@@ -1,0 +1,207 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Contato"
+  description="Conte o que está acontecendo no seu negócio hoje."
+>
+  <section class="container hero">
+    <p class="eyebrow-standalone">Contato</p>
+    <h1>Conte o que está acontecendo no seu negócio hoje.</h1>
+    <p class="lede">
+      Sem formulário genérico de "fale conosco". Descreva o que você sente que
+      está te custando clientes, tempo ou receita — a Synapse volta com um
+      diagnóstico do que faz sentido implementar primeiro.
+    </p>
+  </section>
+
+  <section class="section">
+    <div class="container contact-grid">
+      <form
+        name="contato"
+        method="POST"
+        data-netlify="true"
+        netlify-honeypot="bot-field"
+        class="contact-form"
+      >
+        <input type="hidden" name="form-name" value="contato" />
+        <p class="honeypot" hidden>
+          <label>Não preencha este campo: <input name="bot-field" /></label>
+        </p>
+
+        <div class="field">
+          <label for="nome">Nome</label>
+          <input id="nome" name="nome" type="text" required />
+        </div>
+
+        <div class="field">
+          <label for="empresa">Empresa / segmento</label>
+          <input
+            id="empresa"
+            name="empresa"
+            type="text"
+            placeholder="Ex: clínica, imobiliária, restaurante..."
+            required
+          />
+        </div>
+
+        <div class="field">
+          <label for="email">E-mail</label>
+          <input id="email" name="email" type="email" required />
+        </div>
+
+        <div class="field">
+          <label for="telefone">Telefone / WhatsApp</label>
+          <input id="telefone" name="telefone" type="tel" />
+        </div>
+
+        <div class="field">
+          <label for="mensagem">O que está acontecendo?</label>
+          <textarea
+            id="mensagem"
+            name="mensagem"
+            rows="5"
+            placeholder="Ex: clientes não me encontram no Google, ou eu passo o dia respondendo WhatsApp e não sobra tempo pra mais nada."
+            required></textarea>
+        </div>
+
+        <button type="submit" class="submit-btn">Enviar diagnóstico</button>
+      </form>
+
+      <aside class="direct-channels">
+        <h2>Prefere falar direto?</h2>
+        <a href="https://wa.me/5519984570405" class="channel">
+          <span class="channel-label">WhatsApp</span>
+          <span>(19) 98457-0405</span>
+        </a>
+        <a href="mailto:iago.venancio.cruz@gmail.com" class="channel">
+          <span class="channel-label">E-mail</span>
+          <span>iago.venancio.cruz@gmail.com</span>
+        </a>
+        <div class="channel">
+          <span class="channel-label">Localização</span>
+          <span>Campinas, SP — Brasil</span>
+        </div>
+        <p class="response-time">Resposta em até 1 dia útil.</p>
+      </aside>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .contact-grid {
+    display: grid;
+    gap: var(--space-8);
+  }
+
+  @media (min-width: 1024px) {
+    .contact-grid {
+      grid-template-columns: 1.4fr 1fr;
+      align-items: start;
+    }
+  }
+
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  label {
+    font-size: var(--text-sm);
+    font-weight: var(--weight-medium);
+  }
+
+  input,
+  textarea {
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    padding: 12px var(--space-3);
+    min-height: 44px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg);
+    color: var(--color-text);
+  }
+
+  input:focus,
+  textarea:focus {
+    border-color: var(--color-accent);
+  }
+
+  textarea {
+    resize: vertical;
+  }
+
+  .honeypot {
+    position: absolute;
+    left: -9999px;
+  }
+
+  .submit-btn {
+    align-self: flex-start;
+    padding: 14px var(--space-6);
+    min-height: 44px;
+    background: var(--color-bg-dark);
+    color: var(--color-text-on-dark);
+    border: none;
+    border-radius: var(--radius-full);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-medium);
+    cursor: pointer;
+    transition: background-color var(--duration-fast) var(--ease-out);
+  }
+
+  .submit-btn:hover {
+    background: #16283c;
+  }
+
+  .direct-channels {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding: var(--space-6);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-bg-alt);
+    height: fit-content;
+  }
+
+  .direct-channels h2 {
+    font-size: var(--text-lg);
+    margin-bottom: var(--space-2);
+  }
+
+  .channel {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    text-decoration: none;
+    color: var(--color-text);
+    font-size: var(--text-sm);
+  }
+
+  .channel-label {
+    color: var(--color-text-secondary);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  a.channel:hover {
+    color: var(--color-accent-contrast);
+  }
+
+  .response-time {
+    font-size: var(--text-xs);
+    color: var(--color-text-secondary);
+    margin-top: var(--space-2);
+  }
+</style>

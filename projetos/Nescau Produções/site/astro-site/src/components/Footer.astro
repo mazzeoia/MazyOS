@@ -1,0 +1,163 @@
+---
+import LogoMark from "./LogoMark.astro";
+import { nav, site, whatsappUrl } from "../lib/site";
+
+const year = new Date().getFullYear();
+---
+
+<footer class="foot">
+  <div class="foot-leak leak"></div>
+
+  <div class="shell">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <p class="label">Contato direto</p>
+        <a class="foot-phone" href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+          {site.whatsappDisplay}
+        </a>
+        <a class="foot-mail" href={`mailto:${site.email}`}>{site.email}</a>
+      </div>
+
+      <nav class="foot-col" aria-label="Páginas">
+        <p class="label">Site</p>
+        <ul>
+          {nav.map((item) => (
+            <li>
+              <a href={item.href}>{item.label}</a>
+            </li>
+          ))}
+          <li><a href="/contato">Contato</a></li>
+        </ul>
+      </nav>
+
+      <div class="foot-col">
+        <p class="label">Onde</p>
+        <ul>
+          <li><span>{site.city}</span></li>
+          <li><span>Brasil · Europa · EUA</span></li>
+          <li>
+            <a href={site.instagram} target="_blank" rel="noopener noreferrer">
+              {site.instagramHandle}
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Wordmark gigante sangrando na base: assinatura de fechamento, e o
+       elemento que impede o rodapé de virar "três colunas de links". -->
+  <div class="foot-mark" aria-hidden="true">
+    <LogoMark size="lg" />
+  </div>
+
+  <div class="shell">
+    <div class="foot-bottom">
+      <p class="label">© {year} {site.name}</p>
+      <p class="label">Samba e pagode desde {site.founded}</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .foot {
+    position: relative;
+    overflow: hidden;
+    padding-top: var(--bay);
+    background: var(--void);
+    border-top: 1px solid var(--rule);
+  }
+
+  .foot-leak {
+    --leak-c: rgba(255, 122, 24, 0.34);
+    --leak-o: 0.5;
+    width: 90vw;
+    height: 40vh;
+    left: 50%;
+    bottom: -22vh;
+    transform: translateX(-50%);
+  }
+
+  .foot-grid {
+    display: grid;
+    gap: var(--s-8);
+    grid-template-columns: 1fr;
+  }
+
+  .foot-brand {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--s-3);
+  }
+
+  .foot-phone {
+    font-family: var(--font-display);
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: clamp(2.25rem, 6vw, 3.75rem);
+    line-height: 1;
+    transition: color var(--dur-2) var(--ease);
+  }
+
+  .foot-phone:hover {
+    color: var(--amber);
+  }
+
+  .foot-mail {
+    font-family: var(--font-mono);
+    font-size: var(--t-sm);
+    color: var(--ink-faint);
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    transition: color var(--dur-2) var(--ease);
+  }
+
+  .foot-mail:hover {
+    color: var(--ink);
+  }
+
+  .foot-col ul {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-2);
+    margin-top: var(--s-4);
+  }
+
+  .foot-col a,
+  .foot-col span {
+    font-size: var(--t-base);
+    color: var(--ink-soft);
+    transition: color var(--dur-2) var(--ease);
+  }
+
+  .foot-col a:hover {
+    color: var(--amber);
+  }
+
+  .foot-mark {
+    margin-top: var(--s-10);
+    margin-bottom: var(--s-5);
+    display: flex;
+    justify-content: center;
+    pointer-events: none;
+  }
+
+  .foot-bottom {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-4);
+    justify-content: space-between;
+    /* folga extra embaixo: o FAB do WhatsApp é fixo no canto inferior
+       direito e cobriria a última linha ao chegar no fim da página */
+    padding: var(--s-5) 0 calc(var(--s-5) + 64px);
+    border-top: 1px solid var(--rule);
+  }
+
+  @media (min-width: 760px) {
+    .foot-grid {
+      grid-template-columns: 1.4fr 1fr 1fr;
+      gap: var(--s-6);
+    }
+  }
+</style>

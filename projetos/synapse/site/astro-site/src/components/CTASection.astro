@@ -1,0 +1,55 @@
+---
+import Button from "./Button.astro";
+
+interface Props {
+  title: string;
+  body?: string;
+  ctaLabel: string;
+  ctaHref?: string;
+  dark?: boolean;
+}
+
+const { title, body, ctaLabel, ctaHref = "/contato", dark = false } = Astro.props;
+---
+
+<section class:list={["cta-section", { dark }]}>
+  <div class="container inner" data-reveal>
+    <h2 class="title">{title}</h2>
+    {body && <p class="body">{body}</p>}
+    <Button href={ctaHref} variant={dark ? "glass" : "primary"} class="cta-btn">
+      {ctaLabel}
+    </Button>
+  </div>
+</section>
+
+<style>
+  .cta-section {
+    padding-block: var(--space-12);
+  }
+
+  .cta-section.dark {
+    background: var(--color-bg-dark);
+    color: var(--color-text-on-dark);
+  }
+
+  .inner {
+    max-width: 640px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-4);
+  }
+
+  .title {
+    font-size: var(--text-2xl);
+  }
+
+  .body {
+    color: var(--color-text-secondary);
+  }
+
+  .dark .body {
+    color: var(--color-text-on-dark-secondary);
+  }
+</style>

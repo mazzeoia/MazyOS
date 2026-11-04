@@ -1,0 +1,125 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Button from "../components/Button.astro";
+import { nav } from "../lib/site";
+---
+
+<BaseLayout
+  title="Página não encontrada"
+  description="A página que você procura não existe ou foi movida."
+>
+  <section class="nf">
+    <div class="nf-leak leak" aria-hidden="true"></div>
+
+    <div class="shell nf-inner">
+      <p class="label label-warm" data-anim="fade">Erro 404</p>
+
+      <h1 class="nf-code hollow" aria-hidden="true">404</h1>
+
+      <h2 class="nf-title" data-split="hero">Essa página saiu de cena</h2>
+
+      <p class="lede nf-lede" data-anim="rise" data-anim-delay="0.4">
+        O endereço não existe mais ou nunca existiu. Os caminhos que funcionam estão logo
+        abaixo.
+      </p>
+
+      <nav class="nf-links" aria-label="Páginas do site" data-anim-group="0.06">
+        {nav.map((item) => (
+          <a href={item.href} class="nf-link">
+            {item.label}
+            <span aria-hidden="true">→</span>
+          </a>
+        ))}
+        <a href="/contato" class="nf-link">
+          Contato
+          <span aria-hidden="true">→</span>
+        </a>
+      </nav>
+
+      <div class="nf-cta" data-anim="rise">
+        <Button href="/" variant="primary" size="lg">Voltar para o início</Button>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .nf {
+    position: relative;
+    min-height: 86svh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    padding-block: calc(var(--nav-h) + var(--s-10)) var(--s-10);
+  }
+
+  .nf-leak {
+    --leak-c: rgba(255, 59, 31, 0.4);
+    --leak-o: 0.35;
+    width: 60vw;
+    height: 40vh;
+    left: 40%;
+    top: 10%;
+  }
+
+  .nf-inner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--s-4);
+  }
+
+  .nf-code {
+    position: absolute;
+    right: 0;
+    top: -0.24em;
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: clamp(9rem, 26vw, 22rem);
+    line-height: 0.75;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .nf-title {
+    font-size: clamp(2.5rem, 8vw, 6rem);
+    font-weight: 900;
+    line-height: 0.92;
+    max-width: 7.1em;
+  }
+
+  .nf-lede {
+    max-width: 44ch;
+  }
+
+  .nf-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-2) var(--s-5);
+    margin-top: var(--s-4);
+    padding-top: var(--s-4);
+    border-top: 1px solid var(--rule);
+    align-self: stretch;
+  }
+
+  .nf-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    font-family: var(--font-mono);
+    font-size: var(--t-xs);
+    letter-spacing: var(--track-label);
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    transition: color var(--dur-2) var(--ease);
+  }
+
+  .nf-link:hover {
+    color: var(--amber);
+  }
+
+  .nf-cta {
+    margin-top: var(--s-5);
+  }
+</style>

@@ -1,0 +1,254 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+import FinalCta from "../components/FinalCta.astro";
+import { stats } from "../lib/numeros";
+import { site } from "../lib/site";
+
+// Marcos tirados do briefing — todos verificáveis. Nada de "mais de X shows":
+// não existe fonte para número de evento, e é o tipo de dado que um
+// contratante confere.
+const marcos = [
+  {
+    ano: "1997",
+    titulo: "Porto Alegre",
+    texto:
+      "A Nescau nasce promovendo artistas locais. Ainda no mesmo ano assume o gerenciamento da banda Nativus, a atual Natiruts, e o trabalho ganha alcance nacional.",
+  },
+  {
+    ano: "2000",
+    titulo: "São Paulo",
+    texto:
+      "A operação se muda para São Paulo. O portfólio passa por reggae e rock nacional, com nomes como Maskavo e Tribo de Jah.",
+  },
+  {
+    ano: "2018",
+    titulo: "Europa e EUA",
+    texto:
+      "Começam as turnês internacionais voltadas à comunidade brasileira no exterior, com documentação, rota e produção local resolvidas de dentro de casa.",
+  },
+  {
+    ano: "Hoje",
+    titulo: "Samba e pagode",
+    texto:
+      "Sede em São Paulo e foco em samba e pagode: gestão de carreira e venda de shows para festivais, empresas e festas privadas.",
+  },
+];
+---
+
+<BaseLayout
+  title="Quem somos"
+  description="A Nescau Produções desde 1997: de Porto Alegre a São Paulo, do gerenciamento da Nativus (atual Natiruts) às turnês de samba e pagode na Europa e nos Estados Unidos."
+>
+  <PageHero
+    label="Quem somos"
+    meta={`Desde ${site.founded}`}
+    title="Quase três décadas colocando artista no palco"
+    lede="A Nescau começou em Porto Alegre em 1997. Hoje opera de São Paulo, com samba e pagode em turnê pelo Brasil, pela Europa e pelos Estados Unidos."
+    image="/media/sobre.svg"
+  />
+
+  <section class="bay">
+    <div class="shell hist">
+      <div class="hist-aside">
+        <p class="label" data-anim="fade"><span class="tick"></span>Linha do tempo</p>
+        <h2 class="hist-title display-md" data-split>De Porto Alegre ao palco de fora</h2>
+      </div>
+
+      <ol class="marcos">
+        <span class="marcos-line" data-draw=".hist" aria-hidden="true"></span>
+
+        {marcos.map((m) => (
+          <li class="marco" data-anim="rise">
+            <span class="marco-node" aria-hidden="true"></span>
+            <p class="marco-ano">{m.ano}</p>
+            <h3 class="marco-titulo">{m.titulo}</h3>
+            <p class="marco-texto">{m.texto}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="nums">
+    <div class="shell">
+      <div class="nums-grid" data-anim-group="0.1">
+        {stats.map((s) => (
+          <div class="num">
+            <p class="num-v display-md tnum"><span data-count={s.value}>0</span></p>
+            <p class="num-l">{s.label}</p>
+            <p class="num-n label">{s.note}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="bay creed">
+    <div class="shell">
+      <p class="creed-text" data-scrub-text>
+        Contratar show é confiar uma data inteira a alguém. Por isso a Nescau responde por
+        tudo que acontece entre o aceite da proposta e o fim do show, e não por uma parte só.
+      </p>
+    </div>
+  </section>
+
+  <FinalCta />
+</BaseLayout>
+
+<style>
+  .tick {
+    display: inline-block;
+    width: 26px;
+    height: 1px;
+    background: var(--amber);
+    margin-right: 0.9em;
+    vertical-align: middle;
+  }
+
+  .hist {
+    display: grid;
+    gap: var(--s-9);
+  }
+
+  .hist-aside {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-4);
+  }
+
+  .hist-title {
+    max-width: 6.6em;
+  }
+
+  .marcos {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-8);
+    padding-left: var(--s-6);
+  }
+
+  .marcos::before {
+    content: "";
+    position: absolute;
+    left: 3px;
+    top: 0.6em;
+    bottom: 0.6em;
+    width: 1px;
+    background: var(--rule);
+  }
+
+  .marcos-line {
+    position: absolute;
+    left: 3px;
+    top: 0.6em;
+    bottom: 0.6em;
+    width: 1px;
+    background: linear-gradient(180deg, var(--amber), var(--flame) 60%, var(--ember));
+    transform-origin: top center;
+  }
+
+  .marco {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-2);
+  }
+
+  .marco-node {
+    position: absolute;
+    left: calc(var(--s-6) * -1);
+    top: 0.5em;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--canvas);
+    border: 1px solid var(--amber);
+  }
+
+  .marco-ano {
+    font-family: var(--font-mono);
+    font-size: var(--t-xs);
+    letter-spacing: var(--track-label);
+    color: var(--amber);
+  }
+
+  .marco-titulo {
+    font-size: clamp(1.9rem, 3.6vw, 2.75rem);
+  }
+
+  .marco-texto {
+    color: var(--ink-soft);
+    max-width: 52ch;
+  }
+
+  /* --- números ------------------------------------------------------------ */
+  .nums {
+    padding-block: var(--s-10);
+    background: var(--raised);
+    border-block: 1px solid var(--rule);
+  }
+
+  .nums-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--s-7) var(--s-5);
+  }
+
+  .num {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-2);
+  }
+
+  .num-v {
+    font-family: var(--font-display);
+    font-weight: 900;
+    line-height: 0.9;
+    background: var(--beam-text);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .num-l {
+    font-weight: 500;
+  }
+
+  .num-n {
+    color: var(--ink-faint);
+  }
+
+  /* --- credo -------------------------------------------------------------- */
+  .creed {
+    background: var(--void);
+  }
+
+  .creed-text {
+    font-weight: 300;
+    font-size: clamp(1.5rem, 3.2vw, 2.6rem);
+    line-height: 1.36;
+    letter-spacing: var(--track-tight);
+    max-width: 24ch;
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  @media (min-width: 960px) {
+    .hist {
+      grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+      gap: var(--s-10);
+      align-items: start;
+    }
+
+    .hist-aside {
+      position: sticky;
+      top: calc(var(--nav-h) + var(--s-8));
+    }
+
+    .nums-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+</style>

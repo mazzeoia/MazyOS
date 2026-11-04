@@ -1,0 +1,152 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+import FinalCta from "../components/FinalCta.astro";
+import Button from "../components/Button.astro";
+import { artists } from "../lib/casting";
+---
+
+<BaseLayout
+  title="Casting"
+  description="Os artistas de samba e pagode representados pela Nescau Produções para festivais, eventos corporativos e festas privadas."
+>
+  <PageHero
+    label="Casting"
+    meta={`${artists.length} artistas`}
+    title="Quem sobe no palco"
+    lede="Samba e pagode com nome que o público reconhece. Consulte a agenda de qualquer um deles pelo WhatsApp."
+    image="/media/hero.svg"
+  />
+
+  <section class="bay">
+    <div class="shell">
+      <div class="grid">
+        {artists.map((a, i) => (
+          <article class="art" data-tilt="4">
+            <div class="art-media" data-anim="reveal-img" data-anim-delay={(i % 3) * 0.06}>
+              <img src={a.image} alt={`${a.name}, ${a.genre}`} width="900" height="1200" loading="lazy" decoding="async" />
+            </div>
+
+            <div class="art-body">
+              <p class="index art-n">{String(i + 1).padStart(2, "0")}</p>
+              <h2 class="art-name">{a.name}</h2>
+              <p class="label label-warm">{a.genre}</p>
+              <p class="art-bio">{a.bio}</p>
+
+              <Button href="/contato" variant="quiet" class="art-cta">Consultar agenda</Button>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <p class="note" data-anim="fade">
+        Lista de representação atual. Para datas, cachê e disponibilidade, fale direto com a
+        Nescau, a agenda muda toda semana.
+      </p>
+    </div>
+  </section>
+
+  <FinalCta
+    eyebrow="Agenda"
+    title="Qual deles combina com a sua data?"
+    body="Manda a data e o formato do evento. A gente indica o artista certo e devolve a proposta completa."
+  />
+</BaseLayout>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--s-7) var(--s-5);
+  }
+
+  .art {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-4);
+    transform-style: preserve-3d;
+    will-change: transform;
+  }
+
+  .art-media {
+    position: relative;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    border-radius: var(--r-md);
+    background: var(--raised);
+  }
+
+  .art-media::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    box-shadow: inset 0 0 0 1px var(--rule);
+    transition: box-shadow var(--dur-3) var(--ease);
+  }
+
+  .art:hover .art-media::after {
+    box-shadow:
+      inset 0 0 0 1px var(--rule-warm),
+      inset 0 -80px 90px -60px rgba(255, 122, 24, 0.5);
+  }
+
+  .art-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.9s var(--ease);
+  }
+
+  .art:hover .art-media img {
+    transform: scale(1.05);
+  }
+
+  .art-body {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--s-2);
+  }
+
+  .art-n {
+    color: var(--ink-ghost);
+  }
+
+  .art-name {
+    font-size: clamp(1.9rem, 3.6vw, 2.6rem);
+  }
+
+  .art-bio {
+    color: var(--ink-soft);
+    font-size: var(--t-base);
+    margin-top: var(--s-2);
+  }
+
+  .art-cta {
+    margin-top: var(--s-2);
+  }
+
+  .note {
+    margin-top: var(--s-8);
+    padding-top: var(--s-5);
+    border-top: 1px solid var(--rule);
+    color: var(--ink-faint);
+    font-size: var(--t-sm);
+    max-width: 60ch;
+  }
+
+  @media (min-width: 640px) {
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--s-9) var(--s-5);
+    }
+  }
+</style>

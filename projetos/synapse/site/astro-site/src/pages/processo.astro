@@ -1,0 +1,60 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import ProcessStep from "../components/ProcessStep.astro";
+import CTASection from "../components/CTASection.astro";
+---
+
+<BaseLayout
+  title="Processo"
+  description="Como funciona o projeto do início ao fim."
+>
+  <section class="container hero">
+    <p class="eyebrow-standalone">Processo</p>
+    <h1>Como trabalhamos, do diagnóstico ao crescimento contínuo.</h1>
+    <p class="lede">
+      A tecnologia é sempre a última decisão, nunca a primeira. Todo projeto
+      segue as mesmas quatro fases — nessa ordem, sem pular etapa.
+    </p>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="steps">
+        <ProcessStep number="01" title="Diagnóstico">
+          Mapeamos onde você está perdendo tempo, clientes ou receita. Esse
+          problema é de atendimento, de visibilidade ou de retenção? Sem
+          diagnóstico, não existe implementação — só achismo.
+        </ProcessStep>
+        <ProcessStep number="02" title="Fundação">
+          Colocamos sua presença digital no lugar certo: site, SEO local, Google
+          Business Profile. A base que faz o cliente te encontrar e confiar em
+          você antes do primeiro contato.
+        </ProcessStep>
+        <ProcessStep number="03" title="Automação">
+          Eliminamos o trabalho repetitivo com atendimento e agendamento
+          automatizados, liberando o seu tempo para decisões que só você pode
+          tomar.
+        </ProcessStep>
+        <ProcessStep number="04" title="Crescimento contínuo">
+          CRM, dashboards e otimização constante. A tecnologia evolui junto com
+          o seu negócio — a relação não termina na entrega.
+        </ProcessStep>
+      </div>
+    </div>
+  </section>
+
+  <CTASection
+    title="Quer saber em que fase o seu negócio está?"
+    ctaLabel="Fale com a Synapse"
+  />
+</BaseLayout>
+
+<style>
+  .steps {
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid var(--color-border);
+    max-width: 760px;
+  }
+</style>

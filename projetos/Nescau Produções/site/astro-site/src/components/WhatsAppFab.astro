@@ -1,0 +1,87 @@
+---
+import { site, whatsappUrl } from "../lib/site";
+---
+
+<a
+  class="fab"
+  href={whatsappUrl}
+  target="_blank"
+  rel="noopener noreferrer"
+  data-magnetic="0.22"
+  aria-label={`Falar no WhatsApp, ${site.whatsappDisplay}`}
+>
+  <span class="fab-inner" data-magnetic-label>
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path
+        fill="currentColor"
+        d="M12.04 2a9.9 9.9 0 0 0-8.5 15L2 22l5.2-1.5A9.9 9.9 0 1 0 12.04 2Zm0 1.8a8.1 8.1 0 1 1-4.1 15.1l-.3-.2-3.1.9.9-3-.2-.3a8.1 8.1 0 0 1 6.8-12.5Zm-2.5 4c-.2 0-.5 0-.7.3-.3.3-.9.9-.9 2.1s.9 2.4 1 2.6c.2.2 1.8 2.8 4.4 3.8 2.2.9 2.6.7 3.1.6.5 0 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2 0-.1-.2-.2-.5-.3l-1.7-.8c-.2-.1-.4-.2-.6.1l-.8 1c-.2.2-.3.2-.6.1a6.6 6.6 0 0 1-1.9-1.2 7.3 7.3 0 0 1-1.4-1.7c-.1-.3 0-.4.1-.5l.4-.5.3-.5v-.5l-.8-1.8c-.2-.4-.4-.4-.6-.4h-.5Z"
+      ></path>
+    </svg>
+    <span class="fab-text">WhatsApp</span>
+  </span>
+</a>
+
+<style>
+  .fab {
+    position: fixed;
+    right: var(--s-5);
+    bottom: var(--s-5);
+    z-index: var(--z-fab);
+    display: inline-flex;
+    align-items: center;
+    border-radius: var(--r-full);
+    background: var(--beam-soft);
+    color: var(--on-light);
+    box-shadow: var(--glow-md);
+    will-change: transform;
+    transition: box-shadow var(--dur-2) var(--ease);
+  }
+
+  .fab:hover {
+    box-shadow: var(--glow-lg);
+  }
+
+  .fab-inner {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55em;
+    padding: 1rem 1.15rem;
+  }
+
+  .fab svg {
+    width: 22px;
+    height: 22px;
+    flex: none;
+  }
+
+  /* O rótulo abre no hover — em repouso o FAB é só o ícone, então não
+     compete com o conteúdo da página. */
+  .fab-text {
+    font-family: var(--font-mono);
+    font-size: var(--t-xs);
+    font-weight: 700;
+    letter-spacing: var(--track-label);
+    text-transform: uppercase;
+    max-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    opacity: 0;
+    transition:
+      max-width 0.45s var(--ease),
+      opacity 0.35s var(--ease),
+      margin-right 0.45s var(--ease);
+  }
+
+  .fab:hover .fab-text,
+  .fab:focus-visible .fab-text {
+    max-width: 8rem;
+    opacity: 1;
+  }
+
+  @media (pointer: coarse) {
+    .fab {
+      right: var(--s-4);
+      bottom: var(--s-4);
+    }
+  }
+</style>

@@ -1,0 +1,93 @@
+---
+import { stats } from "../../lib/numeros";
+---
+
+<section class="stats">
+  <div class="stats-leak leak" aria-hidden="true"></div>
+
+  <div class="shell">
+    <div class="stats-grid" data-anim-group="0.1">
+      {stats.map((s) => (
+        <div class="stat">
+          <p class="stat-value display-md tnum">
+            {s.prefix}<span data-count={s.value}>0</span>{s.suffix}
+          </p>
+          <p class="stat-label">{s.label}</p>
+          <p class="stat-note label">{s.note}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .stats {
+    position: relative;
+    padding-block: var(--s-10);
+    background: var(--raised);
+    border-block: 1px solid var(--rule);
+    overflow: hidden;
+  }
+
+  .stats-leak {
+    --leak-c: rgba(255, 122, 24, 0.42);
+    --leak-o: 0.34;
+    width: 70vw;
+    height: 34vh;
+    left: 50%;
+    top: -18vh;
+    transform: translateX(-50%);
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--s-7) var(--s-5);
+  }
+
+  .stat {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-2);
+    padding-left: var(--s-5);
+  }
+
+  /* Fio vertical no lugar de card com borda: separa sem criar caixa. */
+  .stat::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.35em;
+    bottom: 0.4em;
+    width: 1px;
+    background: linear-gradient(180deg, var(--rule-warm), transparent 78%);
+  }
+
+  .stat-value {
+    font-family: var(--font-display);
+    font-weight: 900;
+    line-height: 0.9;
+    background: var(--beam-text);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .stat-label {
+    font-size: var(--t-base);
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  .stat-note {
+    color: var(--ink-faint);
+  }
+
+  @media (min-width: 860px) {
+    .stats-grid {
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--s-6);
+    }
+  }
+</style>

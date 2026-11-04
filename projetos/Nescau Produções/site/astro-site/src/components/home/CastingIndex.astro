@@ -1,0 +1,253 @@
+---
+import Button from "../Button.astro";
+import { artists } from "../../lib/casting";
+
+// Vitrine do casting em formato índice: o nome é o elemento gráfico, e a foto
+// aparece flutuando perto do ponteiro quando a linha entra em foco. No toque
+// (sem hover), a mesma lista já traz a imagem embutida em cada linha.
+---
+
+<section class="cast bay-lg" id="casting" data-hoverindex>
+  <div class="shell">
+    <div class="cast-head">
+      <div>
+        <p class="label" data-anim="fade">
+          <span class="cast-tick"></span>
+          Casting
+        </p>
+        <h2 class="cast-title display-lg" data-split>Nomes que a plateia canta junto</h2>
+      </div>
+      <Button href="/casting" variant="ghost" class="cast-cta">Ver casting completo</Button>
+    </div>
+
+    <div class="cast-list">
+      {artists.map((a, i) => (
+        <a class="row" href="/casting" data-hoverindex-row data-cursor="Ver">
+          <span class="row-n index">{String(i + 1).padStart(2, "0")}</span>
+
+          <span class="row-name">
+            <span class="row-name-base">{a.name}</span>
+            {/* Clone preenchido com o facho, revelado por clip no hover:
+                é a troca de estado que não custa repaint de layout. */}
+            <span class="row-name-hot" aria-hidden="true">{a.name}</span>
+          </span>
+
+          <span class="row-thumb" aria-hidden="true">
+            <img src={a.image} alt="" width="900" height="1200" loading="lazy" decoding="async" />
+          </span>
+
+          <span class="row-genre label">{a.genre}</span>
+          <span class="row-arrow" aria-hidden="true">→</span>
+        </a>
+      ))}
+    </div>
+  </div>
+
+  <!-- Palco flutuante: uma placa por artista, empilhadas; o motion.ts acende
+       a que corresponde à linha em foco e move o conjunto com o ponteiro. -->
+  <div class="cast-stage" data-hoverindex-stage aria-hidden="true">
+    {artists.map((a) => (
+      <img
+        class="cast-plate"
+        data-hoverindex-plate
+        src={a.image}
+        alt=""
+        width="900"
+        height="1200"
+        loading="lazy"
+        decoding="async"
+      />
+    ))}
+  </div>
+</section>
+
+<style>
+  .cast {
+    position: relative;
+    background: var(--void);
+    border-top: 1px solid var(--rule);
+    overflow: hidden;
+  }
+
+  .cast-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--s-5);
+    padding-bottom: var(--s-8);
+  }
+
+  .cast-tick {
+    display: inline-block;
+    width: 26px;
+    height: 1px;
+    background: var(--amber);
+    margin-right: 0.9em;
+    vertical-align: middle;
+  }
+
+  .cast-title {
+    margin-top: var(--s-5);
+    max-width: 7.7em;
+  }
+
+  .cast-list {
+    position: relative;
+    z-index: 2;
+    border-top: 1px solid var(--rule);
+  }
+
+  .row {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-template-areas:
+      "n name arrow"
+      "thumb genre genre";
+    align-items: center;
+    gap: 0 var(--s-4);
+    padding-block: var(--s-5);
+    border-bottom: 1px solid var(--rule);
+    transition: border-color var(--dur-2) var(--ease);
+  }
+
+  .row:hover {
+    border-color: var(--rule-warm);
+  }
+
+  .row-n {
+    grid-area: n;
+    color: var(--ink-ghost);
+    transition: color var(--dur-2) var(--ease);
+  }
+
+  .row:hover .row-n,
+  .row.is-on .row-n {
+    color: var(--amber);
+  }
+
+  .row-name {
+    grid-area: name;
+    position: relative;
+    display: block;
+    font-family: var(--font-display);
+    font-weight: 900;
+    text-transform: uppercase;
+    font-size: clamp(2rem, 7vw, 5.25rem);
+    line-height: 0.95;
+    letter-spacing: -0.005em;
+  }
+
+  .row-name-base {
+    color: var(--ink-ghost);
+    transition: color 0.45s var(--ease);
+  }
+
+  .row:hover .row-name-base,
+  .row.is-on .row-name-base {
+    color: var(--ink);
+  }
+
+  .row-name-hot {
+    position: absolute;
+    inset: 0;
+    background: var(--beam-text);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    clip-path: inset(0 100% 0 0);
+    transition: clip-path 0.55s var(--ease);
+    white-space: nowrap;
+  }
+
+  .row:hover .row-name-hot,
+  .row.is-on .row-name-hot {
+    clip-path: inset(0 0% 0 0);
+  }
+
+  .row-genre {
+    grid-area: genre;
+    padding-top: var(--s-2);
+  }
+
+  .row-arrow {
+    grid-area: arrow;
+    color: var(--ink-ghost);
+    font-size: 1.5rem;
+    transition:
+      transform var(--dur-2) var(--ease),
+      color var(--dur-2) var(--ease);
+  }
+
+  .row:hover .row-arrow {
+    color: var(--amber);
+    transform: translateX(8px);
+  }
+
+  /* Miniatura embutida — o caminho de leitura no toque, onde não há hover */
+  .row-thumb {
+    grid-area: thumb;
+    display: block;
+    width: 56px;
+    height: 40px;
+    margin-top: var(--s-3);
+    border-radius: var(--r-xs);
+    overflow: hidden;
+    flex: none;
+  }
+
+  .row-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* --- palco flutuante --------------------------------------------------- */
+  .cast-stage {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    width: clamp(200px, 22vw, 320px);
+    aspect-ratio: 3 / 4;
+    border-radius: var(--r-md);
+    overflow: hidden;
+    opacity: 0;
+    transform: scale(0.94);
+    pointer-events: none;
+    box-shadow: var(--lift);
+    will-change: transform;
+    display: none;
+  }
+
+  .cast-plate {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+  }
+
+  @media (min-width: 900px) {
+    .row {
+      grid-template-columns: auto minmax(0, 1fr) auto auto;
+      grid-template-areas: "n name genre arrow";
+      gap: var(--s-6);
+      padding-block: var(--s-6);
+    }
+
+    .row-genre {
+      padding-top: 0;
+    }
+
+    .row-thumb {
+      display: none;
+    }
+
+    .cast-stage {
+      display: block;
+    }
+  }
+</style>

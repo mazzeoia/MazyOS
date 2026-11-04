@@ -1,0 +1,116 @@
+---
+// Marcas citadas no briefing como histórico de ação/evento corporativo.
+// Menção nominal em texto — NÃO usar logotipo aqui sem a autorização de uso
+// que ainda está pendente (ver briefing.md).
+const brands = ["Unilever", "Fiat", "Nestlé"];
+const contexts = [
+  "Prefeituras",
+  "Empresas",
+  "Exposições",
+  "Casas de Show",
+  "Festivais",
+  "Formaturas e Eventos Sociais",
+];
+
+const line = [...brands, ...contexts];
+const track = [...line, ...line];
+---
+
+<section class="trust">
+  <div class="shell trust-head">
+    <p class="label">Quem contrata</p>
+    <p class="trust-note">
+      Marcas e produtoras já atendidas em shows, ações e eventos corporativos.
+    </p>
+  </div>
+
+  <div class="trust-rail" data-marquee="46" aria-hidden="true">
+    <div class="trust-track" data-marquee-track>
+      {track.map((item, i) => (
+        <span class:list={["trust-item", { "is-brand": i % line.length < brands.length }]}>
+          {item}
+          <span class="trust-sep">/</span>
+        </span>
+      ))}
+    </div>
+  </div>
+
+  <!-- Mesma lista, legível para leitor de tela e para busca: o marquee acima
+       é decorativo e está fora da árvore de acessibilidade. -->
+  <p class="sr-only">{line.join(", ")}.</p>
+
+  <div class="shell">
+    <hr class="hairline" />
+  </div>
+</section>
+
+<style>
+  .trust {
+    position: relative;
+    padding-block: var(--s-9);
+    background: var(--raised);
+  }
+
+  .trust-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--s-3);
+    padding-bottom: var(--s-7);
+  }
+
+  .trust-note {
+    font-size: var(--t-sm);
+    color: var(--ink-faint);
+    max-width: 42ch;
+  }
+
+  .trust-rail {
+    overflow: hidden;
+    padding-block: var(--s-2);
+    mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+  }
+
+  .trust-track {
+    display: flex;
+    align-items: center;
+    width: max-content;
+    will-change: transform;
+  }
+
+  .trust-item {
+    display: inline-flex;
+    align-items: center;
+    font-family: var(--font-display);
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: clamp(1.6rem, 4.2vw, 3rem);
+    line-height: 1;
+    color: var(--ink-ghost);
+    white-space: nowrap;
+    transition: color var(--dur-2) var(--ease);
+  }
+
+  /* Marca real fica mais presente que categoria — a hierarquia dentro da
+     própria faixa evita que tudo vire ruído de mesma força. */
+  .trust-item.is-brand {
+    color: var(--ink-soft);
+  }
+
+  .trust-sep {
+    color: var(--flame);
+    opacity: 0.5;
+    margin-inline: clamp(1rem, 2.6vw, 2.2rem);
+    font-weight: 400;
+  }
+
+  .trust + :global(*) {
+    position: relative;
+  }
+
+  .trust :global(.hairline) {
+    margin-top: var(--s-9);
+  }
+</style>

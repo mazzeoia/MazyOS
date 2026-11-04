@@ -1,0 +1,65 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import SectionHeading from "../../components/SectionHeading.astro";
+import ServiceCard from "../../components/ServiceCard.astro";
+import CTASection from "../../components/CTASection.astro";
+
+const pillars = [
+  {
+    name: "Presença",
+    promise: "Seja encontrado e escolhido.",
+    items: ["Sites institucionais premium", "Landing pages", "SEO local", "Google Business Profile"],
+    href: "/servicos/presenca-digital",
+    cta: "Ver Presença →",
+  },
+  {
+    name: "Automação",
+    promise: "Elimine o trabalho repetitivo.",
+    items: ["Automações", "IA para atendimento", "Chatbots", "Agendamentos"],
+    href: "/servicos/automacao",
+    cta: "Ver Automação →",
+  },
+  {
+    name: "Inteligência",
+    promise: "Decida com dados, não com achismo.",
+    items: ["CRM", "Dashboards", "Integrações"],
+    href: "/servicos/inteligencia",
+    cta: "Ver Inteligência →",
+  },
+  {
+    name: "Engenharia",
+    promise: "Construa a infraestrutura que sua operação merece.",
+    items: ["Sistemas internos", "Portais", "Aplicações web", "Consultoria tecnológica"],
+    href: "/servicos/engenharia",
+    cta: "Ver Engenharia →",
+  },
+];
+---
+
+<BaseLayout
+  title="Serviços"
+  description="Tecnologia agrupada pelo problema que resolve — não pela ferramenta por trás."
+>
+  <section class="container hero">
+    <p class="eyebrow-standalone">O que a Synapse implementa</p>
+    <h1>Tecnologia agrupada pelo problema que resolve — não pela ferramenta por trás.</h1>
+    <p class="lede">
+      Cada pilar existe porque resolve um tipo específico de problema. Você não
+      precisa saber qual tecnologia usar — precisa saber qual problema quer
+      resolver primeiro.
+    </p>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="grid cols-4">
+        {pillars.map((pillar) => <ServiceCard {...pillar} />)}
+      </div>
+    </div>
+  </section>
+
+  <CTASection
+    title="Não sabe por onde começar?"
+    ctaLabel="Fale com a Synapse"
+  />
+</BaseLayout>

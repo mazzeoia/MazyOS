@@ -1,0 +1,31 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/home/Hero.astro";
+import TrustStrip from "../components/home/TrustStrip.astro";
+import Manifesto from "../components/home/Manifesto.astro";
+import ServicesRail from "../components/home/ServicesRail.astro";
+import StatsBand from "../components/home/StatsBand.astro";
+import Frentes from "../components/home/Frentes.astro";
+import Gallery from "../components/home/Gallery.astro";
+import Process from "../components/home/Process.astro";
+import CastingIndex from "../components/home/CastingIndex.astro";
+import Testimonials from "../components/home/Testimonials.astro";
+import Faq from "../components/home/Faq.astro";
+import FinalCta from "../components/FinalCta.astro";
+import { site } from "../lib/site";
+---
+
+<BaseLayout title={`${site.name} · ${site.tagline}`} description={site.description} bare>
+  <Hero />
+  <TrustStrip />
+  <Manifesto />
+  <ServicesRail />
+  <StatsBand />
+  <Frentes />
+  <Gallery />
+  <Process />
+  <CastingIndex />
+  <Testimonials />
+  <Faq />
+  <FinalCta />
+</BaseLayout>

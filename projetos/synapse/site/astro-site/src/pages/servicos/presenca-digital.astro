@@ -1,0 +1,70 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import SectionHeading from "../../components/SectionHeading.astro";
+import CTASection from "../../components/CTASection.astro";
+
+const items = [
+  {
+    name: "Sites institucionais premium",
+    body: "Transformamos visitantes em clientes, não só uma página bonita que ninguém usa.",
+  },
+  {
+    name: "Landing pages",
+    body: "Cada campanha, uma página feita para converter, não uma versão reduzida do site.",
+  },
+  {
+    name: "SEO local",
+    body: "Apareça primeiro quando alguém da sua região procurar pelo que você faz.",
+  },
+  {
+    name: "Google Business Profile",
+    body: "Seja a opção óbvia antes mesmo do clique, com avaliações e informações que geram confiança.",
+  },
+];
+---
+
+<BaseLayout
+  title="Presença"
+  description="Seja encontrado antes do seu concorrente."
+>
+  <section class="container hero">
+    <p class="eyebrow-standalone">Presença</p>
+    <h1>Seja encontrado antes do seu concorrente.</h1>
+    <p class="lede">
+      Todo cliente pesquisa antes de decidir. Se ele não encontra você no Google,
+      no mapa ou numa página que passe confiança, ele encontra quem apareceu
+      primeiro — mesmo que ofereça menos.
+    </p>
+  </section>
+
+  <section class="section section-alt">
+    <div class="container">
+      <SectionHeading
+        title="Como a Synapse resolve"
+        subtitle="Implementamos a presença digital que faz o cliente certo te encontrar primeiro e confiar em você antes mesmo do primeiro contato."
+      />
+      <div class="grid cols-2">
+        {items.map((item) => (
+          <div class="item">
+            <h3>{item.name}</h3>
+            <p>{item.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CTASection title="Quero ser encontrado primeiro" ctaLabel="Fale com a Synapse" />
+</BaseLayout>
+
+<style>
+  .item h3 {
+    font-size: var(--text-base);
+    margin-bottom: var(--space-2);
+  }
+
+  .item p {
+    color: var(--color-text-secondary);
+    font-size: var(--text-sm);
+  }
+</style>

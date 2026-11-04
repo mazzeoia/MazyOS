@@ -1,0 +1,236 @@
+---
+import LogoMark from "./LogoMark.astro";
+
+const navItems = [
+  { label: "Serviços", href: "/servicos" },
+  { label: "Processo", href: "/processo" },
+  { label: "Sobre", href: "/sobre" },
+  { label: "Portfólio", href: "/portfolio" },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="navbar-wrap" id="navbar">
+  <div class="navbar">
+    <a href="/" class="logo" aria-label="Synapse, página inicial">
+      <LogoMark size={26} />
+      <span class="wordmark">Synapse</span>
+    </a>
+
+    <nav class="nav-links" aria-label="Navegação principal">
+      {
+        navItems.map((item) => {
+          const active = currentPath.startsWith(item.href);
+          return (
+            <a href={item.href} class:list={["nav-link", { active }]}>
+              {item.label}
+            </a>
+          );
+        })
+      }
+    </nav>
+
+    <a href="/contato" class="cta">Fale com a Synapse</a>
+
+    <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobile-menu">
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+
+  <div class="mobile-menu" id="mobile-menu" hidden>
+    <nav aria-label="Navegação mobile">
+      {navItems.map((item) => <a href={item.href} class="mobile-link">{item.label}</a>)}
+      <a href="/contato" class="mobile-link mobile-cta">Fale com a Synapse</a>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .navbar-wrap {
+    position: fixed;
+    inset-inline: 0;
+    top: 0;
+    z-index: var(--z-nav);
+    display: flex;
+    justify-content: center;
+    padding: var(--space-3) var(--space-4) 0;
+  }
+
+  .navbar {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    width: 100%;
+    max-width: 960px;
+    height: var(--nav-height-mobile);
+    padding-inline: var(--space-4) var(--space-2);
+    border-radius: var(--radius-panel);
+    border: 1px solid var(--border-dark);
+    background: rgba(6, 8, 12, 0.6);
+    backdrop-filter: blur(var(--blur-glass));
+    -webkit-backdrop-filter: blur(var(--blur-glass));
+    transition: background-color var(--duration-normal) var(--ease-out),
+      border-color var(--duration-normal) var(--ease-out);
+  }
+
+  @media (min-width: 1024px) {
+    .navbar {
+      height: var(--nav-height);
+      padding-inline: var(--space-5) var(--space-3);
+    }
+  }
+
+  /* Consciência de contraste — a home tem um registro claro (Resultados);
+     quando ele passa atrás da navbar, o vidro clareia. */
+  .navbar-wrap.on-light .navbar {
+    background: rgba(247, 249, 251, 0.72);
+    border-color: var(--border-light);
+    color: var(--text-on-light);
+  }
+
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+  }
+
+  .wordmark {
+    font-family: var(--font-display);
+    font-size: var(--text-md);
+    font-weight: var(--weight-semibold);
+    color: var(--text-on-dark);
+    letter-spacing: var(--tracking-tight);
+  }
+
+  .navbar-wrap.on-light .wordmark {
+    color: var(--text-on-light);
+  }
+
+  .nav-links {
+    display: none;
+  }
+
+  @media (min-width: 1024px) {
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: var(--space-5);
+      margin-left: var(--space-4);
+    }
+  }
+
+  .nav-link {
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-medium);
+    color: var(--text-on-dark-soft);
+    text-decoration: none;
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+
+  .navbar-wrap.on-light .nav-link {
+    color: var(--text-on-light-soft);
+  }
+
+  .nav-link:hover,
+  .nav-link.active {
+    color: var(--text-on-dark);
+  }
+
+  .navbar-wrap.on-light .nav-link:hover,
+  .navbar-wrap.on-light .nav-link.active {
+    color: var(--text-on-light);
+  }
+
+  .cta {
+    display: none;
+    margin-left: auto;
+    padding: 10px var(--space-4);
+    background: var(--signal);
+    color: var(--signal-ink);
+    border-radius: var(--radius-interactive);
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-medium);
+    text-decoration: none;
+    transition: background-color var(--duration-fast) var(--ease-out);
+  }
+
+  .cta:hover {
+    background: var(--signal-strong);
+  }
+
+  @media (min-width: 1024px) {
+    .cta {
+      display: inline-block;
+    }
+  }
+
+  .menu-toggle {
+    margin-left: auto;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    background: none;
+    border: none;
+    border-radius: var(--radius-interactive);
+    cursor: pointer;
+  }
+
+  @media (min-width: 1024px) {
+    .menu-toggle {
+      display: none;
+    }
+  }
+
+  .menu-toggle span {
+    width: 20px;
+    height: 2px;
+    background: var(--text-on-dark);
+  }
+
+  .navbar-wrap.on-light .menu-toggle span {
+    background: var(--text-on-light);
+  }
+
+  .mobile-menu {
+    position: fixed;
+    inset-inline: var(--space-4);
+    top: calc(var(--nav-height-mobile) + var(--space-4) + var(--space-3));
+    z-index: var(--z-mobile-menu);
+    border: 1px solid var(--border-dark);
+    border-radius: var(--radius-panel);
+    background: var(--canvas-raised);
+  }
+
+  .mobile-menu nav {
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-3) var(--space-4) var(--space-4);
+    gap: var(--space-3);
+  }
+
+  .mobile-link {
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    color: var(--text-on-dark);
+    text-decoration: none;
+    padding: var(--space-2) 0;
+  }
+
+  .mobile-cta {
+    font-weight: var(--weight-medium);
+    color: var(--signal);
+  }
+</style>
+
+<script>
+  import("../scripts/navbar");
+</script>

@@ -1,0 +1,337 @@
+---
+import SectionHead from "../SectionHead.astro";
+import { categories, shots } from "../../lib/galeria";
+---
+
+<section class="gal bay-lg" id="galeria" data-gallery>
+  <div class="shell">
+    <SectionHead label="Galeria" title="A noite por dentro" />
+
+    <div class="gal-filters" role="group" aria-label="Filtrar galeria">
+      {categories.map((c, i) => (
+        <button
+          type="button"
+          class:list={["chip", { "is-on": i === 0 }]}
+          data-filter={c.id}
+          aria-pressed={i === 0 ? "true" : "false"}
+        >
+          {c.label}
+        </button>
+      ))}
+    </div>
+
+    <div class="gal-grid">
+      {shots.map((s) => (
+        <figure
+          class:list={["shot", `r-${s.ratio}`]}
+          data-cat={s.cat}
+          data-lightbox-open
+          data-full={s.src}
+          data-caption={s.caption}
+          data-cursor="Ver"
+          tabindex="0"
+          role="button"
+          aria-label={`Abrir: ${s.cat}, ${s.caption}`}
+        >
+          <img src={s.src} alt={s.alt} loading="lazy" decoding="async" />
+          <figcaption class="shot-cap">
+            <span class="shot-cat label">{s.cat}</span>
+            <span class="shot-title">{s.caption}</span>
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- Lightbox: um só para a página inteira, controlado pelo motion.ts -->
+<div class="lb" data-lightbox hidden aria-hidden="true" role="dialog" aria-modal="true" aria-label="Imagem ampliada">
+  <button class="lb-close" type="button" data-lightbox-close aria-label="Fechar">
+    <span aria-hidden="true">✕</span>
+  </button>
+
+  <button class="lb-nav is-prev" type="button" data-lightbox-prev aria-label="Anterior">
+    <span aria-hidden="true">←</span>
+  </button>
+
+  <figure class="lb-figure">
+    <img data-lightbox-img src="" alt="" />
+    <figcaption class="lb-cap">
+      <span data-lightbox-caption></span>
+      <span class="lb-counter label" data-lightbox-counter></span>
+    </figcaption>
+  </figure>
+
+  <button class="lb-nav is-next" type="button" data-lightbox-next aria-label="Próxima">
+    <span aria-hidden="true">→</span>
+  </button>
+</div>
+
+<style>
+  .gal {
+    position: relative;
+    background: var(--void);
+    border-top: 1px solid var(--rule);
+  }
+
+  .gal-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-2);
+    margin-top: var(--s-7);
+  }
+
+  .chip {
+    padding: 0.7rem 1.2rem;
+    border: 1px solid var(--rule);
+    border-radius: var(--r-full);
+    background: transparent;
+    cursor: pointer;
+    font-family: var(--font-mono);
+    font-size: var(--t-xs);
+    letter-spacing: var(--track-label);
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    transition:
+      color var(--dur-2) var(--ease),
+      border-color var(--dur-2) var(--ease),
+      background-color var(--dur-2) var(--ease);
+  }
+
+  .chip:hover {
+    color: var(--ink);
+    border-color: var(--rule-strong);
+  }
+
+  .chip.is-on {
+    color: var(--on-light);
+    background: var(--amber);
+    border-color: var(--amber);
+  }
+
+  /* Mosaico irregular: a proporção vem do dado e vira span de linha, então a
+     galeria nunca cai naquele grid uniforme de miniaturas iguais. */
+  .gal-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 8px;
+    grid-auto-flow: row dense;
+    gap: var(--s-3);
+    margin-top: var(--s-7);
+  }
+
+  .shot {
+    position: relative;
+    margin: 0;
+    overflow: hidden;
+    border-radius: var(--r-sm);
+    cursor: pointer;
+    background: var(--raised);
+  }
+
+  .shot.is-hidden {
+    display: none;
+  }
+
+  .r-tall {
+    grid-row: span 30;
+  }
+  .r-wide {
+    grid-row: span 20;
+  }
+  .r-square {
+    grid-row: span 24;
+  }
+
+  /* Contact sheet: em repouso as placas ficam dessaturadas e rebaixadas, e a
+     cor volta só no item em foco. Todas as imagens são luz âmbar sobre preto —
+     mostrá-las coloridas ao mesmo tempo transforma o mosaico numa mancha
+     laranja onde nenhuma foto se destaca. */
+  .shot img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(0.7) brightness(0.62) contrast(1.05);
+    transition:
+      transform 0.9s var(--ease),
+      filter 0.6s var(--ease);
+  }
+
+  .shot:hover img,
+  .shot:focus-visible img {
+    transform: scale(1.07);
+    filter: grayscale(0) brightness(1) contrast(1);
+  }
+
+  .shot::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 42%, rgba(5, 5, 5, 0.92) 100%);
+    opacity: 0.6;
+    transition: opacity var(--dur-3) var(--ease);
+  }
+
+  .shot:hover::after,
+  .shot:focus-visible::after {
+    opacity: 1;
+  }
+
+  .shot-cap {
+    position: absolute;
+    left: var(--s-4);
+    right: var(--s-4);
+    bottom: var(--s-4);
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35em;
+  }
+
+  /* A categoria fica sempre visível: é ela que dá estrutura tipográfica ao
+     mosaico. O título só aparece no item em foco. */
+  .shot-cat {
+    color: var(--ink-faint);
+    transition: color var(--dur-2) var(--ease);
+  }
+
+  .shot:hover .shot-cat,
+  .shot:focus-visible .shot-cat {
+    color: var(--amber);
+  }
+
+  .shot-title {
+    opacity: 0;
+    transform: translateY(10px);
+    transition:
+      opacity var(--dur-3) var(--ease),
+      transform var(--dur-3) var(--ease);
+  }
+
+  .shot:hover .shot-title,
+  .shot:focus-visible .shot-title {
+    opacity: 1;
+    transform: none;
+  }
+
+  .shot-title {
+    font-family: var(--font-display);
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: var(--t-xl);
+    line-height: 1;
+  }
+
+  @media (min-width: 760px) {
+    .gal-grid {
+      grid-template-columns: repeat(4, 1fr);
+      grid-auto-rows: 10px;
+    }
+  }
+
+  /* --- lightbox ---------------------------------------------------------- */
+  .lb {
+    position: fixed;
+    inset: 0;
+    z-index: var(--z-overlay);
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: var(--s-4);
+    padding: clamp(16px, 5vw, 64px);
+    background: rgba(3, 3, 4, 0.94);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  }
+
+  .lb[hidden] {
+    display: none;
+  }
+
+  .lb-figure {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-4);
+    align-items: center;
+    min-width: 0;
+  }
+
+  .lb-figure img {
+    max-width: 100%;
+    max-height: 76svh;
+    width: auto;
+    border-radius: var(--r-sm);
+    object-fit: contain;
+  }
+
+  .lb-cap {
+    display: flex;
+    align-items: baseline;
+    gap: var(--s-4);
+    font-family: var(--font-mono);
+    font-size: var(--t-xs);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  .lb-counter {
+    color: var(--amber);
+  }
+
+  .lb-nav,
+  .lb-close {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border: 1px solid var(--rule-strong);
+    border-radius: 50%;
+    background: transparent;
+    color: var(--ink);
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition:
+      border-color var(--dur-2) var(--ease),
+      background-color var(--dur-2) var(--ease);
+  }
+
+  .lb-nav:hover,
+  .lb-close:hover {
+    border-color: var(--amber);
+    background: rgba(255, 197, 49, 0.1);
+  }
+
+  .lb-close {
+    position: absolute;
+    top: clamp(16px, 4vw, 40px);
+    right: clamp(16px, 4vw, 40px);
+  }
+
+  @media (max-width: 600px) {
+    .lb {
+      grid-template-columns: 1fr;
+      grid-template-rows: 1fr auto;
+      justify-items: center;
+    }
+
+    .lb-nav {
+      grid-row: 2;
+    }
+
+    .lb-nav.is-prev {
+      justify-self: start;
+    }
+
+    .lb-nav.is-next {
+      grid-column: 1;
+      grid-row: 2;
+      justify-self: end;
+    }
+
+    .lb-figure {
+      grid-row: 1;
+    }
+  }
+</style>

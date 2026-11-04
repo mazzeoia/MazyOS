@@ -1,0 +1,323 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+import Button from "../components/Button.astro";
+import { artists } from "../lib/casting";
+import { site, whatsappUrl } from "../lib/site";
+
+const formatos = [
+  "Festival / evento público",
+  "Evento corporativo",
+  "Festa privada (casamento, aniversário)",
+  "Turnê internacional",
+  "Outro",
+];
+---
+
+<BaseLayout
+  title="Contato"
+  description={`Fale com a Nescau Produções: WhatsApp ${site.whatsappDisplay}, e-mail ${site.email}. Consulta de agenda e proposta para shows de samba e pagode.`}
+>
+  <PageHero
+    label="Contato"
+    meta="Resposta no mesmo dia útil"
+    title="Conta a data. A gente resolve o show."
+    lede="WhatsApp é o caminho mais rápido. Se preferir deixar tudo escrito, o formulário abaixo chega direto na mesa comercial."
+    image="/media/contato.svg"
+  />
+
+  <section class="bay">
+    <div class="shell ct">
+      <!-- Canais primeiro: a maior parte dos contratantes resolve no
+           WhatsApp, e o formulário é a alternativa, não o caminho padrão. -->
+      <aside class="ct-side">
+        <div class="chan" data-anim="rise">
+          <p class="label">WhatsApp comercial</p>
+          <a class="chan-big" href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+            {site.whatsappDisplay}
+          </a>
+          <p class="chan-note">Consulta de agenda, proposta e dúvidas de contrato.</p>
+        </div>
+
+        <div class="chan" data-anim="rise" data-anim-delay="0.06">
+          <p class="label">E-mail</p>
+          <a class="chan-mid" href={`mailto:${site.email}`}>{site.email}</a>
+          <p class="chan-note">Para documentação, nota fiscal e jurídico.</p>
+        </div>
+
+        <div class="chan" data-anim="rise" data-anim-delay="0.12">
+          <p class="label">Instagram</p>
+          <a class="chan-mid" href={site.instagram} target="_blank" rel="noopener noreferrer">
+            {site.instagramHandle}
+          </a>
+          <p class="chan-note">Agenda dos artistas e bastidores.</p>
+        </div>
+
+        <div class="chan" data-anim="rise" data-anim-delay="0.18">
+          <p class="label">Base</p>
+          <p class="chan-mid is-plain">{site.city}</p>
+          <p class="chan-note">Atendimento em todo o Brasil, Europa e Estados Unidos.</p>
+        </div>
+      </aside>
+
+      <div class="ct-form">
+        <h2 class="ct-form-title display-sm" data-split>Pedido de proposta</h2>
+
+        <form
+          class="form"
+          name="proposta"
+          method="POST"
+          action="/obrigado"
+          data-netlify="true"
+          netlify-honeypot="empresa-bot"
+        >
+          <input type="hidden" name="form-name" value="proposta" />
+          <p class="hp">
+            <label>Não preencha: <input name="empresa-bot" /></label>
+          </p>
+
+          <div class="row">
+            <div class="field">
+              <label for="nome">Nome</label>
+              <input id="nome" name="nome" type="text" required autocomplete="name" />
+            </div>
+            <div class="field">
+              <label for="telefone">WhatsApp</label>
+              <input id="telefone" name="telefone" type="tel" required autocomplete="tel" />
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="field">
+              <label for="email">E-mail</label>
+              <input id="email" name="email" type="email" required autocomplete="email" />
+            </div>
+            <div class="field">
+              <label for="cidade">Cidade do evento</label>
+              <input id="cidade" name="cidade" type="text" required />
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="field">
+              <label for="data">Data do evento</label>
+              <input id="data" name="data" type="date" />
+            </div>
+            <div class="field">
+              <label for="formato">Formato</label>
+              <select id="formato" name="formato">
+                {formatos.map((f) => <option value={f}>{f}</option>)}
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="artista">Artista de interesse</label>
+            <select id="artista" name="artista">
+              <option value="Ainda não sei, quero indicação">
+                Ainda não sei, quero indicação
+              </option>
+              {artists.map((a) => <option value={a.name}>{a.name}</option>)}
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="mensagem">Sobre o evento</label>
+            <textarea id="mensagem" name="mensagem" rows="5" placeholder="Público estimado, estrutura já contratada, horário previsto do show…"></textarea>
+          </div>
+
+          <Button type="submit" variant="primary" size="lg" class="form-send">
+            Enviar pedido
+          </Button>
+
+          <p class="form-note">
+            Sem formulário travado: se preferir, é só chamar no WhatsApp
+            <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">{site.whatsappDisplay}</a>.
+          </p>
+        </form>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .ct {
+    display: grid;
+    gap: var(--s-9);
+  }
+
+  .ct-side {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-6);
+  }
+
+  .chan {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--s-2);
+    padding-top: var(--s-4);
+    border-top: 1px solid var(--rule);
+  }
+
+  .chan-big {
+    font-family: var(--font-display);
+    font-weight: 900;
+    text-transform: uppercase;
+    font-size: clamp(2rem, 5vw, 3.25rem);
+    line-height: 1;
+    transition: color var(--dur-2) var(--ease);
+  }
+
+  .chan-big:hover {
+    color: var(--amber);
+  }
+
+  /* O e-mail é um token de 38 caracteres sem espaço. Como o .chan alinha os
+     filhos em flex-start, o item é dimensionado pelo conteúdo e nada força a
+     quebra — daí o max-width somado a `anywhere`. */
+  .chan-mid {
+    font-size: var(--t-lg);
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    transition: color var(--dur-2) var(--ease);
+  }
+
+  a.chan-mid:hover {
+    color: var(--amber);
+  }
+
+  .chan-mid.is-plain {
+    color: var(--ink);
+  }
+
+  .chan-note {
+    font-size: var(--t-sm);
+    color: var(--ink-faint);
+    max-width: 34ch;
+  }
+
+  /* --- formulário --------------------------------------------------------- */
+  .ct-form {
+    padding: var(--s-6);
+    border: 1px solid var(--rule);
+    border-radius: var(--r-md);
+    background: linear-gradient(180deg, var(--raised-2), var(--raised));
+  }
+
+  .ct-form-title {
+    margin-bottom: var(--s-6);
+  }
+
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-4);
+  }
+
+  .row {
+    display: grid;
+    gap: var(--s-4);
+  }
+
+  /* min-width:0 é obrigatório aqui: item de grid tem min-width:auto, e a
+     largura intrínseca de um <select> é a da sua opção mais longa — sem isso
+     o campo "Artista de interesse" empurrava a página inteira alguns pixels
+     para a direita em telas de 360px. */
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-2);
+    min-width: 0;
+  }
+
+  .field label {
+    font-family: var(--font-mono);
+    font-size: var(--t-xs);
+    letter-spacing: var(--track-label);
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+
+  .field input,
+  .field select,
+  .field textarea {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    padding: 0.9rem 1rem;
+    background: var(--void);
+    border: 1px solid var(--rule);
+    border-radius: var(--r-sm);
+    color: var(--ink);
+    font-size: var(--t-base);
+    transition:
+      border-color var(--dur-2) var(--ease),
+      box-shadow var(--dur-2) var(--ease);
+  }
+
+  .field textarea {
+    resize: vertical;
+    min-height: 7rem;
+    font-family: var(--font-sans);
+  }
+
+  .field input:focus,
+  .field select:focus,
+  .field textarea:focus {
+    outline: none;
+    border-color: var(--amber);
+    box-shadow: 0 0 0 3px rgba(255, 197, 49, 0.14);
+  }
+
+  .field input::placeholder,
+  .field textarea::placeholder {
+    color: var(--ink-ghost);
+  }
+
+  /* Campo-armadilha do Netlify: precisa existir no DOM e ficar fora do
+     alcance de quem preenche o formulário de verdade. */
+  .hp {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+  }
+
+  .form-send {
+    align-self: flex-start;
+    margin-top: var(--s-3);
+  }
+
+  .form-note {
+    font-size: var(--t-sm);
+    color: var(--ink-faint);
+  }
+
+  .form-note a {
+    color: var(--amber);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  @media (min-width: 560px) {
+    .row {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (min-width: 960px) {
+    .ct {
+      grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+      gap: var(--s-10);
+      align-items: start;
+    }
+
+    .ct-form {
+      padding: var(--s-8);
+    }
+  }
+</style>

@@ -1,0 +1,108 @@
+---
+interface Props {
+  label: string;
+  title: string;
+  lede?: string;
+  image?: string;
+  /** Marca a página no rótulo superior, no lugar de um breadcrumb. */
+  meta?: string;
+}
+
+const { label, title, lede, image = "/media/hero-alt.svg", meta } = Astro.props;
+---
+
+<header class="ph">
+  <div class="ph-bg" data-sink aria-hidden="true">
+    <img src={image} alt="" width="1920" height="1080" fetchpriority="high" decoding="async" />
+    <div class="ph-veil"></div>
+  </div>
+
+  <div class="ph-leak leak" aria-hidden="true"></div>
+
+  <div class="shell ph-inner">
+    <p class="label ph-label" data-anim="fade">
+      <span class="ph-tick"></span>
+      {label}
+      {meta && <span class="ph-meta">· {meta}</span>}
+    </p>
+
+    <h1 class="ph-title" data-split="hero">{title}</h1>
+
+    {lede && <p class="lede ph-lede" data-anim="rise" data-anim-delay="0.5">{lede}</p>}
+  </div>
+</header>
+
+<style>
+  .ph {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    padding-top: calc(var(--nav-h) + clamp(72px, 12vh, 150px));
+    padding-bottom: clamp(56px, 9vh, 120px);
+  }
+
+  .ph-bg {
+    position: absolute;
+    inset: -8% 0 0 0;
+    z-index: -2;
+  }
+
+  .ph-bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .ph-veil {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg, rgba(5, 5, 5, 0.86) 0%, rgba(5, 5, 5, 0.42) 44%, var(--canvas) 100%),
+      linear-gradient(90deg, rgba(5, 5, 5, 0.8) 0%, transparent 72%);
+  }
+
+  .ph-leak {
+    --leak-c: rgba(255, 122, 24, 0.42);
+    --leak-o: 0.4;
+    width: 50vw;
+    height: 34vh;
+    right: -10vw;
+    top: 10%;
+    z-index: -1;
+  }
+
+  .ph-inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-5);
+  }
+
+  .ph-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.9em;
+    color: var(--ink-soft);
+  }
+
+  .ph-tick {
+    width: 26px;
+    height: 1px;
+    background: var(--amber);
+    flex: none;
+  }
+
+  .ph-meta {
+    color: var(--ink-faint);
+  }
+
+  .ph-title {
+    font-size: clamp(2.75rem, 8.4vw, 8rem);
+    font-weight: 900;
+    line-height: 0.9;
+    max-width: 8.2em;
+  }
+
+  .ph-lede {
+    max-width: 52ch;
+  }
+</style>

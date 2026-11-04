@@ -1,0 +1,58 @@
+---
+interface Props {
+  label: string;
+  title: string;
+  lede?: string;
+  align?: "start" | "center";
+  class?: string;
+}
+
+const { label, title, lede, align = "start", class: className = "" } = Astro.props;
+---
+
+<header class:list={["head", `a-${align}`, className]}>
+  <p class="label head-label" data-anim="fade">
+    <span class="head-tick"></span>
+    {label}
+  </p>
+  <h2 class="head-title display-lg" data-split>{title}</h2>
+  {lede && <p class="lede head-lede" data-anim="rise" data-anim-delay="0.1">{lede}</p>}
+</header>
+
+<style>
+  .head {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-5);
+  }
+
+  .a-center {
+    align-items: center;
+    text-align: center;
+  }
+
+  .head-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.9em;
+  }
+
+  .head-tick {
+    width: 26px;
+    height: 1px;
+    background: var(--amber);
+    flex: none;
+  }
+
+  .head-title {
+    max-width: 9.2em;
+  }
+
+  .a-center .head-title {
+    max-width: 11.2em;
+  }
+
+  .head-lede {
+    max-width: 46ch;
+  }
+</style>

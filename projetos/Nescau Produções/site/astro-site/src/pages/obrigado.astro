@@ -1,0 +1,101 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Button from "../components/Button.astro";
+import { site, whatsappUrl } from "../lib/site";
+---
+
+<BaseLayout
+  title="Pedido enviado"
+  description="Recebemos seu pedido de proposta. A Nescau Produções responde no mesmo dia útil."
+>
+  <section class="done">
+    <div class="done-bg" aria-hidden="true">
+      <img src="/media/hero-alt.svg" alt="" width="1920" height="1080" fetchpriority="high" />
+      <div class="done-veil"></div>
+    </div>
+
+    <div class="shell done-inner">
+      <p class="label label-warm" data-anim="fade">Pedido recebido</p>
+      <h1 class="done-title" data-split="hero">Chegou aqui.</h1>
+      <p class="lede done-lede" data-anim="rise" data-anim-delay="0.4">
+        Já estamos conferindo a agenda. A resposta sai no mesmo dia útil, com o artista
+        indicado e a proposta completa.
+      </p>
+
+      <div class="done-actions" data-anim="rise" data-anim-delay="0.5">
+        <Button href={whatsappUrl} variant="primary" size="lg" external>
+          Adiantar pelo WhatsApp
+        </Button>
+        <Button href="/casting" variant="ghost" size="lg">Ver casting</Button>
+      </div>
+
+      <p class="label done-foot" data-anim="fade" data-anim-delay="0.6">
+        {site.whatsappDisplay} · {site.email}
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .done {
+    position: relative;
+    min-height: 86svh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    padding-block: calc(var(--nav-h) + var(--s-10)) var(--s-10);
+    isolation: isolate;
+  }
+
+  .done-bg {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+  }
+
+  .done-bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.55;
+  }
+
+  .done-veil {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      ellipse 80% 70% at 40% 50%,
+      rgba(5, 5, 5, 0.5),
+      rgba(5, 5, 5, 0.94) 62%,
+      var(--void)
+    );
+  }
+
+  .done-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--s-5);
+  }
+
+  .done-title {
+    font-size: clamp(3rem, 11vw, 9rem);
+    font-weight: 900;
+    line-height: 0.88;
+  }
+
+  .done-lede {
+    max-width: 44ch;
+  }
+
+  .done-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-3);
+    margin-top: var(--s-3);
+  }
+
+  .done-foot {
+    margin-top: var(--s-5);
+  }
+</style>

@@ -1,0 +1,188 @@
+---
+// Botão magnético. O <a>/<button> externo é o que persegue o ponteiro; o
+// rótulo interno se move a 40% disso, e essa diferença é o que dá a sensação
+// de massa (o botão inteiro deslizando junto lê como bug de layout).
+
+interface Props {
+  href?: string;
+  variant?: "primary" | "ghost" | "quiet";
+  size?: "md" | "lg";
+  type?: "button" | "submit";
+  external?: boolean;
+  class?: string;
+  id?: string;
+}
+
+const {
+  href,
+  variant = "primary",
+  size = "md",
+  type = "button",
+  external = false,
+  class: className = "",
+  id,
+} = Astro.props;
+
+const Tag = href ? "a" : "button";
+const rel = external ? "noopener noreferrer" : undefined;
+const target = external ? "_blank" : undefined;
+---
+
+<Tag
+  id={id}
+  href={href}
+  type={href ? undefined : type}
+  rel={rel}
+  target={target}
+  data-magnetic="0.25"
+  class:list={["btn", `v-${variant}`, `s-${size}`, className]}
+>
+  <span class="btn-label" data-magnetic-label>
+    <slot />
+    <svg class="btn-arrow" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+      <path
+        d="M2 8h11M9 4l4 4-4 4"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.6"
+        stroke-linecap="round"
+        stroke-linejoin="round"></path>
+    </svg>
+  </span>
+</Tag>
+
+<style>
+  .btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    cursor: pointer;
+    overflow: hidden;
+    isolation: isolate;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: var(--t-xs);
+    line-height: 1;
+    border-radius: var(--r-full);
+    background: transparent;
+    transition:
+      color var(--dur-2) var(--ease),
+      border-color var(--dur-2) var(--ease),
+      box-shadow var(--dur-2) var(--ease);
+    will-change: transform;
+  }
+
+  .s-md {
+    padding: 1.05rem 1.9rem;
+  }
+
+  .s-lg {
+    padding: 1.35rem 2.6rem;
+    font-size: var(--t-sm);
+  }
+
+  .btn-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7em;
+    position: relative;
+    z-index: 1;
+    white-space: nowrap;
+  }
+
+  .btn-arrow {
+    width: 1em;
+    height: 1em;
+    flex: none;
+    transition: transform var(--dur-2) var(--ease);
+  }
+
+  .btn:hover .btn-arrow {
+    transform: translateX(3px);
+  }
+
+  /* --- primary: preenchido com o facho ---------------------------------- */
+  .v-primary {
+    color: var(--on-light);
+    background: var(--beam-soft);
+    box-shadow: var(--glow-sm);
+    font-weight: 700;
+  }
+
+  /* Camada de brilho no hover em ::after, em vez de trocar o background:
+     gradiente não interpola em transição, então trocar direto daria corte. */
+  .v-primary::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: linear-gradient(115deg, var(--amber-hi), var(--amber) 55%, var(--flame));
+    opacity: 0;
+    transition: opacity var(--dur-2) var(--ease);
+  }
+
+  .v-primary:hover {
+    box-shadow: var(--glow-md);
+  }
+
+  .v-primary:hover::after {
+    opacity: 1;
+  }
+
+  /* --- ghost: fio de 1px que acende ------------------------------------- */
+  .v-ghost {
+    color: var(--ink);
+    border: 1px solid var(--rule-strong);
+  }
+
+  .v-ghost::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: var(--beam-soft);
+    transform: translateY(101%);
+    transition: transform 0.45s var(--ease);
+  }
+
+  .v-ghost:hover {
+    color: var(--on-light);
+    border-color: transparent;
+  }
+
+  .v-ghost:hover::after {
+    transform: translateY(0);
+  }
+
+  /* --- quiet: só texto, sublinhado que corre --------------------------- */
+  .v-quiet {
+    padding-inline: 0;
+    border-radius: 0;
+    color: var(--ink-soft);
+  }
+
+  .v-quiet::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0.55rem;
+    width: 100%;
+    height: 1px;
+    background: var(--amber);
+    transform: scaleX(0);
+    transform-origin: right center;
+    transition: transform 0.4s var(--ease);
+  }
+
+  .v-quiet:hover {
+    color: var(--ink);
+  }
+
+  .v-quiet:hover::after {
+    transform: scaleX(1);
+    transform-origin: left center;
+  }
+</style>

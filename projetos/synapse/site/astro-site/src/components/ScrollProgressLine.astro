@@ -1,0 +1,59 @@
+---
+// Envelope da seção "Processo" — linha conectora atrás dos números de
+// ProcessStep, preenchida em tempo real conforme o usuário rola (não um
+// fade-in único). Sob prefers-reduced-motion, renderiza já preenchida,
+// sem depender de scroll.
+---
+
+<div class="progress-line" id="process-line">
+  <span class="line-track" aria-hidden="true"></span>
+  <span class="line-fill" aria-hidden="true"></span>
+  <div class="steps">
+    <slot />
+  </div>
+</div>
+
+<style>
+  .progress-line {
+    position: relative;
+  }
+
+  .line-track,
+  .line-fill {
+    position: absolute;
+    left: 22px;
+    top: 22px;
+    bottom: 22px;
+    width: 2px;
+    transform-origin: top;
+  }
+
+  .line-track {
+    background: var(--border-dark);
+  }
+
+  :global(.on-light) .line-track {
+    background: var(--border-light);
+  }
+
+  .line-fill {
+    background: var(--signal);
+    box-shadow: 0 0 12px rgba(61, 211, 232, 0.6);
+    transform: scaleY(var(--line-progress, 0));
+  }
+
+  .steps {
+    display: flex;
+    flex-direction: column;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .line-fill {
+      transform: scaleY(1);
+    }
+  }
+</style>
+
+<script>
+  import("../scripts/scroll-progress-line");
+</script>

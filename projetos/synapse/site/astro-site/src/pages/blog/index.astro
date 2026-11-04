@@ -1,0 +1,60 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const allPosts = await getCollection("blog", ({ data }) => !data.draft);
+const posts = allPosts.sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+---
+
+<BaseLayout title="Blog" description="Conteúdo da Synapse sobre tecnologia e crescimento para PMEs.">
+  <section class="container hero">
+    <p class="eyebrow-standalone">Blog</p>
+    <h1>Conteúdo sobre tecnologia e crescimento para PMEs.</h1>
+    <p class="lede">Em breve, artigos novos por aqui.</p>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      {
+        posts.length === 0 ? (
+          <p class="empty">Ainda não publicamos nenhum artigo — volte em breve.</p>
+        ) : (
+          <ul class="post-list">
+            {posts.map((post) => (
+              <li>
+                <a href={`/blog/${post.id}`}>{post.data.title}</a>
+                <p>{post.data.description}</p>
+              </li>
+            ))}
+          </ul>
+        )
+      }
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .empty {
+    color: var(--color-text-secondary);
+  }
+
+  .post-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .post-list a {
+    font-size: var(--text-lg);
+    font-weight: var(--weight-medium);
+    text-decoration: none;
+  }
+
+  .post-list p {
+    color: var(--color-text-secondary);
+  }
+</style>

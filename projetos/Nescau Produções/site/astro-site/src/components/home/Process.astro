@@ -1,0 +1,160 @@
+---
+import { steps } from "../../lib/processo";
+---
+
+<section class="proc bay" id="processo">
+  <div class="shell proc-inner">
+    <!-- Coluna presa: o título fica em campo enquanto os passos passam.
+         É o que transforma uma lista numerada em percurso. -->
+    <div class="proc-aside">
+      <p class="label" data-anim="fade">
+        <span class="proc-tick"></span>
+        Como funciona
+      </p>
+      <h2 class="proc-title display-md" data-split>Do primeiro WhatsApp ao último acorde</h2>
+      <p class="proc-note" data-anim="rise">
+        Seis passos. O contratante fala com uma pessoa só do começo ao fim.
+      </p>
+    </div>
+
+    <ol class="proc-steps">
+      <span class="proc-line" data-draw=".proc" aria-hidden="true"></span>
+
+      {steps.map((s) => (
+        <li class="step" data-anim="rise">
+          <span class="step-node" aria-hidden="true"></span>
+          <p class="step-n index">{s.n}</p>
+          <h3 class="step-title">{s.title}</h3>
+          <p class="step-body">{s.body}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .proc {
+    position: relative;
+    background: var(--canvas);
+    border-top: 1px solid var(--rule);
+  }
+
+  .proc-inner {
+    display: grid;
+    gap: var(--s-9);
+  }
+
+  .proc-aside {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-4);
+  }
+
+  .proc-tick {
+    display: inline-block;
+    width: 26px;
+    height: 1px;
+    background: var(--amber);
+    margin-right: 0.9em;
+    vertical-align: middle;
+  }
+
+  .proc-title {
+    max-width: 6.6em;
+  }
+
+  .proc-note {
+    color: var(--ink-soft);
+    max-width: 34ch;
+  }
+
+  .proc-steps {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-8);
+    padding-left: var(--s-6);
+  }
+
+  .proc-line {
+    position: absolute;
+    left: 3px;
+    top: 0.6em;
+    bottom: 0.6em;
+    width: 1px;
+    background: linear-gradient(180deg, var(--amber), var(--flame) 55%, var(--ember));
+    transform-origin: top center;
+  }
+
+  /* Fio de base sempre presente: sem ele, quem tem "movimento reduzido"
+     ligado não vê linha nenhuma ligando os passos. */
+  .proc-steps::before {
+    content: "";
+    position: absolute;
+    left: 3px;
+    top: 0.6em;
+    bottom: 0.6em;
+    width: 1px;
+    background: var(--rule);
+  }
+
+  .step {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-2);
+  }
+
+  .step-node {
+    position: absolute;
+    left: calc(var(--s-6) * -1);
+    top: 0.55em;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--void);
+    border: 1px solid var(--amber);
+    transition:
+      background-color var(--dur-2) var(--ease),
+      box-shadow var(--dur-2) var(--ease);
+  }
+
+  .step:hover .step-node {
+    background: var(--amber);
+    box-shadow: 0 0 14px var(--amber);
+  }
+
+  .step-n {
+    color: var(--amber);
+  }
+
+  .step-title {
+    font-size: clamp(1.75rem, 3.4vw, 2.5rem);
+  }
+
+  .step-body {
+    color: var(--ink-soft);
+    max-width: 48ch;
+  }
+
+  @media (min-width: 960px) {
+    .proc-inner {
+      grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+      gap: var(--s-10);
+      align-items: start;
+    }
+
+    .proc-aside {
+      position: sticky;
+      top: calc(var(--nav-h) + var(--s-8));
+    }
+
+    .proc-steps {
+      padding-left: var(--s-7);
+    }
+
+    .step-node {
+      left: calc(var(--s-7) * -1);
+    }
+  }
+</style>

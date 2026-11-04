@@ -24,3 +24,9 @@ node_modules/
 # Drop zone do usuário (só o README vai versionado)
 dados/*
 !dados/README.md
+
+# Synapse: só o código do site é público, docs internos ficam de fora
+projetos/synapse/*
+!projetos/synapse/site/
+projetos/synapse/site/*
+!projetos/synapse/site/astro-site/

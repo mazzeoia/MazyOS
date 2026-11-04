@@ -1,0 +1,66 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import SectionHeading from "../../components/SectionHeading.astro";
+import CTASection from "../../components/CTASection.astro";
+
+const items = [
+  {
+    name: "CRM",
+    body: "Nunca mais perca um cliente por falta de acompanhamento ou esquecimento.",
+  },
+  {
+    name: "Dashboards",
+    body: "Veja o que está funcionando, em tempo real, sem precisar pedir relatório para ninguém.",
+  },
+  {
+    name: "Integrações",
+    body: "Faça seus sistemas conversarem entre si, sem retrabalho manual de copiar dado de um lugar para outro.",
+  },
+];
+---
+
+<BaseLayout
+  title="Inteligência"
+  description="Pare de decidir por achismo."
+>
+  <section class="container hero">
+    <p class="eyebrow-standalone">Inteligência</p>
+    <h1>Pare de decidir por achismo.</h1>
+    <p class="lede">
+      Se você não sabe de onde vêm seus melhores clientes, quantos leads
+      esfriaram esse mês ou qual canal traz mais retorno, você está administrando
+      às cegas — mesmo que o negócio pareça estar indo bem.
+    </p>
+  </section>
+
+  <section class="section section-alt">
+    <div class="container">
+      <SectionHeading
+        title="Como a Synapse resolve"
+        subtitle="Implementamos os sistemas que dão visibilidade real sobre o que está funcionando, para que cada decisão tenha base em dado, não em intuição."
+      />
+      <div class="grid cols-2">
+        {items.map((item) => (
+          <div class="item">
+            <h3>{item.name}</h3>
+            <p>{item.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CTASection title="Quero ver meus números com clareza" ctaLabel="Fale com a Synapse" />
+</BaseLayout>
+
+<style>
+  .item h3 {
+    font-size: var(--text-base);
+    margin-bottom: var(--space-2);
+  }
+
+  .item p {
+    color: var(--color-text-secondary);
+    font-size: var(--text-sm);
+  }
+</style>

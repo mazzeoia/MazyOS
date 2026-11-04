@@ -1,0 +1,7 @@
+# Ao conectar este repositório no Netlify, configurar:
+# Base directory: MazyOS/projetos/synapse/site/astro-site
+# (esse arquivo já assume que os comandos rodam a partir dessa pasta)
+
+[build]
+  command = "npm run build"
+  publish = "dist"

@@ -1,0 +1,571 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Button from "../components/Button.astro";
+import Eyebrow from "../components/Eyebrow.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import PillarRow from "../components/PillarRow.astro";
+import ProcessStep from "../components/ProcessStep.astro";
+import ScrollProgressLine from "../components/ScrollProgressLine.astro";
+import StatCard from "../components/StatCard.astro";
+import DifferentiatorItem from "../components/DifferentiatorItem.astro";
+import TransparencyNote from "../components/TransparencyNote.astro";
+import ContactChannels from "../components/ContactChannels.astro";
+import NetworkVisual from "../components/NetworkVisual.astro";
+
+const problems = [
+  {
+    title: "Invisibilidade digital",
+    body: "Se o seu cliente não te encontra no Google antes de te encontrar na rua, ele já escolheu o concorrente. Presença digital fraca não é detalhe: é receita que já foi embora antes de você saber que existia.",
+  },
+  {
+    title: "Fadiga operacional",
+    body: "Toda hora que você passa respondendo mensagem, remarcando horário ou explicando a mesma coisa pela décima vez é uma hora que não foi para o que faz o seu negócio crescer.",
+  },
+  {
+    title: "Vazamento de receita",
+    body: "Cliente satisfeito que não volta. Lead que esfria por falta de retorno. Avaliação ruim que ninguém respondeu. Cada um desses é dinheiro que você já gastou para conquistar e perdeu por falta de estrutura.",
+  },
+];
+
+const outcomes = [
+  { stat: "Menos horas presas em atendimento manual", detail: "com automação e IA de atendimento assumindo o repetitivo." },
+  { stat: "Mais visitantes virando cliente", detail: "com um site e uma presença local feitos para converter, não só para existir." },
+  { stat: "Menos clientes perdidos por falta de retorno", detail: "com CRM e acompanhamento automático de relacionamento." },
+];
+
+const pillars = [
+  {
+    index: "01",
+    name: "Presença",
+    promise: "Seja encontrado e escolhido.",
+    items: ["Sites institucionais premium", "Landing pages", "SEO local", "Google Business Profile"],
+    href: "/servicos/presenca-digital",
+  },
+  {
+    index: "02",
+    name: "Automação",
+    promise: "Elimine o trabalho repetitivo.",
+    items: ["Automações", "IA para atendimento", "Chatbots", "Agendamentos"],
+    href: "/servicos/automacao",
+  },
+  {
+    index: "03",
+    name: "Inteligência",
+    promise: "Decida com dados, não com achismo.",
+    items: ["CRM", "Dashboards", "Integrações"],
+    href: "/servicos/inteligencia",
+  },
+  {
+    index: "04",
+    name: "Engenharia",
+    promise: "Construa a infraestrutura que sua operação merece.",
+    items: ["Sistemas internos", "Portais", "Aplicações web", "Consultoria tecnológica"],
+    href: "/servicos/engenharia",
+  },
+];
+
+const differentiators = [
+  {
+    title: "Falamos resultado, não tecnologia.",
+    body: "Você não precisa entender o que é um CRM. Precisa entender que vai parar de perder clientes.",
+  },
+  {
+    title: "Um parceiro só.",
+    body: "Site, automação, CRM e atendimento vêm de quem entende como essas peças conversam entre si.",
+  },
+  {
+    title: "Sob medida para o seu setor.",
+    body: "O que uma clínica precisa não é o que uma oficina precisa, mesmo que a tecnologia por trás seja parecida.",
+  },
+  {
+    title: "Continuamos depois da entrega.",
+    body: "Acompanhamos, medimos e evoluímos o que foi implementado.",
+  },
+];
+---
+
+<BaseLayout
+  title="Tecnologia para empresas crescerem"
+  description="A Synapse implementa a tecnologia que faz sua empresa vender mais, atender melhor e perder menos clientes."
+>
+  <!-- 1. Abertura — O sinal que falta -->
+  <section class="hero">
+    <div class="hero-network" aria-hidden="true">
+      <NetworkVisual id="network-hero" state="dormant" />
+    </div>
+    <div class="hero-glow" aria-hidden="true"></div>
+
+    <div class="container hero-inner">
+      <Eyebrow>Tecnologia para empresas que querem crescer</Eyebrow>
+      <h1 class="hero-title">
+        Sua empresa está <em>perdendo clientes</em>, e provavelmente nem
+        sabe disso.
+      </h1>
+      <p class="hero-lede">
+        Enquanto você responde WhatsApp e torce para o cliente voltar
+        sozinho, seus concorrentes já automatizaram isso. A Synapse
+        implementa a tecnologia que fecha essa diferença.
+      </p>
+      <div class="hero-actions">
+        <Button href="/contato" variant="primary">Descubra onde você está perdendo clientes</Button>
+        <Button href="#tension-section" variant="text">Como funciona →</Button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Tensão — Três formas de perder dinheiro sem perceber -->
+  <section class="tension" id="tension-section">
+    <div class="tension-sticky">
+      <div class="tension-network" aria-hidden="true">
+        <NetworkVisual id="network-tension" state="losing" />
+      </div>
+
+      <div class="container tension-panel">
+        <SectionHeading
+          eyebrow="Descubra por quê"
+          title="Três formas de perder dinheiro sem perceber"
+        />
+        <div class="tension-beats">
+          {problems.map((p, i) => (
+            <div
+              class="tension-beat"
+              data-beat={i + 1}
+              style={i === 0 ? "opacity:1;pointer-events:auto" : undefined}
+            >
+              <span class="beat-index">{`0${i + 1}`}</span>
+              <h3 class="beat-title">{p.title}</h3>
+              <p class="beat-body">{p.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Virada — Como resolvemos -->
+  <section class="turn">
+    <div class="turn-network" aria-hidden="true">
+      <NetworkVisual id="network-turn" state="signal" activeNode="f" />
+    </div>
+    <div class="turn-glow" aria-hidden="true"></div>
+
+    <div class="container turn-inner" data-reveal>
+      <Eyebrow>Como resolvemos</Eyebrow>
+      <h2 class="turn-title">
+        Tecnologia não é o produto. É como resolvemos o seu problema.
+      </h2>
+      <p class="turn-body">
+        A Synapse entra no seu negócio, entende onde você está perdendo
+        tempo, clientes ou receita, e implementa exatamente a tecnologia
+        certa para resolver isso, nem mais, nem menos. Sem prometer uma
+        "transformação digital completa" que nunca sai do papel. Um
+        problema de cada vez, resolvido de verdade.
+      </p>
+      <ul class="turn-list">
+        <li class="no">Não somos agência de marketing.</li>
+        <li class="no">Não somos só desenvolvedores de site.</li>
+        <li class="yes">Somos quem implementa a tecnologia certa para o seu negócio crescer.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 4. Prova (ilustrativa) — Resultados -->
+  <section class="section on-light" id="resultados">
+    <div class="container">
+      <SectionHeading
+        eyebrow="O que você ganha"
+        title="O que muda quando a tecnologia certa entra em ação"
+      />
+      <TransparencyNote>
+        A Synapse é uma operação nova. Os pontos abaixo descrevem o resultado
+        que buscamos entregar com base em cada tecnologia implementada: não
+        são cases reais ainda. Assim que tivermos clientes, esta seção vira
+        resultados de verdade.
+      </TransparencyNote>
+      <div class="stats-list" data-reveal-group>
+        {outcomes.map((o) => <StatCard stat={o.stat} detail={o.detail} />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Pilares -->
+  <section class="section" id="pilares">
+    <div class="container">
+      <SectionHeading
+        eyebrow="Onde implementamos"
+        title="Onde a Synapse implementa tecnologia"
+        subtitle="Agrupados pelo problema que resolvem, não pela ferramenta por trás."
+      />
+      <div class="pillars-list" data-reveal-group>
+        {pillars.map((p) => <PillarRow {...p} cta="Ver mais" />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Processo -->
+  <section class="section" id="processo">
+    <div class="container">
+      <SectionHeading eyebrow="Como trabalhamos" title="Como trabalhamos" />
+      <ScrollProgressLine>
+        <ProcessStep number="01" title="Diagnóstico">
+          Mapeamos onde você está perdendo tempo, clientes ou receita. Sem
+          diagnóstico, não existe implementação: só achismo.
+        </ProcessStep>
+        <ProcessStep number="02" title="Fundação">
+          Colocamos sua presença digital no lugar certo: site, SEO local,
+          Google Business Profile. A base que faz o cliente te encontrar e
+          confiar em você.
+        </ProcessStep>
+        <ProcessStep number="03" title="Automação">
+          Eliminamos o trabalho repetitivo com atendimento e agendamento
+          automatizados, liberando o seu tempo para o que só você pode
+          fazer.
+        </ProcessStep>
+        <ProcessStep number="04" title="Crescimento contínuo">
+          CRM, dashboards e otimização constante. A tecnologia evolui junto
+          com o seu negócio. A relação não termina na entrega.
+        </ProcessStep>
+      </ScrollProgressLine>
+    </div>
+  </section>
+
+  <!-- 7. Diferenciais — faixa compacta -->
+  <section class="section diff-section">
+    <div class="container">
+      <Eyebrow>Por que Synapse</Eyebrow>
+      <div class="diff-grid" data-reveal-group>
+        {differentiators.map((d) => (
+          <DifferentiatorItem title={d.title}>{d.body}</DifferentiatorItem>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. CTA final + contato -->
+  <section class="cta-final">
+    <div class="cta-network" aria-hidden="true">
+      <NetworkVisual id="network-cta" state="lit" />
+    </div>
+    <div class="cta-glow" aria-hidden="true"></div>
+
+    <div class="container cta-inner" data-reveal>
+      <h2 class="cta-title">
+        Pronto para parar de perder clientes para quem só tem mais
+        tecnologia, não mais valor?
+      </h2>
+      <p class="cta-body">
+        Conte o que está acontecendo no seu negócio hoje. A Synapse volta
+        com um diagnóstico do que está custando clientes, tempo ou receita,
+        e o que fazer a respeito.
+      </p>
+      <Button href="/contato" variant="primary">Fale com a Synapse</Button>
+      <ContactChannels class="cta-channels" />
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* Abertura */
+  .hero {
+    position: relative;
+    overflow: hidden;
+    min-height: 92vh;
+    display: flex;
+    align-items: center;
+    isolation: isolate;
+  }
+
+  .hero-network {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    opacity: 0.75;
+  }
+
+  .hero-glow {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: radial-gradient(60% 55% at 78% 12%, rgba(61, 211, 232, 0.16), transparent 65%);
+  }
+
+  .hero-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 760px;
+    padding-block: var(--space-16) var(--space-12);
+  }
+
+  .hero-title {
+    font-size: var(--text-3xl);
+    letter-spacing: var(--tracking-tighter);
+    line-height: var(--leading-tight);
+    margin-block: var(--space-5) var(--space-5);
+  }
+
+  @media (min-width: 640px) {
+    .hero-title {
+      font-size: var(--text-4xl);
+    }
+  }
+
+  .hero-title em {
+    font-style: italic;
+    font-family: var(--font-display);
+  }
+
+  .hero-lede {
+    font-family: var(--font-sans);
+    font-size: var(--text-md);
+    color: var(--text-on-dark-soft);
+    max-width: 56ch;
+    margin-bottom: var(--space-6);
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-5);
+    align-items: center;
+  }
+
+  /* Tensão — scrollytelling. Altura contida de propósito: o suficiente
+     para pinar os 3 beats sem que o scroll pareça travado no meio da
+     página (era 320vh — quase 2 telas de scroll "sem reação" visível). */
+  .tension {
+    position: relative;
+    height: 220vh;
+  }
+
+  .tension-sticky {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  .tension-network {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    opacity: 0.7;
+  }
+
+  .tension-panel {
+    position: relative;
+    z-index: 1;
+    max-width: 640px;
+  }
+
+  .tension-beats {
+    position: relative;
+    min-height: 260px;
+  }
+
+  .tension-beat {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .beat-index {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    color: var(--signal);
+    margin-bottom: var(--space-3);
+  }
+
+  .beat-title {
+    font-size: var(--text-xl);
+    margin-bottom: var(--space-3);
+  }
+
+  .beat-body {
+    font-family: var(--font-sans);
+    font-size: var(--text-md);
+    color: var(--text-on-dark-soft);
+    max-width: 58ch;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tension {
+      height: auto;
+    }
+
+    .tension-sticky {
+      position: static;
+      height: auto;
+      display: block;
+      padding-block: var(--space-12);
+    }
+
+    .tension-beats {
+      min-height: 0;
+    }
+
+    .tension-beat {
+      position: static;
+      opacity: 1;
+      pointer-events: auto;
+      margin-bottom: var(--space-8);
+    }
+
+    .tension-beat:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  /* Virada */
+  .turn {
+    position: relative;
+    overflow: hidden;
+    padding-block: var(--space-20);
+    isolation: isolate;
+  }
+
+  .turn-network {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    opacity: 0.6;
+  }
+
+  .turn-glow {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: radial-gradient(50% 60% at 50% 40%, rgba(61, 211, 232, 0.14), transparent 70%);
+  }
+
+  .turn-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 680px;
+  }
+
+  .turn-title {
+    font-size: var(--text-2xl);
+    margin-block: var(--space-4) var(--space-4);
+  }
+
+  .turn-body {
+    font-family: var(--font-sans);
+    color: var(--text-on-dark-soft);
+    max-width: 62ch;
+    margin-bottom: var(--space-6);
+  }
+
+  .turn-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .turn-list li {
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    padding: var(--space-3);
+    border-left: 2px solid var(--border-dark-strong);
+    color: var(--text-on-dark-soft);
+  }
+
+  .turn-list li.yes {
+    color: var(--text-on-dark);
+    font-weight: var(--weight-medium);
+    border-left-color: var(--signal);
+  }
+
+  /* Resultados */
+  .stats-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Pilares */
+  .pillars-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Diferenciais */
+  .diff-section {
+    padding-block: var(--space-10);
+  }
+
+  .diff-grid {
+    margin-top: var(--space-6);
+    display: grid;
+    gap: 0 var(--space-8);
+  }
+
+  @media (min-width: 768px) {
+    .diff-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  /* CTA final */
+  .cta-final {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    padding-block: var(--space-20);
+  }
+
+  .cta-network {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    opacity: 0.5;
+  }
+
+  .cta-glow {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: radial-gradient(60% 70% at 50% 20%, rgba(61, 211, 232, 0.22), transparent 70%);
+  }
+
+  .cta-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 640px;
+    margin-inline: auto;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-5);
+  }
+
+  .cta-title {
+    font-size: var(--text-2xl);
+  }
+
+  .cta-body {
+    font-family: var(--font-sans);
+    color: var(--text-on-dark-soft);
+  }
+
+  .cta-inner :global(.cta-channels) {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-3) var(--space-8);
+    margin-top: var(--space-6);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--border-dark);
+    width: 100%;
+  }
+</style>
+
+<script>
+  import("../scripts/tension-section");
+</script>

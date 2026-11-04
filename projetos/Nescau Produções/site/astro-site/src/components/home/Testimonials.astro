@@ -1,0 +1,111 @@
+---
+import SectionHead from "../SectionHead.astro";
+import { testimonials } from "../../lib/depoimentos";
+
+// Seção condicional: enquanto não houver depoimento REAL coletado, ela não é
+// renderizada. Ver src/lib/depoimentos.ts — preencher o array liga a seção
+// sozinha no próximo build, sem tocar em layout.
+---
+
+{
+  testimonials.length > 0 && (
+    <section class="tst bay-lg" id="depoimentos">
+      <div class="shell">
+        <SectionHead label="Depoimentos" title="Quem já contratou" />
+
+        <div class="tst-grid" data-anim-group="0.1">
+          {testimonials.map((t) => (
+            <figure class="quote">
+              <span class="quote-mark" aria-hidden="true">
+                “
+              </span>
+              <blockquote class="quote-text">{t.quote}</blockquote>
+              <figcaption class="quote-by">
+                <span class="quote-author">{t.author}</span>
+                <span class="quote-role label">{t.role}</span>
+                {t.event && <span class="quote-event label">{t.event}</span>}
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+<style>
+  .tst {
+    position: relative;
+    background: var(--canvas);
+    border-top: 1px solid var(--rule);
+  }
+
+  .tst-grid {
+    display: grid;
+    gap: var(--s-4);
+    margin-top: var(--s-9);
+  }
+
+  .quote {
+    position: relative;
+    margin: 0;
+    padding: var(--s-6);
+    border: 1px solid var(--rule);
+    border-radius: var(--r-md);
+    background: linear-gradient(180deg, var(--raised-2), var(--raised));
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-4);
+    transition:
+      border-color var(--dur-2) var(--ease),
+      transform var(--dur-3) var(--ease);
+  }
+
+  .quote:hover {
+    border-color: var(--rule-warm);
+    transform: translateY(-4px);
+  }
+
+  .quote-mark {
+    font-family: var(--font-display);
+    font-size: 4rem;
+    line-height: 0.6;
+    color: var(--flame);
+    opacity: 0.5;
+  }
+
+  .quote-text {
+    margin: 0;
+    font-size: var(--t-lg);
+    line-height: 1.5;
+    font-weight: 300;
+    color: var(--ink);
+  }
+
+  .quote-by {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25em;
+    padding-top: var(--s-4);
+    border-top: 1px solid var(--rule);
+    margin-top: auto;
+  }
+
+  .quote-author {
+    font-family: var(--font-display);
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: var(--t-xl);
+    line-height: 1;
+  }
+
+  .quote-event {
+    color: var(--amber);
+  }
+
+  @media (min-width: 860px) {
+    .tst-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>

@@ -1,0 +1,84 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import Button from "../components/Button.astro";
+---
+
+<BaseLayout
+  title="Sobre"
+  description="Tecnologia não deveria ser um luxo reservado para quem já é grande."
+>
+  <section class="container hero">
+    <p class="eyebrow-standalone">Sobre a Synapse</p>
+    <h1>Tecnologia não deveria ser um luxo reservado para quem já é grande.</h1>
+    <p class="lede">
+      A maioria das pequenas e médias empresas brasileiras sabe que precisa de
+      tecnologia, mas não sabe por onde começar — e o mercado não ajuda: de um
+      lado, agências vendem pacotes de marketing genéricos; do outro, software
+      houses cobram como se todo negócio precisasse de um sistema do zero. No
+      meio disso, o dono da empresa continua perdendo clientes, tempo e receita.
+      A Synapse existe para ocupar esse meio.
+    </p>
+  </section>
+
+  <section class="section section-alt">
+    <div class="container">
+      <SectionHeading title="Nossa história" />
+      <p class="body-text">
+        Toda empresa pequena ou média enfrenta a mesma tensão: sabe que a
+        tecnologia certa muda o jogo, mas não tem tempo, equipe interna ou
+        paciência para descobrir sozinha qual tecnologia é essa. A Synapse
+        nasceu para resolver exatamente essa lacuna — não vendendo ferramentas
+        soltas, mas implementando, uma de cada vez, a tecnologia que resolve o
+        problema real daquele negócio específico.
+      </p>
+      <p class="body-text">
+        Não somos uma agência que empacota serviços genéricos. Não somos uma
+        software house que cobra meses de desenvolvimento para qualquer demanda.
+        Somos o meio-termo que faltava: gente que entende de tecnologia o
+        suficiente para implementar certo, e entende de negócio o suficiente
+        para nunca vender o que não vai gerar resultado.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHeading title="Nossa visão" />
+      <p class="body-text">
+        Queremos que "chamar a Synapse" seja, para o dono de uma PME brasileira,
+        o primeiro passo natural quando ele sente que está perdendo clientes,
+        tempo ou receita — antes de considerar contratar uma agência, um
+        freelancer ou tentar resolver sozinho. Não por sermos a opção mais
+        barata, mas por sermos a mais clara: cada implementação nossa tem um
+        problema de negócio específico por trás, nunca uma lista de features.
+      </p>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="container">
+      <SectionHeading title="Nossa metodologia" />
+      <p class="body-text">
+        A tecnologia é sempre a última decisão, nunca a primeira. Antes de
+        propor qualquer ferramenta, fazemos as perguntas que a maioria dos
+        fornecedores pula: esse problema é de atendimento, de visibilidade ou de
+        retenção? O negócio perde mais por não ser encontrado, ou por não
+        conseguir dar conta do que já tem?
+      </p>
+      <p class="body-text">
+        Esse raciocínio é o que guia as quatro fases que aplicamos em todo
+        projeto — diagnóstico, fundação, automação e crescimento contínuo.
+      </p>
+      <Button href="/processo" variant="text">Ver como funciona o processo completo →</Button>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .body-text {
+    color: var(--color-text-secondary);
+    max-width: 70ch;
+    margin-bottom: var(--space-4);
+  }
+</style>

@@ -1,0 +1,83 @@
+---
+// Wordmark tipográfico. O arquivo original do logo (PNG/SVG) ainda não foi
+// entregue — ver briefing.md. Isto reproduz a construção descrita no
+// design-guide (NESCAU em display bold + PRODUÇÕES abaixo, espaçado) em texto
+// real, então fica nítido em qualquer densidade e continua legível pra busca.
+// Quando o arquivo chegar, trocar por <img> aqui e só aqui.
+
+interface Props {
+  size?: "sm" | "md" | "lg";
+  class?: string;
+}
+
+const { size = "md", class: className = "" } = Astro.props;
+
+// "PRODUÇÕES" é uma palavra só, e justificar texto distribui espaço ENTRE
+// palavras — com uma só não há o que distribuir. Por isso cada letra vira um
+// span e o alinhamento nas duas pontas do "NESCAU" vem de space-between.
+const subLetters = [..."Produções"];
+---
+
+<span class:list={["mark", `is-${size}`, className]} aria-label="Nescau Produções">
+  <span class="mark-top">Nescau</span>{" "}
+  <span class="mark-sub" aria-hidden="true">
+    {subLetters.map((ch) => <span>{ch}</span>)}
+  </span>
+</span>
+
+<style>
+  .mark {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1;
+    color: var(--ink);
+    user-select: none;
+  }
+
+  .mark-top {
+    font-family: var(--font-display);
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    line-height: 0.8;
+  }
+
+  /* O subtítulo alinha nas duas pontas do "NESCAU" acima — é o detalhe que
+     faz o conjunto ler como marca, e não como duas linhas empilhadas. */
+  .mark-sub {
+    display: flex;
+    justify-content: space-between;
+    align-self: stretch;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    line-height: 1;
+  }
+
+  .is-sm .mark-top {
+    font-size: 1.7rem;
+  }
+  .is-sm .mark-sub {
+    font-size: 0.5rem;
+    margin-top: 0.34em;
+    color: var(--ink-soft);
+  }
+
+  .is-md .mark-top {
+    font-size: 2.15rem;
+  }
+  .is-md .mark-sub {
+    font-size: 0.6rem;
+    margin-top: 0.32em;
+  }
+
+  .is-lg .mark-top {
+    font-size: clamp(4rem, 14vw, 11rem);
+  }
+  .is-lg .mark-sub {
+    font-size: clamp(0.9rem, 3.1vw, 2.4rem);
+    margin-top: 0.22em;
+    color: var(--ink-ghost);
+  }
+</style>

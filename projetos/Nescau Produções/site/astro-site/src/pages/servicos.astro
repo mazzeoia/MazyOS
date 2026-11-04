@@ -1,0 +1,247 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+import FinalCta from "../components/FinalCta.astro";
+import { services } from "../lib/servicos";
+import { steps } from "../lib/processo";
+---
+
+<BaseLayout
+  title="Serviços"
+  description="Contratação de shows, gestão de carreira, produção executiva, turnês internacionais e eventos corporativos: o que a Nescau Produções entrega, item por item."
+>
+  <PageHero
+    label="Serviços"
+    meta={`${services.length} frentes`}
+    title="O que entra quando a Nescau assume"
+    lede="Do primeiro contato à prestação de contas, cada frente tem escopo definido e um interlocutor só para o contratante."
+    image="/media/sobre.svg"
+  />
+
+  <section class="bay">
+    <div class="shell">
+      <ol class="list">
+        {services.map((s) => (
+          <li class="item" data-anim="rise">
+            <div class="item-head">
+              <span class="index item-n">{s.n}</span>
+              <div>
+                <h2 class="item-title">{s.title}</h2>
+                <p class="item-short">{s.short}</p>
+              </div>
+            </div>
+
+            <div class="item-body">
+              <p class="item-text">{s.body}</p>
+              <ul class="item-bullets">
+                {s.bullets.map((b) => (
+                  <li>
+                    <span class="dot"></span>
+                    {b}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div class="item-media" data-anim="mask">
+              <img src={s.image} alt="" width="900" height="1200" loading="lazy" decoding="async" />
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="bay flow">
+    <div class="shell">
+      <p class="label" data-anim="fade"><span class="tick"></span>O caminho</p>
+      <h2 class="flow-title display-md" data-split>Como um show sai do papel</h2>
+
+      <ol class="flow-grid" data-anim-group="0.06">
+        {steps.map((s) => (
+          <li class="flow-step">
+            <span class="index">{s.n}</span>
+            <h3 class="flow-step-title">{s.title}</h3>
+            <p class="flow-step-body">{s.body}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <FinalCta
+    eyebrow="Escopo"
+    title="Conta o evento. A gente monta o resto."
+    body="Data, cidade, público e formato. Com isso já dá pra indicar artista, escopo e valor."
+  />
+</BaseLayout>
+
+<style>
+  .list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Cada serviço é uma faixa larga com fio em cima, não um card. A leitura
+     vira índice editorial — e o item continua legível na largura toda da
+     tela, sem virar coluna estreita. */
+  .item {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--s-5);
+    padding-block: var(--s-8);
+    border-top: 1px solid var(--rule);
+    transition: border-color var(--dur-2) var(--ease);
+  }
+
+  .item:last-child {
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .item:hover {
+    border-top-color: var(--rule-warm);
+  }
+
+  .item-head {
+    display: flex;
+    gap: var(--s-4);
+    align-items: baseline;
+  }
+
+  .item-n {
+    color: var(--amber);
+    flex: none;
+  }
+
+  .item-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+  }
+
+  .item-short {
+    font-family: var(--font-mono);
+    font-size: var(--t-xs);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-top: var(--s-2);
+  }
+
+  .item-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-5);
+  }
+
+  .item-text {
+    color: var(--ink-soft);
+    max-width: 46ch;
+  }
+
+  .item-bullets {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-2) var(--s-5);
+  }
+
+  .item-bullets li {
+    display: flex;
+    align-items: center;
+    gap: 0.6em;
+    font-family: var(--font-mono);
+    font-size: var(--t-xs);
+    letter-spacing: 0.06em;
+    color: var(--ink-faint);
+  }
+
+  .dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--flame);
+    flex: none;
+  }
+
+  .item-media {
+    display: none;
+    overflow: hidden;
+    border-radius: var(--r-sm);
+    aspect-ratio: 4 / 3;
+  }
+
+  .item-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(0.6) brightness(0.7);
+    transition: filter 0.6s var(--ease);
+  }
+
+  .item:hover .item-media img {
+    filter: none;
+  }
+
+  /* --- fluxo -------------------------------------------------------------- */
+  .flow {
+    background: var(--void);
+    border-top: 1px solid var(--rule);
+  }
+
+  .tick {
+    display: inline-block;
+    width: 26px;
+    height: 1px;
+    background: var(--amber);
+    margin-right: 0.9em;
+    vertical-align: middle;
+  }
+
+  .flow-title {
+    margin-top: var(--s-4);
+    max-width: 8.2em;
+  }
+
+  .flow-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--s-6);
+    margin-top: var(--s-9);
+  }
+
+  .flow-step {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-2);
+    padding-top: var(--s-4);
+    border-top: 1px solid var(--rule);
+  }
+
+  .flow-step .index {
+    color: var(--amber);
+  }
+
+  .flow-step-title {
+    font-size: var(--t-xl);
+  }
+
+  .flow-step-body {
+    color: var(--ink-soft);
+    font-size: var(--t-base);
+  }
+
+  @media (min-width: 760px) {
+    .item {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 14rem;
+      gap: var(--s-6);
+      align-items: start;
+    }
+
+    .item-media {
+      display: block;
+    }
+
+    .flow-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--s-7) var(--s-5);
+    }
+  }
+</style>

@@ -1,0 +1,70 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import SectionHeading from "../../components/SectionHeading.astro";
+import CTASection from "../../components/CTASection.astro";
+
+const items = [
+  {
+    name: "Automações",
+    body: "Elimine tarefas repetitivas que hoje consomem horas do seu dia ou do seu time.",
+  },
+  {
+    name: "IA para atendimento",
+    body: "Atenda todo cliente, a qualquer hora, sem esforço extra do seu lado.",
+  },
+  {
+    name: "Chatbots",
+    body: "Reduza o tempo gasto respondendo as mesmas perguntas.",
+  },
+  {
+    name: "Agendamentos",
+    body: "Marque horários sem trocar uma única mensagem — simples para o cliente e para você.",
+  },
+];
+---
+
+<BaseLayout
+  title="Automação"
+  description="Pare de ser o gargalo do seu próprio negócio."
+>
+  <section class="container hero">
+    <p class="eyebrow-standalone">Automação</p>
+    <h1>Pare de ser o gargalo do seu próprio negócio.</h1>
+    <p class="lede">
+      Se o seu negócio para quando você não está respondendo mensagem, ele não
+      escala — ele depende de você. Cada tarefa repetitiva que só você faz é um
+      teto para o crescimento.
+    </p>
+  </section>
+
+  <section class="section section-alt">
+    <div class="container">
+      <SectionHeading
+        title="Como a Synapse resolve"
+        subtitle="Implementamos automação e atendimento com IA que assumem o repetitivo, para que seu tempo vá para decisões que só você pode tomar."
+      />
+      <div class="grid cols-2">
+        {items.map((item) => (
+          <div class="item">
+            <h3>{item.name}</h3>
+            <p>{item.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CTASection title="Quero recuperar meu tempo" ctaLabel="Fale com a Synapse" />
+</BaseLayout>
+
+<style>
+  .item h3 {
+    font-size: var(--text-base);
+    margin-bottom: var(--space-2);
+  }
+
+  .item p {
+    color: var(--color-text-secondary);
+    font-size: var(--text-sm);
+  }
+</style>

@@ -1,0 +1,42 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Button from "../components/Button.astro";
+---
+
+<BaseLayout
+  title="Portfólio"
+  description="Os primeiros projetos estão em andamento."
+>
+  <section class="container hero empty-state">
+    <p class="eyebrow-standalone">Portfólio</p>
+    <h1>Os primeiros projetos estão em andamento.</h1>
+    <p class="lede">
+      A Synapse é uma operação nova — e preferimos mostrar um portfólio vazio a
+      inventar resultados que não existem ainda. Assim que os primeiros
+      projetos forem concluídos, eles aparecem aqui, com números e contexto
+      reais.
+    </p>
+    <div class="disclosure">
+      Nenhum case fictício, nenhuma estimativa disfarçada de resultado real.
+      Quando este espaço tiver conteúdo, ele será verdadeiro.
+    </div>
+    <Button href="/contato" variant="primary">Quer ser um dos primeiros?</Button>
+  </section>
+</BaseLayout>
+
+<style>
+  .empty-state {
+    padding-block: var(--space-16);
+    text-align: center;
+    margin-inline: auto;
+  }
+
+  .empty-state .lede {
+    margin-inline: auto;
+  }
+
+  .empty-state .disclosure {
+    margin-inline: auto;
+    max-width: 480px;
+  }
+</style>

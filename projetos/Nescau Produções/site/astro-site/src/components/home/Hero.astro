@@ -1,0 +1,290 @@
+---
+import Button from "../Button.astro";
+import { artists } from "../../lib/casting";
+import { site } from "../../lib/site";
+
+// O nome dos artistas roda na base do herói: é a prova mais rápida de que
+// existe casting real por trás da promessa do título.
+const ticker = [...artists, ...artists];
+---
+
+<section class="hero">
+  <!-- Camada de fundo: a placa afunda e escurece conforme a dobra sai -->
+  <div class="hero-bg" data-sink aria-hidden="true">
+    <img src="/media/hero.svg" alt="" width="1920" height="1080" fetchpriority="high" decoding="async" />
+    <div class="hero-veil"></div>
+  </div>
+
+  <div class="hero-leak leak" aria-hidden="true"></div>
+
+  <div class="shell hero-inner">
+    <p class="label hero-eyebrow" data-anim="fade" data-anim-delay="0.15">
+      <span class="hero-dot"></span>
+      Contratação de shows e gestão de carreira · desde {site.founded}
+    </p>
+
+    <h1 class="hero-title" data-split="hero">
+      Samba e pagode<br />que seguram<br />uma data inteira
+    </h1>
+
+    <div class="hero-side">
+      <p class="hero-lede" data-anim="rise" data-anim-delay="0.65">
+        A Nescau leva artistas de samba e pagode para festivais, eventos corporativos e festas
+        privadas, no Brasil, na Europa e nos Estados Unidos.
+      </p>
+
+      <div class="hero-cta" data-anim="rise" data-anim-delay="0.8">
+        <Button href="/contato" variant="primary" size="lg">Contratar show</Button>
+        <Button href="/casting" variant="ghost" size="lg">Ver casting</Button>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-foot">
+    <div class="shell hero-foot-inner">
+      <a class="hero-scroll" href="#manifesto" aria-label="Rolar para o conteúdo">
+        <span class="hero-scroll-rail"><span class="hero-scroll-dot"></span></span>
+        <span class="label">Rolar</span>
+      </a>
+
+      <p class="label hero-place">{site.city} · Brasil · Europa · EUA</p>
+    </div>
+
+    <div class="hero-ticker" data-marquee="42" aria-hidden="true">
+      <div class="hero-ticker-track" data-marquee-track>
+        {ticker.map((a) => (
+          <span class="hero-ticker-item">
+            {a.name}
+            <span class="hero-ticker-sep"></span>
+          </span>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    overflow: hidden;
+    padding-top: calc(var(--nav-h) + var(--s-8));
+    isolation: isolate;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: -6% 0 0 0;
+    z-index: -2;
+    will-change: transform;
+  }
+
+  .hero-bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Duas camadas de véu: uma vertical que abre espaço pro texto na base, e um
+     lado esquerdo escurecido pra garantir contraste no título mesmo se a
+     placa for trocada por foto clara depois. */
+  .hero-veil {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg, rgba(5, 5, 5, 0.8) 0%, rgba(5, 5, 5, 0.1) 34%, rgba(5, 5, 5, 0.94) 92%),
+      linear-gradient(90deg, rgba(5, 5, 5, 0.86) 0%, rgba(5, 5, 5, 0.2) 58%, transparent 100%);
+  }
+
+  .hero-leak {
+    --leak-c: rgba(255, 122, 24, 0.5);
+    --leak-o: 0.42;
+    width: 55vw;
+    height: 45vh;
+    right: -12vw;
+    top: 8vh;
+    z-index: -1;
+  }
+
+  .hero-inner {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--s-6);
+    padding-bottom: var(--s-8);
+  }
+
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.85em;
+    color: var(--ink-soft);
+  }
+
+  .hero-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--amber);
+    box-shadow: 0 0 12px var(--amber);
+    flex: none;
+  }
+
+  /* Sem max-width: as quebras vêm dos <br> do markup. Um limite em `ch` aqui
+     media a largura pela métrica da fonte — e enquanto a fonte real não
+     chegava, o título rebentava para 5 linhas e voltava para 3, sozinho um
+     CLS de 0.15. Com quebra manual, a altura é 3 × line-height em qualquer
+     fonte. */
+  .hero-title {
+    font-size: clamp(3.1rem, 9.4vw, 9.5rem);
+    font-weight: 900;
+    line-height: 0.88;
+    letter-spacing: -0.01em;
+  }
+
+  .hero-side {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-6);
+  }
+
+  .hero-lede {
+    max-width: 48ch;
+  }
+
+  .hero-cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-3);
+  }
+
+  /* --- base ------------------------------------------------------------- */
+  .hero-foot {
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-foot-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s-5);
+    padding-bottom: var(--s-5);
+  }
+
+  .hero-scroll {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-3);
+    color: var(--ink-faint);
+    transition: color var(--dur-2) var(--ease);
+  }
+
+  .hero-scroll:hover {
+    color: var(--ink);
+  }
+
+  .hero-scroll-rail {
+    position: relative;
+    display: block;
+    width: 1px;
+    height: 40px;
+    background: var(--rule-strong);
+    overflow: hidden;
+  }
+
+  .hero-scroll-dot {
+    position: absolute;
+    inset: 0 auto auto 0;
+    width: 1px;
+    height: 14px;
+    background: var(--amber);
+    animation: railfall 2.4s var(--ease) infinite;
+  }
+
+  @keyframes railfall {
+    0% {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+    22% {
+      opacity: 1;
+    }
+    78% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(300%);
+      opacity: 0;
+    }
+  }
+
+  .hero-place {
+    display: none;
+  }
+
+  .hero-ticker {
+    overflow: hidden;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    padding-block: var(--s-3);
+    background: rgba(5, 5, 5, 0.5);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    /* apaga as pontas pra faixa não "cortar" nas bordas da tela */
+    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  }
+
+  .hero-ticker-track {
+    display: flex;
+    align-items: center;
+    width: max-content;
+    will-change: transform;
+  }
+
+  .hero-ticker-item {
+    display: inline-flex;
+    align-items: center;
+    font-family: var(--font-display);
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: clamp(1.05rem, 2.2vw, 1.6rem);
+    letter-spacing: 0.02em;
+    color: var(--ink-soft);
+    white-space: nowrap;
+  }
+
+  .hero-ticker-sep {
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--flame);
+    margin-inline: clamp(1.2rem, 3vw, 2.6rem);
+  }
+
+  @media (min-width: 900px) {
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 1fr;
+      align-content: center;
+      gap: var(--s-7);
+    }
+
+    .hero-side {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: end;
+      gap: var(--s-8);
+    }
+
+    .hero-place {
+      display: block;
+    }
+  }
+</style>

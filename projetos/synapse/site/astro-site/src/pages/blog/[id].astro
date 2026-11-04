@@ -1,0 +1,48 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog", ({ data }) => !data.draft);
+  return posts.map((post) => ({
+    params: { id: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<BaseLayout title={post.data.title} description={post.data.description}>
+  <article class="container post">
+    <p class="eyebrow-standalone">Blog</p>
+    <h1>{post.data.title}</h1>
+    <p class="pub-date">{post.data.pubDate.toLocaleDateString("pt-BR")}</p>
+    <div class="content">
+      <Content />
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .post {
+    padding-block: var(--space-12);
+    max-width: 720px;
+  }
+
+  .pub-date {
+    color: var(--color-text-secondary);
+    font-size: var(--text-sm);
+    margin-block: var(--space-3) var(--space-6);
+  }
+
+  .content {
+    line-height: var(--line-height-normal);
+  }
+
+  .content :global(p) {
+    margin-bottom: var(--space-4);
+    color: var(--color-text);
+  }
+</style>

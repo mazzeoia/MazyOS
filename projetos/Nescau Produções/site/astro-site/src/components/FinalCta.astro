@@ -1,0 +1,121 @@
+---
+import Button from "./Button.astro";
+import { site, whatsappUrl } from "../lib/site";
+
+interface Props {
+  eyebrow?: string;
+  title?: string;
+  body?: string;
+}
+
+const {
+  eyebrow = "Próximo passo",
+  title = "Tem data. Falta o show.",
+  body = "Manda a data, a cidade e o formato do evento. A gente responde com o artista certo e a proposta completa.",
+} = Astro.props;
+---
+
+<section class="cta">
+  <div class="cta-bg" aria-hidden="true">
+    <img src="/media/hero-alt.svg" alt="" width="1920" height="1080" loading="lazy" decoding="async" />
+    <div class="cta-veil"></div>
+  </div>
+
+  <div class="cta-leak leak" aria-hidden="true"></div>
+
+  <div class="shell cta-inner">
+    <p class="label cta-eyebrow" data-anim="fade">{eyebrow}</p>
+
+    <h2 class="cta-title" data-split>{title}</h2>
+
+    <p class="cta-body lede" data-anim="rise">{body}</p>
+
+    <div class="cta-actions" data-anim="rise" data-anim-delay="0.08">
+      <Button href="/contato" variant="primary" size="lg">Pedir proposta</Button>
+      <Button href={whatsappUrl} variant="ghost" size="lg" external>
+        {site.whatsappDisplay}
+      </Button>
+    </div>
+
+    <p class="cta-foot label" data-anim="fade" data-anim-delay="0.16">
+      Resposta no mesmo dia útil · {site.city}
+    </p>
+  </div>
+</section>
+
+<style>
+  .cta {
+    position: relative;
+    overflow: hidden;
+    padding-block: var(--bay-lg);
+    background: var(--void);
+    border-top: 1px solid var(--rule);
+    isolation: isolate;
+  }
+
+  .cta-bg {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+  }
+
+  .cta-bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.5;
+  }
+
+  .cta-veil {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      ellipse 90% 70% at 50% 50%,
+      rgba(5, 5, 5, 0.55) 0%,
+      rgba(5, 5, 5, 0.92) 62%,
+      var(--void) 100%
+    );
+  }
+
+  .cta-leak {
+    --leak-c: rgba(255, 122, 24, 0.5);
+    --leak-o: 0.45;
+    width: 60vw;
+    height: 45vh;
+    left: 50%;
+    top: 6%;
+    transform: translateX(-50%);
+    z-index: -1;
+  }
+
+  .cta-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: var(--s-5);
+  }
+
+  .cta-title {
+    font-size: clamp(2.75rem, 9vw, 8.5rem);
+    font-weight: 900;
+    line-height: 0.9;
+    max-width: 7.1em;
+  }
+
+  .cta-body {
+    max-width: 46ch;
+  }
+
+  .cta-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--s-3);
+    margin-top: var(--s-3);
+  }
+
+  .cta-foot {
+    margin-top: var(--s-4);
+  }
+</style>

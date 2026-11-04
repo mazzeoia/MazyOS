@@ -1,0 +1,96 @@
+---
+// Camadas globais de atmosfera + HUD: grão de filme, halo que segue o
+// ponteiro, cursor de contexto e barra de progresso. Todas puramente
+// decorativas — nenhuma captura ponteiro, nenhuma entra na árvore de
+// acessibilidade.
+---
+
+<div class="grain" aria-hidden="true"></div>
+
+<div class="mouse-glow" data-mouse-glow aria-hidden="true"></div>
+
+<div class="cursor-ring" data-cursor-ring aria-hidden="true">
+  <span class="cursor-label" data-cursor-label></span>
+</div>
+
+<div class="progress" aria-hidden="true">
+  <span class="progress-bar" data-progress></span>
+</div>
+
+<style>
+  .mouse-glow {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 640px;
+    height: 640px;
+    margin: -320px 0 0 -320px;
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: 0;
+    z-index: 1;
+    background: radial-gradient(
+      circle at center,
+      rgba(255, 138, 30, 0.13) 0%,
+      rgba(255, 197, 49, 0.06) 34%,
+      transparent 66%
+    );
+    mix-blend-mode: screen;
+    will-change: transform;
+  }
+
+  .cursor-ring {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 84px;
+    height: 84px;
+    margin: -42px 0 0 -42px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    pointer-events: none;
+    opacity: 0;
+    transform: scale(0.4);
+    z-index: var(--z-cursor);
+    background: var(--beam-soft);
+    color: var(--on-light);
+    will-change: transform;
+  }
+
+  .cursor-label {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: var(--track-label);
+    text-transform: uppercase;
+    padding-left: 0.2em;
+  }
+
+  .progress {
+    position: fixed;
+    inset: 0 0 auto 0;
+    height: 2px;
+    z-index: var(--z-nav);
+    pointer-events: none;
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .progress-bar {
+    display: block;
+    height: 100%;
+    width: 100%;
+    transform: scaleX(0);
+    transform-origin: left center;
+    background: var(--beam);
+    box-shadow: 0 0 14px rgba(255, 138, 30, 0.7);
+  }
+
+  /* Ponteiro grosso (toque) não tem hover: essas camadas viram peso morto. */
+  @media (pointer: coarse) {
+    .mouse-glow,
+    .cursor-ring {
+      display: none;
+    }
+  }
+</style>

@@ -1,0 +1,100 @@
+---
+import "../styles/tokens.css";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+import Atmosphere from "../components/Atmosphere.astro";
+import WhatsAppFab from "../components/WhatsAppFab.astro";
+import { site } from "../lib/site";
+
+interface Props {
+  title: string;
+  description: string;
+  /** Na home o título já é a marca inteira — evita "Nescau · Nescau". */
+  bare?: boolean;
+}
+
+const { title, description, bare = false } = Astro.props;
+const fullTitle = bare ? title : `${title} · ${site.name}`;
+const canonical = new URL(Astro.url.pathname, site.url).href;
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "EntertainmentBusiness",
+  name: site.name,
+  description: site.description,
+  url: site.url,
+  telephone: `+${site.whatsapp}`,
+  email: site.email,
+  foundingDate: String(site.founded),
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "São Paulo",
+    addressRegion: "SP",
+    addressCountry: "BR",
+  },
+  sameAs: [site.instagram],
+  areaServed: ["Brasil", "Europa", "Estados Unidos"],
+};
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="theme-color" content="#050505" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:image" content={new URL("/og-image.png", site.url).href} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={new URL("/og-image.png", site.url).href} />
+
+    <!-- Display e corpo entram no caminho crítico: são as fontes que aparecem
+         acima da dobra, e o SplitType só quebra as linhas certas depois que
+         elas carregam. -->
+    <link
+      rel="preload"
+      href="/fonts/big-shoulders-display-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="preload" href="/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin />
+
+    <!-- Bloco de dados, não script executável: `script-src 'self'` não o
+         bloqueia porque o navegador nem chega a tratá-lo como script. -->
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+
+  <body>
+    <Nav />
+    <Atmosphere />
+
+    <main id="conteudo">
+      <slot />
+    </main>
+
+    <Footer />
+    <WhatsAppFab />
+
+    <script>
+      import "../scripts/motion";
+    </script>
+  </body>
+</html>

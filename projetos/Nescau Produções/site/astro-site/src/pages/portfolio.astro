@@ -1,0 +1,164 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+import Gallery from "../components/home/Gallery.astro";
+import FinalCta from "../components/FinalCta.astro";
+import { frentes } from "../lib/frentes";
+---
+
+<BaseLayout
+  title="Portfólio"
+  description="Os formatos de evento em que a Nescau Produções coloca seus artistas: festival, corporativo, turnê internacional e festa privada."
+>
+  <PageHero
+    label="Portfólio"
+    title="Onde os shows acontecem"
+    lede="Quatro contextos de contratação, cada um com uma exigência diferente, e o mesmo padrão de operação por trás."
+    image="/media/case-festival.svg"
+  />
+
+  <section class="bay">
+    <div class="shell">
+      <div class="fmt-grid">
+        {frentes.map((f) => (
+          <article class="fmt" data-tilt="4">
+            <div class="fmt-media" data-anim="reveal-img">
+              <img src={f.image} alt="" width="1600" height="1000" loading="lazy" decoding="async" />
+            </div>
+
+            <div class="fmt-body">
+              <div class="fmt-top">
+                <span class="index">{f.n}</span>
+                <span class="label label-warm">{f.kicker}</span>
+              </div>
+              <h2 class="fmt-title">{f.title}</h2>
+              <p class="fmt-text">{f.body}</p>
+              <dl class="fmt-meta">
+                {f.meta.map((m) => (
+                  <div>
+                    <dt class="label">{m.label}</dt>
+                    <dd>{m.value}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <p class="note" data-anim="fade">
+        Registro fotográfico e ficha de eventos específicos entram aqui conforme cada
+        contratante libera o material.
+      </p>
+    </div>
+  </section>
+
+  <Gallery />
+
+  <FinalCta
+    eyebrow="Portfólio"
+    title="Seu evento é o próximo"
+    body="Manda a data e o formato. A gente devolve a proposta com o artista que faz sentido pro seu público."
+  />
+</BaseLayout>
+
+<style>
+  .fmt-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--s-6);
+  }
+
+  .fmt {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--rule);
+    border-radius: var(--r-md);
+    overflow: hidden;
+    background: linear-gradient(180deg, var(--raised-2), var(--raised));
+    transform-style: preserve-3d;
+    will-change: transform;
+    transition:
+      border-color var(--dur-2) var(--ease),
+      box-shadow var(--dur-3) var(--ease);
+  }
+
+  .fmt:hover {
+    border-color: var(--rule-warm);
+    box-shadow: var(--glow-md);
+  }
+
+  .fmt-media {
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+  }
+
+  .fmt-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.9s var(--ease);
+  }
+
+  .fmt:hover .fmt-media img {
+    transform: scale(1.05);
+  }
+
+  .fmt-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-3);
+    padding: var(--s-6);
+  }
+
+  .fmt-top {
+    display: flex;
+    align-items: center;
+    gap: var(--s-4);
+  }
+
+  .fmt-title {
+    font-size: clamp(1.9rem, 3.4vw, 2.5rem);
+    max-width: 9.2em;
+  }
+
+  .fmt-text {
+    color: var(--ink-soft);
+    font-size: var(--t-base);
+  }
+
+  .fmt-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-6);
+    margin: 0;
+    padding-top: var(--s-4);
+    border-top: 1px solid var(--rule);
+  }
+
+  .fmt-meta dd {
+    margin: var(--s-2) 0 0;
+    font-family: var(--font-display);
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: var(--t-lg);
+    line-height: 1;
+  }
+
+  .note {
+    margin-top: var(--s-9);
+    padding-top: var(--s-5);
+    border-top: 1px solid var(--rule);
+    color: var(--ink-faint);
+    font-size: var(--t-sm);
+    max-width: 62ch;
+  }
+
+  @media (min-width: 860px) {
+    .fmt-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--s-5);
+    }
+  }
+</style>

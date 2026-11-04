@@ -1,0 +1,635 @@
+/* ============================================================================
+   NESCAU PRODUÇÕES — sistema visual
+   ----------------------------------------------------------------------------
+   Registro: palco à noite. Preto quase absoluto como matéria-prima, e a
+   única cor do site é LUZ — âmbar/laranja/brasa. Por isso não existe token
+   de "cor de fundo colorida": o acento aparece como facho, halo e fio de 1px,
+   nunca como preenchimento chapado de bloco. Sombra neutra também não existe;
+   o que um elemento projeta é glow quente, como refletor de palco.
+   ========================================================================== */
+
+/* --- Tipografia auto-hospedada (subset latin) -------------------------------
+   Servida do próprio domínio pra não depender de fonts.gstatic.com: elimina
+   2 conexões externas no caminho crítico e mantém o CSP sem host de terceiro. */
+
+@font-face {
+  font-family: "Big Shoulders Display";
+  src: url("/fonts/big-shoulders-display-latin.woff2") format("woff2-variations");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+    U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Manrope";
+  src: url("/fonts/manrope-latin.woff2") format("woff2-variations");
+  font-weight: 200 800;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+    U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Space Mono";
+  src: url("/fonts/space-mono-latin-400.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+    U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Space Mono";
+  src: url("/fonts/space-mono-latin-700.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+    U+FEFF, U+FFFD;
+}
+
+/* --- Fallbacks com métrica corrigida ---------------------------------------
+   Sem isso, a troca da fonte de sistema pela fonte real remonta a página
+   inteira: o Big Shoulders é condensado e o Arial não, então o H1 do herói
+   mudava de altura e sozinho gerava CLS de 0.31 — reprovação direta em Core
+   Web Vitals.
+
+   Os números vêm de medição real (canvas measureText, 100px, contra o texto
+   que de fato aparece em cada papel), não de estimativa:
+
+     display  Big Shoulders 1859.5 / Arial 2964.2      → size-adjust 62.7%
+     sans     Manrope       3052.0 / Arial 3012.8      → size-adjust 101.3%
+     mono     Space Mono    1713.6 / Courier New 1680.3 → size-adjust 102.0%
+
+   ascent/descent-override são a métrica real da fonte dividida pelo
+   size-adjust, pra que a caixa de linha também bata. Refazer a medição se
+   alguma das três famílias mudar. */
+
+@font-face {
+  font-family: "Display Fallback";
+  src: local("Arial"), local("Helvetica"), local("Liberation Sans");
+  size-adjust: 62.73%;
+  ascent-override: 156.2%;
+  descent-override: 33.5%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: "Sans Fallback";
+  src: local("Arial"), local("Helvetica"), local("Liberation Sans");
+  size-adjust: 101.3%;
+  ascent-override: 105.6%;
+  descent-override: 29.6%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: "Mono Fallback";
+  src: local("Courier New"), local("Liberation Mono"), local("DejaVu Sans Mono");
+  size-adjust: 101.98%;
+  ascent-override: 109.8%;
+  descent-override: 35.3%;
+  line-gap-override: 0%;
+}
+
+:root {
+  /* --- Pretos ------------------------------------------------------------
+     Quatro degraus muito próximos. A separação entre seções não vem de
+     contraste de fundo forte (isso empilharia blocos), vem de luz e fio. */
+  --void: #050505;
+  --canvas: #0a0a0b;
+  --raised: #121214;
+  --raised-2: #1a1a1d;
+  --raised-3: #232327;
+
+  /* --- Luz ---------------------------------------------------------------
+     --amber é a luz principal (refletor frontal), --flame o corte quente,
+     --ember só em detalhe mínimo: um ponto, um traço, um índice. */
+  --amber: #ffc531;
+  --amber-hi: #ffe07a;
+  --flame: #ff7a18;
+  --ember: #ff3b1f;
+
+  --beam: linear-gradient(115deg, var(--amber-hi) 0%, var(--amber) 24%, var(--flame) 68%, var(--ember) 100%);
+  --beam-soft: linear-gradient(115deg, var(--amber) 0%, var(--flame) 100%);
+  --beam-text: linear-gradient(96deg, var(--amber-hi) 0%, var(--amber) 30%, var(--flame) 100%);
+
+  /* --- Tinta -------------------------------------------------------------- */
+  --ink: #ffffff;
+  --ink-soft: rgba(255, 255, 255, 0.66);
+  /* 0.48, não 0.42: no fundo mais escuro do sistema (--void) isso é o piso
+     pra bater 4.5:1 de contraste em texto normal (WCAG AA). Medido, não
+     estimado — ver auditoria de acessibilidade. */
+  --ink-faint: rgba(255, 255, 255, 0.48);
+  --ink-ghost: rgba(255, 255, 255, 0.14);
+  --on-light: #050505;
+
+  /* --- Fios e superfícies ------------------------------------------------- */
+  --rule: rgba(255, 255, 255, 0.08);
+  --rule-strong: rgba(255, 255, 255, 0.16);
+  --rule-warm: rgba(255, 197, 49, 0.34);
+  --glass: rgba(255, 255, 255, 0.035);
+  --glass-strong: rgba(255, 255, 255, 0.06);
+
+  --error: #ff6b6b;
+  --ok: #4ade80;
+
+  /* --- Halos (não há sombra neutra no sistema) ----------------------------- */
+  --glow-sm: 0 0 24px rgba(255, 122, 24, 0.28);
+  --glow-md: 0 10px 44px rgba(255, 122, 24, 0.22), 0 0 90px rgba(255, 197, 49, 0.1);
+  --glow-lg: 0 24px 90px rgba(255, 122, 24, 0.26), 0 0 160px rgba(255, 197, 49, 0.14);
+  --lift: 0 24px 60px rgba(0, 0, 0, 0.55);
+
+  /* --- Tipografia --------------------------------------------------------- */
+  --font-display: "Big Shoulders Display", "Display Fallback", sans-serif;
+  --font-sans: "Manrope", "Sans Fallback", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: "Space Mono", "Mono Fallback", ui-monospace, monospace;
+
+  /* Escala de corpo — conservadora, o drama fica todo no display */
+  --t-xs: 0.75rem;
+  --t-sm: 0.8125rem;
+  --t-base: 1rem;
+  --t-md: 1.0625rem;
+  --t-lg: clamp(1.125rem, 1.02rem + 0.42vw, 1.375rem);
+  --t-xl: clamp(1.375rem, 1.2rem + 0.7vw, 1.75rem);
+
+  /* Escala de display — condensada, então pode ir muito alto sem quebrar
+     linha em telas médias. --d-mega é o tamanho de cartaz de show. */
+  --d-sm: clamp(2rem, 1.6rem + 1.7vw, 3rem);
+  --d-md: clamp(2.75rem, 2rem + 3.2vw, 4.5rem);
+  --d-lg: clamp(3.5rem, 2.2rem + 5.6vw, 7rem);
+  --d-xl: clamp(4.25rem, 2.1rem + 9.2vw, 10.5rem);
+  --d-mega: clamp(5rem, 1rem + 16.5vw, 17rem);
+
+  --lead-none: 0.86;
+  --lead-display: 0.92;
+  --lead-snug: 1.22;
+  --lead-body: 1.62;
+  --lead-loose: 1.75;
+
+  --track-display: -0.005em;
+  --track-tight: -0.02em;
+  --track-label: 0.2em;
+  --track-wide: 0.34em;
+
+  /* --- Espaço — escala 4/8 ------------------------------------------------ */
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 24px;
+  --s-6: 32px;
+  --s-7: 40px;
+  --s-8: 56px;
+  --s-9: 72px;
+  --s-10: 96px;
+  --s-11: 128px;
+  --s-12: 168px;
+  --s-13: 224px;
+
+  /* Respiro vertical de seção — o item mais importante do sistema.
+     Site premium se reconhece antes de tudo pelo silêncio entre as dobras. */
+  --bay: clamp(88px, 11vw, 184px);
+  --bay-lg: clamp(120px, 16vw, 260px);
+
+  /* --- Forma -------------------------------------------------------------- */
+  --r-xs: 3px;
+  --r-sm: 6px;
+  --r-md: 12px;
+  --r-lg: 20px;
+  --r-full: 999px;
+
+  /* --- Movimento ---------------------------------------------------------- */
+  --dur-1: 160ms;
+  --dur-2: 280ms;
+  --dur-3: 520ms;
+  --dur-4: 900ms;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in: cubic-bezier(0.6, 0, 0.4, 1);
+
+  /* --- Layout ------------------------------------------------------------- */
+  --shell: 1440px;
+  --shell-text: 62ch;
+  --gut: clamp(20px, 5vw, 72px);
+  --nav-h: 72px;
+
+  --z-below: -1;
+  --z-grain: 3;
+  --z-nav: 60;
+  --z-fab: 70;
+  --z-overlay: 90;
+  --z-cursor: 100;
+}
+
+/* ============================================================================
+   Reset + base
+   ========================================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--void);
+  color-scheme: dark;
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: auto; /* Lenis assume o controle; âncoras passam por ele */
+}
+
+body {
+  margin: 0;
+  min-height: 100svh;
+  font-family: var(--font-sans);
+  font-size: var(--t-md);
+  font-weight: 400;
+  line-height: var(--lead-body);
+  color: var(--ink);
+  background: var(--canvas);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-wrap: break-word;
+}
+
+/* Lenis controla o scroll do documento. Estas regras são o contrato do Lenis,
+   declaradas aqui em vez de deixar a lib injetar <style> em runtime — o CSP
+   do site (style-src 'self', sem unsafe-inline) bloquearia a injeção. */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  line-height: var(--lead-display);
+  letter-spacing: var(--track-display);
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+p {
+  margin: 0;
+  text-wrap: pretty;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img,
+svg,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+img {
+  height: auto;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+::selection {
+  background: var(--flame);
+  color: #fff;
+}
+
+:focus-visible {
+  outline: 2px solid var(--amber);
+  outline-offset: 3px;
+  border-radius: var(--r-xs);
+}
+
+/* Barra de rolagem discreta — parte do acabamento, não default do SO */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--void);
+}
+::-webkit-scrollbar-thumb {
+  background: #26262b;
+  border: 3px solid var(--void);
+  border-radius: var(--r-full);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3a3a41;
+}
+
+/* ============================================================================
+   Layout
+   ========================================================================== */
+
+.shell {
+  width: 100%;
+  max-width: var(--shell);
+  margin-inline: auto;
+  padding-inline: var(--gut);
+}
+
+.shell-wide {
+  max-width: 1760px;
+}
+
+.bay {
+  position: relative;
+  padding-block: var(--bay);
+}
+
+.bay-lg {
+  padding-block: var(--bay-lg);
+}
+
+.measure {
+  max-width: var(--shell-text);
+}
+
+.rule {
+  border: 0;
+  height: 1px;
+  margin: 0;
+  background: var(--rule);
+}
+
+/* ============================================================================
+   Tipografia utilitária
+   ========================================================================== */
+
+.display-sm {
+  font-size: var(--d-sm);
+}
+.display-md {
+  font-size: var(--d-md);
+}
+.display-lg {
+  font-size: var(--d-lg);
+}
+.display-xl {
+  font-size: var(--d-xl);
+  line-height: var(--lead-none);
+}
+.display-mega {
+  font-size: var(--d-mega);
+  line-height: var(--lead-none);
+  font-weight: 900;
+}
+
+.lede {
+  font-size: var(--t-lg);
+  line-height: var(--lead-loose);
+  color: var(--ink-soft);
+  font-weight: 300;
+}
+
+.body-soft {
+  color: var(--ink-soft);
+}
+
+/* Rótulo técnico — a "ficha de palco" do site. Mono, caixa alta, tracking
+   largo. Sempre curto: 1 a 4 palavras. */
+.label {
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  font-weight: 400;
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  line-height: 1;
+}
+
+.label-warm {
+  color: var(--amber);
+}
+
+/* Numeração de índice — serviços, processo, cases */
+.index {
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  letter-spacing: var(--track-label);
+  color: var(--ink-faint);
+  font-variant-numeric: tabular-nums;
+}
+
+.hot {
+  background: var(--beam-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Contorno vazado — no máximo uma palavra por página. Cumpre o papel de
+   "tipografia enorme" sem dobrar o peso visual do bloco. */
+.hollow {
+  color: transparent;
+  -webkit-text-stroke: 1px var(--ink-ghost);
+}
+
+.tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ============================================================================
+   Camadas de atmosfera
+   ========================================================================== */
+
+/* Grão de filme — cobre a página inteira, fixo, sem capturar ponteiro.
+   É o que tira o "chapado de CSS" das áreas de preto puro. */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-grain);
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("/media/grain.svg");
+  background-size: 200px 200px;
+  mix-blend-mode: overlay;
+}
+
+/* Vazamento de luz — halo radial atrás do conteúdo. Posição e cor vêm de
+   custom props declaradas no próprio elemento. */
+.leak {
+  position: absolute;
+  pointer-events: none;
+  z-index: var(--z-below);
+  border-radius: 50%;
+  filter: blur(clamp(40px, 8vw, 110px));
+  opacity: var(--leak-o, 0.5);
+  background: radial-gradient(
+    circle at center,
+    var(--leak-c, rgba(255, 122, 24, 0.55)) 0%,
+    transparent 68%
+  );
+}
+
+/* Fio horizontal que acende ao centro — separador entre dobras */
+.hairline {
+  height: 1px;
+  border: 0;
+  margin: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--rule) 22%,
+    var(--rule-strong) 50%,
+    var(--rule) 78%,
+    transparent 100%
+  );
+}
+
+/* ============================================================================
+   Estados iniciais de animação
+   ----------------------------------------------------------------------------
+   Só escondem quando (a) o navegador tem script ligado e (b) o usuário não
+   pediu menos movimento. Sem JS o conteúdo nunca fica preso invisível — e
+   isso é resolvido em CSS puro, porque o CSP do site não permite o script
+   inline que normalmente marcaria uma classe no <html>.
+   ========================================================================== */
+
+@media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+  [data-anim="fade"],
+  [data-anim="rise"],
+  [data-anim="blur"],
+  [data-anim="scale"] {
+    opacity: 0;
+  }
+
+  [data-anim="rise"] {
+    transform: translate3d(0, 32px, 0);
+  }
+
+  [data-anim="blur"] {
+    filter: blur(14px);
+    transform: translate3d(0, 20px, 0);
+  }
+
+  [data-anim="scale"] {
+    transform: scale(1.06);
+  }
+
+  /* Stagger: o pai marca, os filhos diretos entram em cascata */
+  [data-anim-group] > * {
+    opacity: 0;
+    transform: translate3d(0, 26px, 0);
+  }
+
+  /* Revelação por máscara: o conteúdo aparece atrás de uma janela que abre
+     (clip-path), sem esticar nada. */
+  [data-anim="mask"] {
+    clip-path: inset(0 0 100% 0);
+  }
+
+  [data-anim="mask-x"] {
+    clip-path: inset(0 100% 0 0);
+  }
+
+  /* Imagem: a janela abre e a imagem faz o contra-movimento de escala */
+  [data-anim="reveal-img"] {
+    clip-path: inset(0 0 100% 0);
+  }
+
+  [data-anim="reveal-img"] > img {
+    transform: scale(1.22);
+  }
+
+  /* Linhas geradas pelo SplitType: a linha sobe por trás da própria janela.
+     O par padding/margin negativo devolve espaço pra cauda do Q e do g —
+     sem ele a máscara corta o descendente da linha de cima. */
+  .line {
+    overflow: hidden;
+    padding-bottom: 0.14em;
+    margin-bottom: -0.14em;
+  }
+}
+
+/* ============================================================================
+   Acessibilidade / movimento reduzido
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+
+  .grain {
+    display: none;
+  }
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: fixed;
+  top: var(--s-4);
+  left: var(--s-4);
+  z-index: var(--z-overlay);
+  padding: var(--s-3) var(--s-5);
+  background: var(--amber);
+  color: var(--on-light);
+  border-radius: var(--r-sm);
+  font-family: var(--font-mono);
+  font-size: var(--t-xs);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  transform: translateY(-300%);
+  transition: transform var(--dur-2) var(--ease);
+}
+
+.skip-link:focus-visible {
+  transform: translateY(0);
+}

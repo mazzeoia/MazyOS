@@ -1,0 +1,70 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import SectionHeading from "../../components/SectionHeading.astro";
+import CTASection from "../../components/CTASection.astro";
+
+const items = [
+  {
+    name: "Sistemas internos",
+    body: "Organize sua operação em um só lugar, sem planilha espalhada em cinco arquivos diferentes.",
+  },
+  {
+    name: "Portais",
+    body: "Dê aos seus clientes ou parceiros um jeito melhor de fazer negócio com você.",
+  },
+  {
+    name: "Aplicações web",
+    body: "Construa a ferramenta que seu negócio precisa, sob medida, quando nenhuma pronta resolve.",
+  },
+  {
+    name: "Consultoria tecnológica",
+    body: "Tenha clareza sobre o que vale a pena construir antes de investir tempo ou dinheiro nisso.",
+  },
+];
+---
+
+<BaseLayout
+  title="Engenharia"
+  description="Quando o problema não tem ferramenta pronta, construímos uma."
+>
+  <section class="container hero">
+    <p class="eyebrow-standalone">Engenharia</p>
+    <h1>Quando o problema não tem ferramenta pronta, construímos uma.</h1>
+    <p class="lede">
+      Nem todo negócio se encaixa em uma ferramenta de prateleira. Às vezes o
+      problema é específico demais para um SaaS genérico resolver — e forçar o
+      encaixe custa mais caro do que construir sob medida.
+    </p>
+  </section>
+
+  <section class="section section-alt">
+    <div class="container">
+      <SectionHeading
+        title="Como a Synapse resolve"
+        subtitle="Implementamos sistemas internos, portais e aplicações web feitos para a forma como o seu negócio realmente funciona — e ajudamos a decidir isso com clareza antes de qualquer investimento."
+      />
+      <div class="grid cols-2">
+        {items.map((item) => (
+          <div class="item">
+            <h3>{item.name}</h3>
+            <p>{item.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CTASection title="Quero construir sob medida" ctaLabel="Fale com a Synapse" />
+</BaseLayout>
+
+<style>
+  .item h3 {
+    font-size: var(--text-base);
+    margin-bottom: var(--space-2);
+  }
+
+  .item p {
+    color: var(--color-text-secondary);
+    font-size: var(--text-sm);
+  }
+</style>

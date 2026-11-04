@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://nescauproducoes.com.br/sitemap.xml

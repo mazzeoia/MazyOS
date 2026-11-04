@@ -1,0 +1,166 @@
+---
+import SectionHead from "../SectionHead.astro";
+import { frentes } from "../../lib/frentes";
+---
+
+<section class="fr bay-lg" id="frentes">
+  <div class="shell">
+    <SectionHead
+      label="Onde a Nescau entra"
+      title="Quatro contextos, o mesmo padrão"
+      lede="Festival, empresa, turnê internacional e festa privada pedem coisas diferentes do mesmo show. O que não muda é quem responde por ele."
+    />
+  </div>
+
+  <div class="fr-list">
+    {frentes.map((f, i) => (
+      <article class:list={["fr-row", { "is-flip": i % 2 === 1 }]}>
+        <div class="fr-media">
+          <div class="fr-frame" data-anim="reveal-img">
+            <img src={f.image} alt="" width="1600" height="1000" loading="lazy" decoding="async" />
+          </div>
+          {/* Índice vazado sangrando por cima da foto: sobreposição de camadas
+              em vez de legenda alinhada embaixo. */}
+          <span class="fr-n hollow" aria-hidden="true">{f.n}</span>
+        </div>
+
+        <div class="fr-text">
+          <p class="label label-warm" data-anim="fade">{f.kicker}</p>
+          <h3 class="fr-title display-sm" data-anim="rise">{f.title}</h3>
+          <p class="fr-body" data-anim="rise" data-anim-delay="0.08">{f.body}</p>
+
+          <dl class="fr-meta" data-anim="rise" data-anim-delay="0.14">
+            {f.meta.map((m) => (
+              <div class="fr-meta-item">
+                <dt class="label">{m.label}</dt>
+                <dd>{m.value}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </article>
+    ))}
+  </div>
+</section>
+
+<style>
+  .fr {
+    position: relative;
+    background: var(--canvas);
+  }
+
+  .fr-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--bay);
+    margin-top: var(--s-10);
+  }
+
+  .fr-row {
+    display: grid;
+    gap: var(--s-6);
+    align-items: center;
+    max-width: var(--shell);
+    margin-inline: auto;
+    padding-inline: var(--gut);
+    width: 100%;
+  }
+
+  .fr-media {
+    position: relative;
+  }
+
+  .fr-frame {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--r-md);
+    aspect-ratio: 16 / 10;
+  }
+
+  .fr-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .fr-n {
+    position: absolute;
+    left: -0.06em;
+    bottom: -0.34em;
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: clamp(6rem, 17vw, 14rem);
+    line-height: 0.75;
+    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.22);
+    pointer-events: none;
+  }
+
+  .fr-text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-4);
+  }
+
+  .fr-title {
+    max-width: 8.2em;
+  }
+
+  .fr-body {
+    color: var(--ink-soft);
+    max-width: 44ch;
+  }
+
+  .fr-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-6);
+    margin: 0;
+    padding-top: var(--s-4);
+    border-top: 1px solid var(--rule);
+  }
+
+  .fr-meta-item dd {
+    margin: var(--s-2) 0 0;
+    font-family: var(--font-display);
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: var(--t-lg);
+    line-height: 1;
+  }
+
+  @media (min-width: 900px) {
+    .fr-row {
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: var(--s-9);
+    }
+
+    /* Alterna o lado da imagem e ainda desloca o bloco de texto na vertical:
+       linhas espelhadas com o mesmo alinhamento voltam a parecer grade. */
+    .fr-row.is-flip .fr-media {
+      order: 2;
+    }
+
+    .fr-row.is-flip .fr-text {
+      order: 1;
+    }
+
+    .fr-row:not(.is-flip) .fr-text {
+      padding-top: var(--s-8);
+    }
+
+    .fr-row.is-flip .fr-text {
+      padding-bottom: var(--s-8);
+    }
+
+    .fr-n {
+      left: auto;
+      right: -0.1em;
+      bottom: -0.3em;
+    }
+
+    .fr-row.is-flip .fr-n {
+      right: auto;
+      left: -0.1em;
+    }
+  }
+</style>

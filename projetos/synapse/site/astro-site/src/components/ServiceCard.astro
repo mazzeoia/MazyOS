@@ -1,0 +1,64 @@
+---
+import Card from "./Card.astro";
+
+interface Props {
+  name: string;
+  promise: string;
+  items: string[];
+  href: string;
+  cta: string;
+}
+
+const { name, promise, items, href, cta } = Astro.props;
+---
+
+<Card href={href} class="service-card">
+  <h3 class="name">{name}</h3>
+  <p class="promise">{promise}</p>
+  <ul class="items">
+    {items.map((item) => <li>{item}</li>)}
+  </ul>
+  <span class="cta">{cta}</span>
+</Card>
+
+<style>
+  .service-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: var(--space-6);
+  }
+
+  .name {
+    font-size: var(--text-lg);
+    margin-bottom: var(--space-2);
+  }
+
+  .promise {
+    color: var(--color-text);
+    font-weight: var(--weight-medium);
+    margin-bottom: var(--space-3);
+  }
+
+  .items {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--space-4);
+    color: var(--color-text-secondary);
+    font-size: var(--text-sm);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .items li::before {
+    content: "— ";
+  }
+
+  .cta {
+    margin-top: auto;
+    font-size: var(--text-sm);
+    font-weight: var(--weight-medium);
+    color: var(--color-accent-contrast);
+  }
+</style>

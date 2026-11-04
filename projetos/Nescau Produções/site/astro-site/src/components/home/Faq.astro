@@ -1,0 +1,193 @@
+---
+import Button from "../Button.astro";
+import { faqs } from "../../lib/faq";
+---
+
+<section class="faq bay" id="faq">
+  <div class="shell faq-inner">
+    <div class="faq-aside">
+      <p class="label" data-anim="fade">
+        <span class="faq-tick"></span>
+        Dúvidas
+      </p>
+      <h2 class="faq-title display-md" data-split>O que perguntam antes de fechar</h2>
+      <p class="faq-note" data-anim="rise">
+        Não achou a sua? Manda no WhatsApp, respondemos no mesmo dia útil.
+      </p>
+      <Button href="/contato" variant="quiet" class="faq-cta">Falar com a Nescau</Button>
+    </div>
+
+    <div class="faq-list" data-accordion>
+      {faqs.map((f, i) => (
+        <div class="qa" data-accordion-item data-anim="rise" data-anim-delay={i * 0.03}>
+          <h3 class="qa-h">
+            <button
+              class="qa-trigger"
+              type="button"
+              data-accordion-trigger
+              aria-expanded="false"
+              id={`faq-b-${i}`}
+              aria-controls={`faq-p-${i}`}
+            >
+              <span class="qa-q">{f.q}</span>
+              <span class="qa-sign" aria-hidden="true">
+                <span class="qa-sign-bar"></span>
+                <span class="qa-sign-bar"></span>
+              </span>
+            </button>
+          </h3>
+
+          <div
+            class="qa-panel"
+            data-accordion-panel
+            id={`faq-p-${i}`}
+            role="region"
+            aria-labelledby={`faq-b-${i}`}
+          >
+            <p class="qa-a">{f.a}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .faq {
+    position: relative;
+    background: var(--void);
+    border-top: 1px solid var(--rule);
+  }
+
+  .faq-inner {
+    display: grid;
+    gap: var(--s-9);
+  }
+
+  .faq-aside {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--s-4);
+  }
+
+  .faq-tick {
+    display: inline-block;
+    width: 26px;
+    height: 1px;
+    background: var(--amber);
+    margin-right: 0.9em;
+    vertical-align: middle;
+  }
+
+  .faq-title {
+    max-width: 6.1em;
+  }
+
+  .faq-note {
+    color: var(--ink-soft);
+    max-width: 34ch;
+  }
+
+  .faq-list {
+    border-top: 1px solid var(--rule);
+  }
+
+  .qa {
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .qa-h {
+    margin: 0;
+    font: inherit;
+    text-transform: none;
+    letter-spacing: normal;
+  }
+
+  .qa-trigger {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s-5);
+    padding: var(--s-5) 0;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    text-align: left;
+  }
+
+  .qa-q {
+    font-family: var(--font-display);
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: clamp(1.25rem, 2.6vw, 1.85rem);
+    line-height: 1.08;
+    transition: color var(--dur-2) var(--ease);
+  }
+
+  .qa-trigger:hover .qa-q,
+  .qa.is-open .qa-q {
+    color: var(--amber);
+  }
+
+  /* Sinal +/− construído com duas barras: gira pra virar "−" quando abre,
+     sem trocar ícone nem depender de fonte. */
+  .qa-sign {
+    position: relative;
+    width: 34px;
+    height: 34px;
+    flex: none;
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--rule-strong);
+    border-radius: 50%;
+    transition: border-color var(--dur-2) var(--ease);
+  }
+
+  .qa-trigger:hover .qa-sign,
+  .qa.is-open .qa-sign {
+    border-color: var(--amber);
+  }
+
+  .qa-sign-bar {
+    position: absolute;
+    width: 12px;
+    height: 1.5px;
+    background: var(--ink);
+    transition: transform 0.4s var(--ease);
+  }
+
+  .qa-sign-bar:last-child {
+    transform: rotate(90deg);
+  }
+
+  .qa.is-open .qa-sign-bar:last-child {
+    transform: rotate(0deg);
+  }
+
+  .qa-panel {
+    overflow: hidden;
+    height: 0;
+  }
+
+  .qa-a {
+    padding-bottom: var(--s-6);
+    padding-right: var(--s-8);
+    color: var(--ink-soft);
+    max-width: 62ch;
+  }
+
+  @media (min-width: 960px) {
+    .faq-inner {
+      grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+      gap: var(--s-10);
+      align-items: start;
+    }
+
+    .faq-aside {
+      position: sticky;
+      top: calc(var(--nav-h) + var(--s-8));
+    }
+  }
+</style>
