@@ -1,0 +1,69 @@
+[
+  {
+    "_indice": "Empresa fictícia. Um objeto por lead. Identidade (slug..tagline) · cor [marca, escura, texto sobre a marca] · contato (whatsapp só dígitos com 55) · fotos (fotoHero, copias destino->origem na pasta de fotos, fotos da galeria) · conteúdo (promessa, numeros, servicos, passos, avaliacoes reais) · endereço, horário, razão e CNPJ. Campo começado por _ é ignorado. Sem dado real: lista vazia, a seção some.",
+    "slug": "01-marcenaria-modelo",
+    "nome": "Marcenaria Modelo",
+    "nomeCurto": "Modelo",
+    "tagline": "Móveis sob medida",
+    "oQueFaz": "Marcenaria e móveis sob medida",
+    "cidade": "Cidade Exemplo",
+    "descricao": "Marcenaria Modelo: móveis sob medida para casa e comércio em Cidade Exemplo.",
+    "cor": ["#B8742D", "#94591F", "#FFFFFF"],
+    "telefone": "(11) 90000-0000",
+    "telefoneDigitos": "11900000000",
+    "whatsapp": "5511900000000",
+    "msgWhats": "Olá! Vim pelo site e quero um orçamento.",
+    "cta": "Pedir orçamento no WhatsApp",
+    "ctaCurto": "Orçamento",
+    "fotoHero": "img/hero.jpg",
+    "altHero": "Cozinha planejada feita pela Marcenaria Modelo",
+    "copias": {
+      "img/hero.jpg": "marcenaria-modelo/foto3.jpg",
+      "img/g1.jpg": "marcenaria-modelo/foto4.jpg",
+      "img/g2.jpg": "marcenaria-modelo/foto1.jpg",
+      "img/g3.jpg": "marcenaria-modelo/foto5.jpg"
+    },
+    "nota": "4,9",
+    "nAvaliacoes": "42",
+    "promessa": ["Móveis feitos sob medida", "para o seu espaço."],
+    "subtitulo": "Cozinhas, armários e painéis para casa e comércio em Cidade Exemplo.",
+    "numeros": [
+      ["4,9", "nota no Google"],
+      ["42", "avaliações"],
+      ["2015", "CNPJ desde"],
+      ["3", "tipos de serviço"]
+    ],
+    "tituloServicos": "O que eu faço",
+    "subServicos": "Tudo que está na ficha da empresa e nas avaliações.",
+    "servicos": [
+      { "icone": "i-casa", "titulo": "Cozinhas planejadas", "desc": "Projeto no tamanho exato do ambiente." },
+      { "icone": "i-ferramenta", "titulo": "Armários sob medida", "desc": "Quarto, sala e área de serviço." },
+      { "icone": "i-predio", "titulo": "Móveis para comércio", "desc": "Balcões e prateleiras para a sua loja." }
+    ],
+    "rotuloGaleria": "Trabalhos",
+    "tituloGaleria": "Trabalhos reais",
+    "subGaleria": "Fotos da ficha do Google da empresa.",
+    "fotos": [
+      { "src": "img/g1.jpg", "alt": "Cozinha planejada", "legenda": "Cozinha planejada", "categoria": "Residencial" },
+      { "src": "img/g2.jpg", "alt": "Armário sob medida", "legenda": "Armário sob medida", "categoria": "Residencial" },
+      { "src": "img/g3.jpg", "alt": "Balcão de loja", "legenda": "Balcão de loja", "categoria": "Comércio" }
+    ],
+    "tituloComo": "Como pedir",
+    "passos": [
+      ["Chame no WhatsApp", "Conte o que você precisa e mande as medidas, se tiver."],
+      ["Receba o orçamento", "O valor é passado pelo próprio WhatsApp."],
+      ["Combine os detalhes", "Prazo e pagamento são acertados direto com a empresa."]
+    ],
+    "tituloAvaliacoes": "Quem já é cliente",
+    "avaliacoes": [
+      { "texto": "Texto real copiado da avaliação no Google, com correção mínima.", "autor": "Ana P." }
+    ],
+    "tituloFinal": "Fale com a Marcenaria Modelo",
+    "subFinal": "Atendimento pelo WhatsApp.",
+    "enderecoBusca": "Rua Exemplo, 100, Cidade Exemplo",
+    "endereco": ["Rua Exemplo, 100", "Centro · Cidade Exemplo"],
+    "horario": "Segunda a sexta, das 8h às 18h",
+    "razao": "Marcenaria Modelo Ltda",
+    "cnpj": "00.000.000/0001-00"
+  }
+]

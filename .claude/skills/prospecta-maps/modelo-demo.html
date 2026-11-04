@@ -1,0 +1,340 @@
+<!doctype html>
+<!--
+  Modelo do site de demonstração (empresa sem site)..
+  Índice: tokens de cor (:root) · ícones (<symbol>) · header · hero · números · serviços · trabalhos
+  · como funciona · avaliações · contato final · footer · botão flutuante · script de revelar.
+
+  Regras de preenchimento:
+  - Trocar todo {{CAMPO}}. Cor e fonte vêm da marca do CLIENTE. Sem marca: fundo grafite + 1 cor de destaque do setor.
+  - Fundo claro também funciona: trocar --fundo/--fundo-2/--card/--texto/--suave/--linha.
+  - Blocos repetidos (serviço, foto, passo, avaliação): copiar o bloco marcado REPETIR.
+  - Seção sem dado real é APAGADA inteira, nunca inventada: NÚMEROS (só com nota/avaliações reais),
+    AVALIAÇÕES (só texto real do Google ou print), COMO FUNCIONA (só passos que o dono confirmou ou que
+    são o óbvio do WhatsApp; nada de prazo, visita grátis ou garantia).
+  - Avaliação: nome abreviado (Nome + inicial), texto fiel com correção mínima de digitação.
+  - Sem pixel, sem script de terceiros, noindex mantido.
+  - Ícones disponíveis: i-camera, i-rede, i-tel, i-pc, i-raio, i-escudo, i-ferramenta, i-casa,
+    i-dente, i-tesoura, i-carro, i-carrinho, i-coracao, i-livro, i-predio, i-check.
+-->
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{NOME_EMPRESA}} · {{O_QUE_FAZ}} em {{CIDADE}}</title>
+<meta name="description" content="{{DESCRICAO_160}}">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family={{FONTE_CORPO_URL}}:wght@400;500;600&family={{FONTE_TITULO_URL}}:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --marca: {{COR_MARCA}};            /* destaque: botões, rótulos, estrelas */
+    --marca-esc: {{COR_MARCA_ESCURA}}; /* hover */
+    --marca-texto: {{COR_SOBRE_MARCA}};/* texto em cima da cor de marca */
+    --fundo: {{COR_FUNDO}};
+    --fundo-2: {{COR_FUNDO_2}};        /* faixa alternada, um tom acima do fundo */
+    --card: {{COR_CARD}};
+    --linha: {{COR_LINHA}};            /* ex.: rgba(255,255,255,.08) no escuro, rgba(0,0,0,.08) no claro */
+    --texto: {{COR_TEXTO}};
+    --suave: {{COR_TEXTO_SUAVE}};
+    --titulo: '{{FONTE_TITULO}}', sans-serif;
+    --corpo: '{{FONTE_CORPO}}', system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--corpo); background: var(--fundo); color: var(--texto); line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  img { display: block; max-width: 100%; }
+  a { color: inherit; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 20px; }
+  h1, h2, h3 { font-family: var(--titulo); letter-spacing: -0.02em; line-height: 1.1; }
+  h2 { font-size: clamp(30px, 4.4vw, 44px); font-weight: 600; }
+  .rotulo { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--marca); margin-bottom: 14px; }
+  .rotulo::before { content: ''; width: 22px; height: 2px; background: var(--marca); }
+  .sub { color: var(--suave); font-size: 18px; max-width: 56ch; margin-top: 14px; }
+  section { padding: 96px 0; }
+  .ic { width: 20px; height: 20px; flex: none; }
+
+  .btn { display: inline-flex; align-items: center; gap: 10px; padding: 16px 26px; border-radius: 8px; font-weight: 600; text-decoration: none; font-size: 16px; transition: transform .15s, background .15s; }
+  .btn:hover { transform: translateY(-2px); }
+  .btn-prim { background: var(--marca); color: var(--marca-texto); }
+  .btn-prim:hover { background: var(--marca-esc); }
+  .btn-sec { border: 1px solid color-mix(in srgb, var(--texto) 30%, transparent); color: var(--texto); }
+  .btn-sec:hover { background: color-mix(in srgb, var(--texto) 6%, transparent); }
+
+  header { position: fixed; inset: 0 0 auto 0; z-index: 20; transition: background .25s, border-color .25s; border-bottom: 1px solid transparent; }
+  header.solido { background: color-mix(in srgb, var(--fundo) 94%, transparent); border-color: var(--linha); }
+  .nav { display: flex; align-items: center; justify-content: space-between; height: 72px; }
+  .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .logo img { height: 40px; width: auto; }
+  .logo-marca { width: 36px; height: 36px; border-radius: 8px; background: var(--marca); color: var(--marca-texto); display: grid; place-items: center; font-family: var(--titulo); font-weight: 700; font-size: 20px; }
+  .logo-nome { font-family: var(--titulo); font-weight: 600; font-size: 20px; line-height: 1; }
+  .logo-nome small { display: block; font-family: var(--corpo); font-weight: 400; font-size: 11px; color: var(--suave); letter-spacing: .04em; margin-top: 3px; }
+  .nav-links { display: none; gap: 28px; font-size: 15px; color: var(--suave); }
+  .nav-links a { text-decoration: none; }
+  .nav-links a:hover { color: var(--texto); }
+  .nav .btn { padding: 11px 18px; font-size: 14px; }
+
+  .hero { position: relative; min-height: min(100svh, 860px); display: flex; align-items: flex-end; padding: 140px 0 72px; overflow: hidden; }
+  .hero-foto { position: absolute; inset: 0; background: url('{{FOTO_HERO}}') center 30% / cover no-repeat; transform: scale(1.05); }
+  .hero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, color-mix(in srgb, var(--fundo) 55%, transparent) 0%, color-mix(in srgb, var(--fundo) 78%, transparent) 45%, var(--fundo) 100%); }
+  .hero .wrap { position: relative; z-index: 1; width: 100%; }
+  .nota { display: inline-flex; align-items: center; gap: 10px; background: color-mix(in srgb, var(--texto) 8%, transparent); border: 1px solid var(--linha); padding: 8px 14px; border-radius: 999px; font-size: 14px; margin-bottom: 22px; }
+  .estrelas { color: var(--marca); letter-spacing: 2px; }
+  .hero h1 { font-size: clamp(40px, 7.4vw, 76px); font-weight: 700; max-width: 14ch; }
+  .hero h1 em { font-style: normal; color: var(--marca); }
+  .hero p { font-size: clamp(17px, 2vw, 20px); color: color-mix(in srgb, var(--texto) 85%, transparent); max-width: 50ch; margin: 22px 0 34px; }
+  .acoes { display: flex; flex-wrap: wrap; gap: 12px; }
+
+  .numeros-grade { display: grid; grid-template-columns: repeat(2, 1fr); border: 1px solid var(--linha); border-radius: 14px; background: var(--fundo-2); overflow: hidden; }
+  .numero { padding: 26px 22px; border-right: 1px solid var(--linha); border-bottom: 1px solid var(--linha); }
+  .numero strong { display: block; font-family: var(--titulo); font-size: 30px; font-weight: 600; }
+  .numero span { font-size: 14px; color: var(--suave); }
+
+  .servicos-grade { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); margin-top: 48px; }
+  .servico { position: relative; background: var(--card); border: 1px solid var(--linha); border-radius: 14px; padding: 30px 26px; transition: transform .2s, border-color .2s; overflow: hidden; }
+  .servico::before { content: ''; position: absolute; inset: 0 0 auto 0; height: 3px; background: var(--marca); transform: scaleX(0); transform-origin: left; transition: transform .3s; }
+  .servico:hover { transform: translateY(-4px); border-color: color-mix(in srgb, var(--marca) 35%, transparent); }
+  .servico:hover::before { transform: scaleX(1); }
+  .icone { width: 52px; height: 52px; border-radius: 12px; background: color-mix(in srgb, var(--marca) 12%, transparent); color: var(--marca); display: grid; place-items: center; margin-bottom: 22px; }
+  .icone svg { width: 26px; height: 26px; }
+  .servico h3 { font-size: 21px; font-weight: 600; margin-bottom: 8px; }
+  .servico p { color: var(--suave); font-size: 15.5px; }
+  .servico.destaque { background: linear-gradient(160deg, color-mix(in srgb, var(--marca) 14%, var(--card)) 0%, var(--card) 70%); border-color: color-mix(in srgb, var(--marca) 30%, transparent); }
+
+  .trabalhos { background: var(--fundo-2); }
+  .galeria { display: grid; gap: 10px; grid-template-columns: 1fr 1fr; margin-top: 48px; }
+  .foto { position: relative; border-radius: 14px; overflow: hidden; aspect-ratio: 1; }
+  .foto:first-child { grid-column: span 2; aspect-ratio: 4/3; }
+  .foto img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s; }
+  .foto:hover img { transform: scale(1.04); }
+  .foto figcaption { position: absolute; inset: auto 0 0 0; padding: 40px 20px 18px; background: linear-gradient(transparent, rgba(0,0,0,.85)); color: #fff; font-weight: 600; font-size: 16px; }
+  .foto figcaption small { display: block; font-weight: 400; color: #D5D8DD; font-size: 13px; }
+
+  .passos { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); margin-top: 48px; counter-reset: passo; }
+  .passo { padding: 28px 26px; border-left: 2px solid var(--marca); background: var(--card); border-radius: 0 14px 14px 0; }
+  .passo::before { counter-increment: passo; content: '0' counter(passo); font-family: var(--titulo); font-size: 40px; font-weight: 700; color: color-mix(in srgb, var(--marca) 40%, transparent); display: block; line-height: 1; margin-bottom: 14px; }
+  .passo h3 { font-size: 20px; margin-bottom: 6px; }
+  .passo p { color: var(--suave); font-size: 15.5px; }
+
+  .aval-topo { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 24px; }
+  .google-nota { display: flex; align-items: center; gap: 14px; }
+  .google-nota strong { font-family: var(--titulo); font-size: 52px; line-height: 1; }
+  .google-nota span { color: var(--suave); font-size: 14px; }
+  .aval-lista { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); margin-top: 40px; }
+  .aval { background: var(--card); border: 1px solid var(--linha); border-radius: 14px; padding: 26px; display: flex; flex-direction: column; gap: 18px; }
+  .aval p { font-size: 16px; flex: 1; }
+  .aval-autor { display: flex; align-items: center; gap: 12px; font-size: 14px; }
+  .avatar { width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; font-weight: 600; color: var(--marca-texto); background: var(--marca); }
+  .aval-autor small { display: block; color: var(--suave); }
+  .aval-autor .g { margin-left: auto; width: 20px; height: 20px; }
+
+  .final { padding: 0 0 96px; }
+  .final-caixa { position: relative; overflow: hidden; border-radius: 20px; background: var(--marca); color: var(--marca-texto); padding: 56px 28px; display: grid; gap: 36px; }
+  .final-caixa::after { content: ''; position: absolute; right: -80px; top: -80px; width: 280px; height: 280px; border-radius: 50%; border: 40px solid color-mix(in srgb, var(--marca-texto) 7%, transparent); }
+  .final h2 { max-width: 16ch; }
+  .final p { font-size: 18px; margin-top: 12px; max-width: 44ch; }
+  .info { display: grid; gap: 14px; position: relative; z-index: 1; }
+  .info div { display: flex; gap: 12px; align-items: flex-start; font-size: 16px; }
+  .info svg { width: 22px; height: 22px; flex: none; margin-top: 2px; }
+  .final .acoes { position: relative; z-index: 1; margin-top: 28px; }
+  .final .btn-prim { background: var(--marca-texto); color: var(--marca); }
+  .final .btn-prim:hover { opacity: .9; }
+  .final .btn-sec { border-color: color-mix(in srgb, var(--marca-texto) 35%, transparent); color: var(--marca-texto); }
+
+  footer { border-top: 1px solid var(--linha); padding: 30px 0 100px; font-size: 13px; color: var(--suave); }
+  footer .wrap { display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; }
+
+  .whats { position: fixed; right: 18px; bottom: 18px; z-index: 30; width: 60px; height: 60px; border-radius: 50%; background: #25D366; color: #fff; display: grid; place-items: center; box-shadow: 0 8px 24px rgba(37,211,102,.35); }
+  .whats svg { width: 30px; height: 30px; }
+  .whats::after { content: ''; position: absolute; inset: 0; border-radius: 50%; border: 2px solid #25D366; animation: pulso 2.2s infinite; }
+  @keyframes pulso { from { transform: scale(1); opacity: .8; } to { transform: scale(1.5); opacity: 0; } }
+
+  .js .revela { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s ease; }
+  .js .revela.visivel { opacity: 1; transform: none; }
+
+  @media (min-width: 720px) {
+    .numeros-grade { grid-template-columns: repeat(4, 1fr); }
+    .numero { border-bottom: 0; }
+    .numero:last-child { border-right: 0; }
+    .galeria { grid-template-columns: 1.3fr 1fr 1fr; gap: 14px; }
+    .foto, .foto:first-child { grid-column: auto; aspect-ratio: auto; height: 440px; }
+  }
+  @media (max-width: 719px) {
+    .numero:nth-child(2n) { border-right: 0; }
+    .numero:nth-child(n+3) { border-bottom: 0; }
+  }
+  @media (min-width: 900px) {
+    .nav-links { display: flex; }
+    section { padding: 128px 0; }
+    /* 5 serviços: 2 largos + 3. Com 3 ou 6 serviços, apagar estas 3 linhas. Com 4, trocar por span 3 em todos. */
+    .servicos-grade { grid-template-columns: repeat(6, 1fr); }
+    .servico { grid-column: span 2; }
+    .servico:nth-child(-n+2) { grid-column: span 3; }
+    .final-caixa { grid-template-columns: 1.3fr 1fr; padding: 72px 64px; align-items: center; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+    .js .revela { opacity: 1; transform: none; }
+  }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-whats" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.4.1-.7.3-.2.3-.9.9-.9 2.2s.9 2.5 1 2.7c.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12Zm0-9a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/></symbol>
+  <symbol id="i-relogio" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20Zm0-15v5l3 2"/></symbol>
+  <symbol id="i-tel" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M5 3h4l2 5-2.5 1.5a11 11 0 0 0 6 6L16 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 5a2 2 0 0 1 2-2Z"/></symbol>
+  <symbol id="i-camera" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h13l3 3v4l-3 3H3z"/><circle cx="9" cy="12" r="2.5"/><path d="M19 10h2v4h-2"/></g></symbol>
+  <symbol id="i-rede" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="6" rx="1"/><rect x="3" y="15" width="18" height="6" rx="1"/><path d="M7 6h.01M7 18h.01M12 9v6"/></g></symbol>
+  <symbol id="i-pc" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></g></symbol>
+  <symbol id="i-raio" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M13 2 4 14h7l-1 8 9-12h-7z"/></symbol>
+  <symbol id="i-escudo" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M12 22s8-3.5 8-10V5l-8-3-8 3v7c0 6.5 8 10 8 10Z"/></symbol>
+  <symbol id="i-ferramenta" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M14.7 6.3a4 4 0 0 0 5 5L22 14l-8 8-2.3-2.3a4 4 0 0 0-5-5L2 10l8-8 2.3 2.3a4 4 0 0 0 2.4 2Z"/></symbol>
+  <symbol id="i-casa" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M3 11 12 3l9 8v10H3zM9 21v-6h6v6"/></symbol>
+  <symbol id="i-dente" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M12 5c-2-2-6-2.5-7.5.5S5 12 6 15s1.5 7 3 7 1.5-5 3-5 1.5 5 3 5 2-4 3-7 2.5-6.5 1-9.5S14 3 12 5Z"/></symbol>
+  <symbol id="i-tesoura" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M8.1 8.1 20 20M8.1 15.9 20 4"/></g></symbol>
+  <symbol id="i-carro" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 16v-4l2-5h14l2 5v4z"/><circle cx="7.5" cy="16.5" r="1.5"/><circle cx="16.5" cy="16.5" r="1.5"/></g></symbol>
+  <symbol id="i-carrinho" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h2l2.4 11h11L21 8H6"/><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/></g></symbol>
+  <symbol id="i-coracao" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M12 20s-8-4.5-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 9c0 6.5-8 11-8 11Z"/></symbol>
+  <symbol id="i-livro" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M4 4h6a2 2 0 0 1 2 2v14a2 2 0 0 0-2-2H4zM20 4h-6a2 2 0 0 0-2 2v14a2 2 0 0 1 2-2h6z"/></symbol>
+  <symbol id="i-predio" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M4 21V3h11v18M15 9h5v12M8 7h3M8 11h3M8 15h3M3 21h18"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="m5 12 5 5 9-10"/></symbol>
+  <symbol id="i-google" viewBox="0 0 24 24"><path fill="#4285F4" d="M22 12.2c0-.7-.1-1.4-.2-2H12v3.8h5.6a4.8 4.8 0 0 1-2.1 3.1v2.6h3.4c2-1.8 3.1-4.5 3.1-7.5Z"/><path fill="#34A853" d="M12 22c2.8 0 5.2-.9 6.9-2.5l-3.4-2.6c-.9.6-2.1 1-3.5 1-2.7 0-5-1.8-5.8-4.3H2.7v2.7A10 10 0 0 0 12 22Z"/><path fill="#FBBC05" d="M6.2 13.6a6 6 0 0 1 0-3.8V7.1H2.7a10 10 0 0 0 0 9.2l3.5-2.7Z"/><path fill="#EA4335" d="M12 6c1.5 0 2.9.5 4 1.5l3-3A10 10 0 0 0 2.7 7.1l3.5 2.7C7 7.8 9.3 6 12 6Z"/></symbol>
+</svg>
+
+<header id="topo">
+  <div class="wrap nav">
+    <!-- Com logo: <a class="logo" href="#inicio"><img src="img/logo.png" alt="{{NOME_EMPRESA}}"></a> -->
+    <a class="logo" href="#inicio"><span class="logo-marca">{{INICIAL}}</span><span class="logo-nome">{{NOME_CURTO}}<small>{{TAGLINE_CURTA}}</small></span></a>
+    <nav class="nav-links"><a href="#servicos">Serviços</a><a href="#trabalhos">Trabalhos</a><a href="#avaliacoes">Avaliações</a><a href="#contato">Contato</a></nav>
+    <a class="btn btn-prim" href="https://wa.me/{{WHATSAPP_DIGITOS}}?text={{MENSAGEM_WHATS_URLENCODED}}"><svg class="ic"><use href="#i-whats"/></svg>{{CTA_CURTO}}</a>
+  </div>
+</header>
+
+<section class="hero" id="inicio">
+  <div class="hero-foto" role="img" aria-label="{{ALT_FOTO_HERO}}"></div>
+  <div class="wrap">
+    <!-- APAGAR o selo se não houver nota real no Google -->
+    <span class="nota"><span class="estrelas">★★★★★</span> {{NOTA}} no Google · {{N_AVALIACOES}} avaliações</span>
+    <h1>{{PROMESSA_INICIO}} <em>{{PROMESSA_DESTAQUE}}</em></h1>
+    <p>{{SUBTITULO}}</p>
+    <div class="acoes">
+      <a class="btn btn-prim" href="https://wa.me/{{WHATSAPP_DIGITOS}}?text={{MENSAGEM_WHATS_URLENCODED}}"><svg class="ic"><use href="#i-whats"/></svg>{{CTA}}</a>
+      <a class="btn btn-sec" href="#servicos">Ver serviços</a>
+    </div>
+  </div>
+</section>
+
+<!-- NÚMEROS: 4 itens, todos verificáveis (nota, avaliações, anos de CNPJ, horário, nº de serviços). Sem 4 reais, APAGAR. -->
+<div class="numeros">
+  <div class="wrap">
+    <div class="numeros-grade revela">
+      <div class="numero"><strong>{{NUMERO_1}}</strong><span>{{LEGENDA_1}}</span></div>
+      <div class="numero"><strong>{{NUMERO_2}}</strong><span>{{LEGENDA_2}}</span></div>
+      <div class="numero"><strong>{{NUMERO_3}}</strong><span>{{LEGENDA_3}}</span></div>
+      <div class="numero"><strong>{{NUMERO_4}}</strong><span>{{LEGENDA_4}}</span></div>
+    </div>
+  </div>
+</div>
+
+<section id="servicos">
+  <div class="wrap">
+    <div class="revela">
+      <span class="rotulo">Serviços</span>
+      <h2>{{TITULO_SERVICOS}}</h2>
+      <p class="sub">{{SUB_SERVICOS}}</p>
+    </div>
+    <div class="servicos-grade">
+      <!-- REPETIR por serviço real (3 a 6). O carro-chefe ganha class="servico destaque revela". -->
+      <article class="servico revela">
+        <div class="icone"><svg><use href="#{{ICONE}}"/></svg></div>
+        <h3>{{SERVICO}}</h3>
+        <p>{{SERVICO_DESCRICAO}}</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="trabalhos" id="trabalhos">
+  <div class="wrap">
+    <div class="revela">
+      <span class="rotulo">{{ROTULO_GALERIA}}</span>
+      <h2>{{TITULO_GALERIA}}</h2>
+      <p class="sub">{{SUB_GALERIA}}</p>
+    </div>
+    <div class="galeria">
+      <!-- REPETIR 3 vezes (fotos reais do perfil ou da ficha; nada de banco de imagem). A primeira é a mais forte. -->
+      <figure class="foto revela"><img src="{{FOTO}}" alt="{{ALT_FOTO}}"><figcaption>{{LEGENDA_FOTO}}<small>{{CATEGORIA_FOTO}}</small></figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- COMO FUNCIONA: só passos confirmados ou o óbvio do WhatsApp. Sem prazo, visita grátis ou garantia não confirmados. -->
+<section id="como">
+  <div class="wrap">
+    <div class="revela">
+      <span class="rotulo">Como funciona</span>
+      <h2>{{TITULO_COMO}}</h2>
+    </div>
+    <div class="passos">
+      <!-- REPETIR 3 vezes -->
+      <div class="passo revela"><h3>{{PASSO}}</h3><p>{{PASSO_DESCRICAO}}</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- AVALIAÇÕES: só texto real. Sem avaliação, APAGAR a seção inteira. -->
+<section id="avaliacoes" style="padding-top:0">
+  <div class="wrap">
+    <div class="aval-topo revela">
+      <div><span class="rotulo">Avaliações</span><h2>{{TITULO_AVALIACOES}}</h2></div>
+      <div class="google-nota"><strong>{{NOTA}}</strong><div><div class="estrelas">★★★★★</div><span>{{N_AVALIACOES}} avaliações no Google</span></div></div>
+    </div>
+    <div class="aval-lista">
+      <!-- REPETIR 3 ou 4 vezes -->
+      <div class="aval revela"><div class="estrelas">★★★★★</div><p>"{{AVALIACAO_TEXTO}}"</p><div class="aval-autor"><span class="avatar">{{AUTOR_INICIAL}}</span><div>{{AUTOR_NOME_ABREVIADO}}<small>Google</small></div><svg class="g"><use href="#i-google"/></svg></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="final" id="contato">
+  <div class="wrap">
+    <div class="final-caixa revela">
+      <div>
+        <h2>{{TITULO_FINAL}}</h2>
+        <p>{{SUB_FINAL}}</p>
+        <div class="acoes">
+          <a class="btn btn-prim" href="https://wa.me/{{WHATSAPP_DIGITOS}}?text={{MENSAGEM_WHATS_URLENCODED}}"><svg class="ic"><use href="#i-whats"/></svg>{{CTA}}</a>
+          <!-- APAGAR se não houver endereço físico -->
+          <a class="btn btn-sec" href="https://www.google.com/maps/search/?api=1&query={{ENDERECO_URLENCODED}}">Como chegar</a>
+        </div>
+      </div>
+      <div class="info">
+        <div><svg><use href="#i-pin"/></svg><span>{{ENDERECO_LINHA_1}}<br>{{ENDERECO_LINHA_2}}</span></div>
+        <div><svg><use href="#i-relogio"/></svg><span>{{HORARIO}}</span></div>
+        <div><svg><use href="#i-tel"/></svg><span>{{TELEFONE_FORMATADO}}</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>{{RAZAO_OU_NOME}} · {{CNPJ_OU_INSTAGRAM}}</span>
+    <span>Demonstração preparada por {{ASSINATURA}}. Não publicada.</span>
+  </div>
+</footer>
+
+<a class="whats" aria-label="Falar no WhatsApp" href="https://wa.me/{{WHATSAPP_DIGITOS}}?text={{MENSAGEM_WHATS_URLENCODED}}"><svg><use href="#i-whats"/></svg></a>
+
+<script>
+  document.documentElement.classList.add('js');
+  const topo = document.getElementById('topo');
+  const solido = () => topo.classList.toggle('solido', scrollY > 40);
+  addEventListener('scroll', solido, { passive: true }); solido();
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visivel'); io.unobserve(e.target); } }), { threshold: .12 });
+  document.querySelectorAll('.revela').forEach(el => io.observe(el));
+</script>
+</body>
+</html>

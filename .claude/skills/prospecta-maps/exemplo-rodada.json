@@ -1,0 +1,34 @@
+{
+  "_indice": "Empresa fictícia. Remetente, assinatura, oferta, preco e entrega vêm do config.json. base = endereço das prévias publicadas (vazio: vai só o print). m1Modo: pergunta (padrão) ou previa. semPrevia: true quando a oferta não é site. textos: opcional, troca qualquer mensagem base.",
+  "remetente": "Seu Nome",
+  "assinatura": "Seu Nome",
+  "oferta": "site no ar + campanha de Google Ads ligada",
+  "preco": "R$ 2.000",
+  "entrega": "o site {da} {empresa} no ar e a campanha do Google Ads montada e ligada. A verba do anúncio você decide e paga direto pro Google",
+  "base": "",
+  "m1Modo": "pergunta",
+  "nicho": "marcenaria",
+  "cidade": "Cidade Exemplo",
+  "funil": [["Encontradas", 120], ["Nota acima de 4", 90], ["15 ou mais avaliações", 60], ["Sem site na ficha", 22], ["Com celular", 14]],
+  "criterios": ["Nota acima de 4 e 15 ou mais avaliações", "Celular na ficha", "Sem site: nem na ficha, nem no domínio com o nome", "CNPJ ativo, sem MEI, 3 anos ou mais, matriz na cidade"],
+  "anuncios": { "quantos": 4, "termo": "marcenaria em Cidade Exemplo", "imagem": "anuncios-google.jpg", "nota": "Quem procura já está clicando em alguém." },
+  "caiu": [{ "empresa": "Marcenaria Exemplo Dois", "motivo": "Site no ar com o mesmo telefone" }],
+  "leads": {
+    "01-marcenaria-modelo": {
+      "slug": "marcenaria-modelo",
+      "empresa": "Marcenaria Modelo",
+      "artigo": "a",
+      "vi": "com nota 4,9 em 42 avaliações, mas sem site",
+      "servico": "móveis sob medida em Cidade Exemplo",
+      "busca": "marcenaria Cidade Exemplo",
+      "meta": "Centro · móveis sob medida",
+      "dados": [["4,9", "42 avaliações"], ["2015", "LTDA · ME"], ["R$ 50 mil", "capital social"]],
+      "gancho": "Nota alta e nenhum site. As avaliações citam cozinha planejada.",
+      "ressalva": "",
+      "whatsapp": "5511900000000",
+      "telefone": "(11) 90000-0000",
+      "cnpj": "00.000.000/0001-00",
+      "maps": "https://www.google.com/maps"
+    }
+  }
+}
