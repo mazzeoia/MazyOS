@@ -1,15 +1,16 @@
 ---
 name: prospecta-maps
-version: 2.0.0
+version: 2.1.0
 description: >
   Transforma um nicho e uma cidade em leads qualificados com site de prévia e mensagens prontas:
   busca empresas no Google Maps pelo MazyOS Scraper, filtra por nota, avaliações, ausência de site
   e celular na ficha, confere o CNPJ de cada uma nas bases públicas da Receita, monta um site de
   prévia por lead e entrega um painel com as abordagens, uma planilha e um arquivo pronto pra
-  passar a um bot de WhatsApp como o Grok Bot. Não precisa de chave de API nem de conta paga.
-  Acione quando o usuário disser "/prospecta-maps", "pega leads de [nicho] em [cidade]", "acha
-  [N] empresas sem site", "prospecta [nicho]", "qual nicho eu prospecto", "qualifica essa
-  planilha de leads" ou pedir uma rodada de prospecção a partir do Google Maps.
+  passar a um bot de WhatsApp como o Grok Bot. Quando um lead pede, gera a proposta dele em PDF.
+  Não precisa de chave de API nem de conta paga. Acione quando o usuário disser "/prospecta-maps",
+  "pega leads de [nicho] em [cidade]", "acha [N] empresas sem site", "prospecta [nicho]", "qual
+  nicho eu prospecto", "qualifica essa planilha de leads", "faz a proposta da [empresa]", "o lead
+  pediu proposta" ou pedir uma rodada de prospecção a partir do Google Maps.
 ---
 
 # /prospecta-maps · do nicho ao lead com site e mensagem na mão
@@ -34,7 +35,7 @@ Nos comandos, `$S` é a pasta desta skill (`.claude/skills/prospecta-maps`) e `$
 |---|---|---|
 | Funil, CNPJ, critérios, geração de sites e prints | **Baixa** | Rodar os scripts e aceitar o veredito. Não baixar critério da Receita pra bater a meta |
 | Bairros, CNAEs, fotos, cor, ordem dos leads | **Média** | Seguir os exemplos desta skill |
-| Copy do site, gancho e fato da M1 de cada lead | **Alta** | Escrever pra aquele dono, com o achado mais concreto |
+| Copy do site, gancho, fato da M1 e texto da proposta de cada lead | **Alta** | Escrever pra aquele dono, com o achado mais concreto |
 
 ## Checklist (copiar na resposta e marcar)
 
@@ -210,6 +211,72 @@ Precisa de conta gratuita no Netlify (`npx netlify-cli login`). Sem terminal: ar
 
 > **Linha de retorno:** item falhou, volte ao passo correspondente (celular → 3, CNPJ e site → 4, sites → 6, mensagens → 8), corrija e audite de novo.
 
+## Depois da rodada · o lead pediu proposta
+
+Só quando a pessoa pedir ("faz a proposta da Marcenaria Modelo"), nunca como parte da rodada. A skill gera o PDF e a pessoa decide se manda.
+
+```
+- [ ] A. Rodada e lead encontrados
+- [ ] B. Condições da oferta confirmadas
+- [ ] C. Bloco do lead escrito
+- [ ] D. PDF gerado e conferido
+- [ ] E. Entrega e auto-auditoria
+```
+
+**A. Rodada e lead.** Procure o lead nos `saidas/prospeccao/*/rodada.json`. Se ele veio de fora de uma rodada, crie `saidas/prospeccao/avulsos-[AAAA-MM]/rodada.json` no formato de `exemplo-rodada.json`, só com esse lead. Sem print de prévia, a proposta sai sem essa seção.
+
+**B. Condições da oferta.** Na primeira proposta, proponha os campos abaixo a partir da oferta da pessoa, confirme com ela e grave no `saidas/prospeccao/config.json`. Prazo, pagamento e escopo são decisão dela: nunca assuma.
+
+```json
+{
+  "prazo": "7 dias pra estar no ar, contados a partir do pagamento e do material que eu preciso de você.",
+  "inclui": [["Site profissional", "O site da prévia, com endereço próprio e botão pro seu WhatsApp."], ["Campanha no Google Ads", "Anúncio pra quem pesquisa {busca}, montado e ligado na sua conta."]],
+  "naoInclui": ["A verba dos anúncios, paga direto ao Google", "A gestão contínua da campanha depois da entrega"],
+  "limites": ["A aprovação do anúncio é feita pelo Google", "O resultado depende de verba, região e concorrência: não garanto número de clientes"],
+  "pagamento": [["À vista", "R$ 2.000", "No Pix"], ["Parcelado", "4x de R$ 625", "Total de R$ 2.500"]],
+  "validadeDias": 7,
+  "passos": ["Você aprova e faz o pagamento", "Você me manda as fotos e o acesso ao Google", "Eu coloco no ar e te mostro funcionando"],
+  "whatsapp": "5511900000000",
+  "cor": "#1E3A5F",
+  "logo": "identidade/logo.png",
+  "documento": ""
+}
+```
+
+`passos`, `whatsapp` (da pessoa, gera o botão), `cor`, `logo` e `documento` (CNPJ de quem vende, se ela quiser mostrar) são opcionais. Pegue `cor` e `logo` de `identidade/design-guide.md`, se estiver preenchido.
+
+**C. Bloco do lead.** Pergunte o que o lead respondeu na conversa e escreva `proposta` dentro do lead no `rodada.json` (formato em `exemplo-rodada.json`):
+
+- `achados`: 2 a 4 fatos da ficha que o dono confere em 30 segundos. `contexto`: 1 ou 2 frases sobre o problema, na perspectiva dele.
+- `conversa`: só o que ele disse de verdade. Sem resposta dele, deixe de fora.
+- `conta`: só se ele informou quanto vale um cliente ou um projeto. É comparação de valores, nunca previsão.
+- `inclui`: adapte aos serviços daquele lead.
+- **Nunca entra:** capital social, sócios, CNPJ, `gancho`, `ressalva` ou o funil. Dado de bastidor em proposta assusta o dono.
+
+**Bifurcações:**
+- Preço negociado com este lead: `preco` e `pagamento` dentro de `proposta`, nunca no `config.json`.
+- Oferta sem site (`"semPrevia": true`): a seção da prévia some. Adapte `inclui`, `prazo` e o título com `titulo`.
+- A pessoa quer mais de uma opção de preço: liste em `pagamento`. Pacotes com escopos diferentes, faça uma proposta por pacote e deixe ela escolher qual mandar.
+
+**D. Gerar e conferir.**
+
+```bash
+node $S/proposta.js $R --lead "Marcenaria Modelo"
+```
+
+Sai em `$R/propostas/[slug].pdf` e `.html`, com a prévia embutida. O script para se faltar campo ou aparecer travessão, campo sem preencher ou promessa de resultado. Abra o PDF e leia inteiro.
+
+> **Linha de retorno:** o script parou, ou o PDF tem fato errado, texto cortado ou imagem quebrada? Corrija o `config.json` ou o bloco do lead (volte a B ou C) e gere de novo.
+
+**E. Entrega.** Mostre o caminho do PDF e o texto do bloco "Proposta" do painel (rodada antiga sem esse bloco: escreva uma frase curta no mesmo tom). A pessoa manda. Um bot nunca manda proposta sozinho, e a proposta nunca vai pra `_previas` nem pra pasta pública.
+
+```
+- [ ] Preço, prazo, pagamento e escopo foram confirmados pela pessoa
+- [ ] Todo fato foi conferido na ficha; conversa e conta vieram do lead
+- [ ] Sem dado de bastidor, sem promessa de resultado, em primeira pessoa
+- [ ] PDF aberto e lido; nada enviado nem publicado
+```
+
 ## Exemplo
 
 **Entrada:** "pega 10 marcenarias em São Paulo sem site pra vender site + Google Ads por R$ 2.000"
@@ -222,11 +289,13 @@ Precisa de conta gratuita no Netlify (`npx netlify-cli login`). Sem terminal: ar
 
 **Outro caso:** "qual nicho eu prospecto em Campinas? vendo automação de atendimento" → compara 3 nichos no Passo 2, roda com `--sem-site 0`, sem Passos 5 e 6, `"semPrevia": true`, e o fato da M1 fala do que a ficha mostra sobre atendimento (avaliações reclamando de demora pra responder, por exemplo).
 
+**Proposta:** "o lead Marcenaria Modelo pediu proposta, ele falou que hoje vem tudo por indicação" → confirma as condições uma vez, grava esse relato em `conversa`, gera `propostas/marcenaria-modelo.pdf` e entrega o PDF com a mensagem, sem enviar.
+
 ## Problemas conhecidos
 
 - **Receita respondeu 429 ou caiu:** o `valida.js` espera e tenta de novo. Se desistir, mostra o aviso, salva `aviso_base` e segue só com `buscas.json`. Rode de novo mais tarde: o que já baixou fica em cache.
 - **Porta 8080 ocupada:** `--porta 8090` no `scraper.js`.
 - **Windows bloqueando o scraper:** "Mais informações" e "Executar assim mesmo". O programa não tem assinatura digital paga.
 - **Linux sem as bibliotecas do navegador do scraper:** `npx playwright install-deps chromium`.
-- **Sem Chrome nem Edge:** a rodada sai sem prints e sem a folha de fotos. Instale o Chrome e rode `prints.js` e `monta-rodada.js` de novo.
+- **Sem Chrome nem Edge:** a rodada sai sem prints e sem a folha de fotos, e a proposta sai só em HTML. Instale o Chrome e rode `prints.js`, `monta-rodada.js` e `proposta.js` de novo.
 - **Publicação automática:** se um dia automatizar o Passo 9, coloque um hook `PreToolUse` que bloqueie `netlify deploy` até a confirmação na conversa.

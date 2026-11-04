@@ -65,4 +65,17 @@ function printChrome(chrome, url, saida, { largura, altura, escala = 1, espera =
   return r.status === 0 && fs.existsSync(saida);
 }
 
-module.exports = { args, lerJSON, gravarJSON, sleep, digits, norm, slug, esc, UA, telBR, ehCelular, acharChrome, printChrome };
+// Gera o PDF de uma página. Mesmo cuidado do print: perfil temporário, sem tocar no navegador da pessoa.
+function pdfChrome(chrome, url, saida) {
+  const { spawnSync } = require('child_process');
+  const perfil = fs.mkdtempSync(path.join(os.tmpdir(), 'prospecta-'));
+  try { fs.rmSync(saida, { force: true }); } catch {}
+  spawnSync(chrome, [
+    '--headless=new', '--disable-gpu', '--no-first-run', '--no-default-browser-check', '--no-pdf-header-footer',
+    `--user-data-dir=${perfil}`, '--virtual-time-budget=4000', `--print-to-pdf=${path.resolve(saida)}`, url
+  ], { timeout: 120000, stdio: 'ignore' });
+  try { fs.rmSync(perfil, { recursive: true, force: true }); } catch {}
+  return fs.existsSync(saida) && fs.statSync(saida).size > 0;
+}
+
+module.exports = { args, lerJSON, gravarJSON, sleep, digits, norm, slug, esc, UA, telBR, ehCelular, acharChrome, printChrome, pdfChrome };

@@ -1,5 +1,5 @@
 {
-  "_indice": "Empresa fictícia. Remetente, assinatura, oferta, preco e entrega vêm do config.json. base = endereço das prévias publicadas (vazio: vai só o print). m1Modo: pergunta (padrão) ou previa. semPrevia: true quando a oferta não é site. textos: opcional, troca qualquer mensagem base.",
+  "_indice": "Empresa fictícia. Remetente, assinatura, oferta, preco e entrega vêm do config.json. base = endereço das prévias publicadas (vazio: vai só o print). m1Modo: pergunta (padrão) ou previa. semPrevia: true quando a oferta não é site. textos: opcional, troca qualquer mensagem base. proposta: opcional, só quando o lead pede proposta, com achados e contexto reais; conversa e conta só com o que o lead disse; os outros campos do config.json podem ser trocados aqui pra este lead.",
   "remetente": "Seu Nome",
   "assinatura": "Seu Nome",
   "oferta": "site no ar + campanha de Google Ads ligada",
@@ -28,7 +28,13 @@
       "whatsapp": "5511900000000",
       "telefone": "(11) 90000-0000",
       "cnpj": "00.000.000/0001-00",
-      "maps": "https://www.google.com/maps"
+      "maps": "https://www.google.com/maps",
+      "proposta": {
+        "achados": [["4,9", "nota no Google"], ["42", "avaliações"], ["Nenhum", "site na ficha do Google"]],
+        "contexto": "Quem contrata elogia as cozinhas planejadas, mas quem procura {busca} no Google não encontra um site com esse trabalho.",
+        "conversa": "Hoje o cliente novo chega quase todo por indicação.",
+        "conta": "Você me disse que uma cozinha planejada fica em torno de R$ 15 mil. Na conta, o investimento equivale a menos de um projeto. É uma comparação de valores, não uma previsão de vendas."
+      }
     }
   }
 }
