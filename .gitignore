@@ -1,47 +1,25 @@
-# Sistema operacional
+# Sistema operacional e editores
 .DS_Store
 Thumbs.db
-
-# Editores
 .vscode/
 .idea/
 
-# Claude Code (sessões locais, não devem ir pro repo)
-.claude/projects/
-.claude/sessions/
-.claude/shell-snapshots/
-.claude/telemetry/
-.claude/file-history/
-.claude/backups/
+# Tipos que o Claude Code escreve ao carregar o mod (regenerados a cada load)
+.claude-plugin/types/
+.mcpb-cache/
 
-# Dependências
+# Dependências e temporários
 node_modules/
-
-# Arquivos temporários
 *.log
 *.tmp
 
-# Drop zone do usuário (só o README vai versionado)
-dados/*
-!dados/README.md
+# Configuração local do Claude Code
+.claude/settings.local.json
 
 # Chaves e credenciais: nunca vão pro repositório
 .env
 .env.*
 !.env.example
 !.env.exemplo
-.mcp.json
-.claude/settings.local.json
-*credentials*.json
-*service-account*.json
-secrets.json
 *.pem
 *.key
-id_rsa*
-.npmrc
-.netrc
-
-# Dados de terceiros e bancos locais
-saidas/prospeccao/
-*.sqlite
-*.sqlite3

@@ -2,7 +2,7 @@
 
 > Molde do CLAUDE.md aplicado a **agência** — equipe pequena entregando
 > pra múltiplos clientes ao mesmo tempo. O sistema gira em torno de
-> proposta, atendimento e produção em paralelo. O `/instalar` adapta
+> proposta, atendimento e produção em paralelo. O `/mazyos:instalar` adapta
 > esse molde com a sua realidade.
 
 ## O que é esse workspace
@@ -34,7 +34,7 @@ Time: [N pessoas]. Capacidade: [N clientes ativos simultâneos].
 
 ## Clientes ativos
 
-[Lista breve. O `/atualizar` mantém isso sincronizado com as pastas em
+[Lista breve. O `/mazyos:atualizar` mantém isso sincronizado com as pastas em
 `clientes/`.]
 
 ## O que mais produzimos aqui

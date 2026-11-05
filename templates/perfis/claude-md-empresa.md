@@ -2,7 +2,7 @@
 
 > Molde do CLAUDE.md aplicado a **empresa estruturada** — setores,
 > processos, várias frentes rodando juntas. O sistema gira em torno
-> de organização interna e fluxo entre áreas. O `/instalar` adapta
+> de organização interna e fluxo entre áreas. O `/mazyos:instalar` adapta
 > esse molde com a sua realidade.
 
 ## O que é esse workspace

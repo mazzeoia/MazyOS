@@ -1,0 +1,4 @@
+{
+  "description": "MazyOS: memória do negócio no contexto, painel ao lado do chat, linha de status, comando /mazyos e guarda contra git destrutivo.",
+  "modules": ["./register.tsx"]
+}

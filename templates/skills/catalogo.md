@@ -1,9 +1,10 @@
 # Catalogo de Skills
 
-Skills externas prontas pra instalar. Use como referencia ao criar skills novas com `/mapear-rotinas` ou instale diretamente as que fizerem sentido pro seu negocio.
+Skills externas prontas pra instalar. Use como referencia ao criar skills novas com `/mazyos:mapear-rotinas` ou instale diretamente as que fizerem sentido pro seu negocio.
 
 > Skills globais ficam em `~/.claude/skills/` e funcionam em qualquer projeto.
-> Skills locais ficam em `.claude/commands/` e so funcionam nesse projeto.
+> Skills locais ficam em `.claude/skills/` do workspace e so funcionam nesse projeto.
+> As skills do MazyOS vem com o plugin e sao chamadas como `/mazyos:<nome>`.
 
 ---
 
@@ -106,7 +107,7 @@ Skills externas prontas pra instalar. Use como referencia ao criar skills novas 
 
 ### Skill Creator
 **O que faz:** Guia pra criar skills novas do zero. Ajuda a estruturar, definir triggers, e testar.
-**Bom pra:** Quando o `/mapear-rotinas` nao cobre o que voce precisa e quer criar algo mais complexo
+**Bom pra:** Quando o `/mazyos:mapear-rotinas` nao cobre o que voce precisa e quer criar algo mais complexo
 **Como instalar:** Ja vem nativo no Claude Code. Chamar com `/skill-creator`
 **Fonte:** Skill nativa do Claude Code
 

@@ -2,7 +2,7 @@
 
 > Molde do CLAUDE.md aplicado a **criador solo** — uma pessoa, uma marca,
 > audiência como ativo principal. O sistema gira em torno do que você
-> produz e publica. O `/instalar` adapta esse molde com a sua realidade.
+> produz e publica. O `/mazyos:instalar` adapta esse molde com a sua realidade.
 
 ## O que é esse workspace
 

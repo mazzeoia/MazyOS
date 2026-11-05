@@ -2,7 +2,7 @@
 
 > Molde do CLAUDE.md aplicado a **freelancer** — você vende tempo e
 > talento pra clientes terceiros. O sistema gira em torno de captar,
-> entregar e cobrar. O `/instalar` adapta esse molde com a sua realidade.
+> entregar e cobrar. O `/mazyos:instalar` adapta esse molde com a sua realidade.
 
 ## O que é esse workspace
 
@@ -35,7 +35,7 @@ ao mesmo tempo no máximo].
 
 ## Clientes ativos
 
-[Lista breve ou descrição. O `/atualizar` mantém isso sincronizado com
+[Lista breve ou descrição. O `/mazyos:atualizar` mantém isso sincronizado com
 as pastas em `clientes/`.]
 
 ## Como trabalho

@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "mazyos",
+  "displayName": "MazyOS",
+  "version": "1.0.0",
+  "description": "O sistema operacional do seu negócio no Claude Code. Plugin em português: a memória da sua empresa entra em toda sessão, a identidade visual sai em tudo que o Claude gera, e 17 skills cuidam de marketing, SEO, Google Ads, carrossel pro Instagram e prospecção de clientes pelo Google Maps. Com painel do lado do chat, linha de status e freio em comandos git destrutivos.",
+  "author": {
+    "name": "Mazzeo",
+    "url": "https://mazyos.com.br"
+  },
+  "homepage": "https://mazyos.com.br",
+  "repository": "https://github.com/mazzeoia/MazyOS",
+  "keywords": [
+    "claude-code",
+    "plugin",
+    "skills",
+    "agente-de-ia",
+    "negocio",
+    "marketing",
+    "seo",
+    "google-ads",
+    "meta-ads",
+    "instagram",
+    "carrossel",
+    "prospeccao",
+    "google-maps",
+    "pequenas-empresas",
+    "pt-br",
+    "brasil"
+  ],
+  "skills": "./skills/",
+  "types": "./types/index.d.ts",
+  "userConfig": {
+    "abrirPainel": {
+      "type": "boolean",
+      "title": "Abrir o painel ao iniciar",
+      "description": "Abre o painel do MazyOS (memória, foco e atalhos) quando a sessão começa numa pasta do MazyOS e o terminal é largo o bastante. /mazyos abre a qualquer hora.",
+      "default": true
+    },
+    "linhaDeStatus": {
+      "type": "boolean",
+      "title": "Linha de status",
+      "description": "Mostra 'MazyOS · negócio · foco' embaixo do prompt enquanto você trabalha numa pasta do MazyOS.",
+      "default": true
+    },
+    "protegerGit": {
+      "type": "boolean",
+      "title": "Freio no git",
+      "description": "Pede confirmação antes de git push --force, git reset --hard e outros comandos git que apagam trabalho, dentro de uma pasta do MazyOS.",
+      "default": true
+    }
+  }
+}
